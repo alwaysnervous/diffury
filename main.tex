@@ -2509,18 +2509,20 @@ Y(t)=X(t)C,
 \begin{lemmaHSE}[Дифференцирование определителя]
 Пусть $X(t)$ --- матрица $n\times n$, $D(t)=\det X(t)$. Тогда
 \[
-D'(t)=D_1(t)+\cdots+D_n(t),
+D'(t)=D_1(t)+\ldots+D_n(t),
 \]
 где $D_i(t)$ --- определитель матрицы, полученной из $X(t)$ заменой $i$-й строки на её производную.
 \end{lemmaHSE}
-Формула Лейбница для определителя:
 \begin{proof}
+Обозначим элемент матрицы \(X(t)\), стоящий на пересечении \(i\)-й строки и \(j\)-го столбца, как \(x_{ij}(t)\). Формула Лейбница для определителя:
 \[D(t) = \sum_{\sigma \in S_n} \operatorname{sgn}(\sigma) \cdot x_{1,\sigma(1)} \cdot x_{2,\sigma(2)} \cdots x_{n,\sigma(n)}=\sum_{\sigma \in S_n} \operatorname{sgn}(\sigma) \prod_{i=1}^{n} x_{i, \sigma(i)},\]
 где \(S_n\) -- множество всех перестановок, а \(\sigma(i)\) -- индекс столбца для \(i\)-й строки.
 \[D'(t)=\sum_{\sigma \in S_n} \operatorname{sgn}(\sigma)\frac{\dd}{\dd t}\left(\prod_{i=1}^{n} x_{i, \sigma(i)}\right)\]
 Каждое слагаемое в этой сумме -- это произведение \(n\) функций, зависящих от \(t\). Чтобы взять производную от суммы, нужно взять производную от каждого слагаемого. А чтобы взять производную от произведения \(n\) функций, применяем правило произведения:
 \[(f_1 \cdot f_2 \cdots f_n)' = f_1' \cdot f_2 \cdots f_n + f_1 \cdot f_2' \cdots f_n + \cdots + f_1 \cdot f_2 \cdots f_n'\]
 \[D'(t) = \sum_{\sigma \in S_n} \operatorname{sgn}(\sigma) \left( \sum_{j=1}^n x'_{j,\sigma(j)} \prod_{\substack{i=1 \\ i \neq j}}^n x_{i,\sigma(i)} \right)\]
+Меняем порядок суммирования:
+\[D'(t) = \sum_{j=1}^{n} \left( \sum_{\sigma \in S_n} \operatorname{sgn}(\sigma) x'_{j,\sigma(j)} \prod_{\substack{i=1 \\ i \neq j}}^{n} x_{i,\sigma(i)} \right)= \sum_{j=1}^{n}D_j(t)=D_1(t)+\ldots+D_n(t)\]
 \end{proof}
 \begin{theoremHSE}[Формула Лиувилля--Остроградского]
 Пусть $W(t)$ --- вронскиан $n$ решений ЛОС \eqref{eq:los}, тогда
@@ -2536,15 +2538,24 @@ W(t)=W(t_0)\exp\left(\int_{t_0}^{t}\tr A(\tau)\,d\tau\right),
 \[
 W'(t)=D_1+\cdots+D_n.
 \]
-Так как столбцы фундаментальной матрицы являются решениями $\dot{\vect{x}}=A(t)\vect{x}$, после линейных преобразований строк каждый $D_i$ приводится к виду
-\[
-D_i=a_{ii}(t)W(t).
-\]
+Cтолбцы фундаментальной матрицы являются решениями \(\dot{\vect{x}}=A(t)\vect{x}\).
+
+\(j\)-й столбец -- это вектор \(x_j=\begin{pmatrix}x_{1j}\\x_{2j}\\\vdots\\x_{1nj}\end{pmatrix}\)
+
+Уравнение \(\dot{x}_j=Ax_j\) для \(i\)-й компоненты (то есть для \(i\)-й строки) выглядит так:
+\[\dot{x}_{ij}(t)=\sum_{k=1}^na_{ik}(t)x_{kj}(t) = a_{i1}x_{1j} + a_{i2}x_{2j} + \ldots + a_{in}x_{nj}\]
+Это означает, что вся \(i\)-я строка в матрице \(D_i\) представляет собой линейную комбинацию всех строк исходной матрицы \(X(t)\):
+\begin{gather*}
+D_i=\det\begin{pmatrix}\ldots\\a_{i1}R_1+a_{i2}R_2+\ldots+a_{in}R_n\\\ldots\end{pmatrix}=\\= a_{i1} \det \begin{pmatrix} \dots \\ R_1 \\ \dots \end{pmatrix} + \cdots + a_{ii} \det \begin{pmatrix} \dots \\ R_i \\ \dots \end{pmatrix} + \cdots + a_{in} \det \begin{pmatrix} \dots \\ R_n \\ \dots \end{pmatrix}=a_{ii}(t)\,W(t),
+\end{gather*}
+где \(R_k\) -- это k-я строка матрицы \(X\).
+
 Поэтому
-\[
+\begin{gather*}
+W'(t)=\sum_{i=1}^{n}a_{ii}(t)W(t)=W(t)\sum_{i=1}^{n}a_{ii}(t)=\tr A(t)\,W(t),\\
 W'(t)=\tr A(t)\,W(t).
-\]
-Отсюда
+\end{gather*}
+Далее можно решить диффур или пойти через интегрирующий множитель:
 \[
 \Bigl(W(t)\,e^{-\int_{t_0}^{t}\operatorname{tr}A(s)\,ds}\Bigr)'
 =\bigl(W'(t)-\operatorname{tr}A(t)\,W(t)\bigr)\,e^{-\int_{t_0}^{t}\operatorname{tr}A(s)\,ds}=0,
@@ -2590,11 +2601,11 @@ W'(t)=\tr A(t)\,W(t).
 \begin{theoremHSE}[Метод вариации постоянных]
 Пусть $X(t)$ --- фундаментальная матрица ЛОС. Ищем решение ЛНС в виде
 \[
-\vect{x}(t)=X(t)\vect{c}(t).
+\vect{x}(t)=X(t)\,\vect{c}(t).
 \]
 После подстановки получаем
 \[
-X(t)\dot{\vect{c}}(t)=\vect{f}(t),
+X(t)\,\dot{\vect{c}}(t)=\vect{f}(t),
 \]
 то есть
 \[
@@ -2608,7 +2619,7 @@ X(t)\dot{\vect{c}}(t)=\vect{f}(t),
 и
 \begin{equation}
 \vect{x}(t)=
-X(t)\vect{c}_0+
+X(t)\,\vect{c}_0+
 X(t)\int_{t_0}^{t}X^{-1}(\tau)\vect{f}(\tau)\,d\tau.
 \label{eq:variation-system}
 \end{equation}

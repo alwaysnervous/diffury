@@ -2278,48 +2278,58 @@ y=u_1x
 
 \section[Нормальная система ОДУ]{Нормальная система. ЛОС и ЛНС}
 
-«Нормальная» здесь значит «стандартного вида». Система нормальная, если все её уравнения первого порядка и каждое разрешено относительно производной: слева стоит одна производная \(\dot{x}_i\), а справа --- выражение без производных.
-
 \begin{definitionHSE}[Нормальная система ОДУ]
 Нормальной системой порядка $n$ называется система
 \[
 \left\{
 \begin{aligned}
-\frac{dx_1}{dt} &= F_1(t, x_1, \dots, x_n),\\[3pt]
-\frac{dx_2}{dt} &= F_2(t, x_1, \dots, x_n),\\[3pt]
+\dot{x}^1 &= F^1(t, x^1, \dots, x^n),\\[3pt]
+\dot{x}^2 &= F^2(t, x^1, \dots, x^n),\\[3pt]
 &\;\;\vdots\\
-\frac{dx_n}{dt} &= F_n(t, x_1, \dots, x_n).
+\dot{x}^n &= F^n(t, x^1, \dots, x^n).
 \end{aligned}
 \right.
 \]
 \begin{equation}
-\frac{dx_i}{dt}=F_i(t,x_1,\ldots,x_n),\qquad i=1,\ldots,n.
+\dot{x}^i=F^i(t,x^1,\ldots,x^n),\qquad i=1,\ldots,n,
 \label{eq:normal-system}
 \end{equation}
+где \(F^i(t,x^1,\ldots,x^n)\) непрерывные в области \(G\subset R^{n+1}\) скалярные функции.
+
 В векторной форме:
 \[
 \dot{\vect{x}}=\vect{F}(t,\vect{x}).
 \]
 \end{definitionHSE}
 
-Неизвестные в системе --- функции \(x_1(t),\ldots, x_n(t)\), а \(t\) — их общий аргумент: вещественное число из некоторого интервала.
+Неизвестные в системе --- функции \(x^1(t),\ldots, x^n(t)\), а \(t\) — их общий аргумент: вещественное число из некоторого интервала.
 
-Вектор \(x(t) = (x_1(t),\ldots,x_n(t))\) удобно представлять как положение точки в \(\mathbb{R}^n\) в момент \(t\).
+
+«Нормальная» здесь означает, что:
+\[\text{кол-во уравнений} = \text{кол-во неизвестных функций } x^1(t),\ldots x^n(t)\]
+
+Вектор \(\vect{x}(t) = (x^1(t),\ldots,x^n(t))\) удобно представлять как положение точки в \(\mathbb{R}^n\) в момент \(t\).
+
+\begin{remarkHSE}[Промежуток с произвольными границами]
+Через $\langle a; b\rangle$ будем обозначать любой из промежутков
+$(a; b)$, $[a; b)$, $(a; b]$, $[a; b]$.
+\end{remarkHSE}
 
 \begin{definitionHSE}[Решение нормальной системы]
-Решением системы \eqref{eq:normal-system} на промежутке $(a,b)$ называется набор функций
-\[
-\varphi_1(t),\ldots,\varphi_n(t),
-\]
-которые дифференцируемы, их график лежит в области определения $G$, и для всех $t$ выполняются все уравнения системы.
+Решением системы \eqref{eq:normal-system} на промежутке $\langle a; b\rangle$ называется совокупность \(n\) функций \(\varphi_1(t),\ldots,\varphi_n(t)\) такие, что
+\begin{itemize}
+\item дифференцируемы на $\langle a; b\rangle$;
+\item их график лежит в области определения $G$;
+\item $\forall t\in \langle a; b\rangle$ выполняются все уравнения системы: \(\varphi^i(t)=F^i(t,\varphi^1(t),\ldots,\varphi^n(t))\), \(i=1,\ldots,n.\).
+\end{itemize}
 \end{definitionHSE}
 
 \begin{definitionHSE}[Задача Коши для системы]
 К системе добавляют начальное условие
-\[\underbrace{(x_1(t_0),\ldots,x_n(t_0))}_{\textstyle\mathstrut\vect{x}(t_0)}=\underbrace{(x_1^0,\ldots,x_n^0)}_{\textstyle\mathstrut\vect{x}_0}.\]
+\[\underbrace{(x^1(t_0),\ldots,x^n(t_0))}_{\textstyle\mathstrut\vect{x}(t_0)}=\underbrace{(x_0^1,\ldots,x_0^n)}_{\textstyle\mathstrut\vect{x}_0}.\]
 то есть
 \[
-x_i(t_0)=x_i^0,\qquad i=1,\ldots,n.
+x^i(t_0)=x_0^i,\qquad i=1,\ldots,n.
 \]
 \end{definitionHSE}
 
@@ -2386,10 +2396,10 @@ c_1\vect{x}_1(t)+\cdots+c_n\vect{x}_n(t)=\vect{0},
 \end{lemmaHSE}
 
 \begin{definitionHSE}[Вронскиан вектор-функций]
-Определителем Вронского $n$ вектор-функций называется
+Определителем Вронского (\textit{вронскианом}) $n$ вектор-функций называется
 \[
 W(t)=\det X(t),
-\qquad
+\quad
 X(t)=\bigl(\vect{x}_1(t)\ \cdots\ \vect{x}_n(t)\bigr).
 \]
 \end{definitionHSE}
@@ -2503,7 +2513,15 @@ D'(t)=D_1(t)+\cdots+D_n(t),
 \]
 где $D_i(t)$ --- определитель матрицы, полученной из $X(t)$ заменой $i$-й строки на её производную.
 \end{lemmaHSE}
-
+Формула Лейбница для определителя:
+\begin{proof}
+\[D(t) = \sum_{\sigma \in S_n} \operatorname{sgn}(\sigma) \cdot x_{1,\sigma(1)} \cdot x_{2,\sigma(2)} \cdots x_{n,\sigma(n)}=\sum_{\sigma \in S_n} \operatorname{sgn}(\sigma) \prod_{i=1}^{n} x_{i, \sigma(i)},\]
+где \(S_n\) -- множество всех перестановок, а \(\sigma(i)\) -- индекс столбца для \(i\)-й строки.
+\[D'(t)=\sum_{\sigma \in S_n} \operatorname{sgn}(\sigma)\frac{\dd}{\dd t}\left(\prod_{i=1}^{n} x_{i, \sigma(i)}\right)\]
+Каждое слагаемое в этой сумме -- это произведение \(n\) функций, зависящих от \(t\). Чтобы взять производную от суммы, нужно взять производную от каждого слагаемого. А чтобы взять производную от произведения \(n\) функций, применяем правило произведения:
+\[(f_1 \cdot f_2 \cdots f_n)' = f_1' \cdot f_2 \cdots f_n + f_1 \cdot f_2' \cdots f_n + \cdots + f_1 \cdot f_2 \cdots f_n'\]
+\[D'(t) = \sum_{\sigma \in S_n} \operatorname{sgn}(\sigma) \left( \sum_{j=1}^n x'_{j,\sigma(j)} \prod_{\substack{i=1 \\ i \neq j}}^n x_{i,\sigma(i)} \right)\]
+\end{proof}
 \begin{theoremHSE}[Формула Лиувилля--Остроградского]
 Пусть $W(t)$ --- вронскиан $n$ решений ЛОС \eqref{eq:los}, тогда
 \begin{equation}
@@ -2563,8 +2581,8 @@ W'(t)=\tr A(t)\,W(t).
 удовлетворяет
 \[
 \dot{\vect{v}}
-=A(t)\vect{u}+\vect{f}-\bigl(A(t)\vect{x}_p+\vect{f}\bigr)
-=A(t)\vect{v},
+=\underbrace{A(t)\vect{u}+\vect{f}}_{\textstyle\mathstrut\dot{\vect{u}}}-\underbrace{\bigl(A(t)\vect{x}_p+\vect{f}\bigr)}_{\textstyle\mathstrut\dot{\vect{x}}_p}
+=A(t)(\vect{u}-\vect{x}_p)=A(t)\vect{v},
 \]
 то есть является решением ЛОС. Обратная проверка проводится прямой подстановкой.
 \end{proof}

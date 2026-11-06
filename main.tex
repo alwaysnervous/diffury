@@ -1,0 +1,3528 @@
+\documentclass[12pt,a4paper]{article}
+
+% ==== Русский язык и кодировки (pdfLaTeX) ====
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+
+% ==== Геометрия ====
+\usepackage{geometry}
+\geometry{margin=2cm}
+
+% ==== Встроенные шрифты TeX-дистрибутива ====
+
+% ==== Внешний вид абзацев ====
+
+% ==== Математика ====
+\usepackage{amsmath, amssymb, amsthm}
+\numberwithin{equation}{section}
+\usepackage{mathtools}
+\newcommand{\xleftrightarrows}[2][]{%
+  \overset{#2}{\underset{#1}{\rightleftarrows}}%
+}
+
+% ==== Графика/рисунки ====
+\usepackage{graphicx}
+\graphicspath{{images/}}
+\usepackage{float}
+\usepackage[export]{adjustbox}
+
+% ==== TikZ/PGFPlots ====
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,angles,quotes,calc}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+% ==== Остальные пакеты ====
+\usepackage{xcolor}
+\usepackage{mdframed}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{hyperref}
+\usepackage[most]{tcolorbox}
+\usepackage{enumitem}
+\usepackage{cancel}
+\usepackage{parskip}
+
+% ==== Цвета ====
+\definecolor{HSEblue}{HTML}{004C97}
+\definecolor{HSElightblue}{HTML}{5B8CDE}
+\definecolor{HSEdarkblue}{HTML}{00315E}
+
+\definecolor{HSEgreen}{HTML}{007F5F}
+\definecolor{HSElightgreen}{HTML}{00A47A}
+\definecolor{HSEred}{HTML}{B80C09}
+\definecolor{HSEorange}{HTML}{F26D00}
+\definecolor{HSEpurple}{HTML}{6E56DB}
+\definecolor{HSEteal}{HTML}{008B8B}
+\definecolor{HSEgold}{HTML}{B8860B}
+\definecolor{HSEmagenta}{HTML}{D63384}
+
+\definecolor{HSEblack}{HTML}{000000}
+\definecolor{HSEdarkgray}{HTML}{333333}
+\definecolor{HSEgray}{HTML}{666666}
+\definecolor{HSElightgray}{HTML}{999999}
+\definecolor{HSEwhite}{HTML}{FFFFFF}
+
+\definecolor{HSEbglight}{HTML}{F8F9FA}
+\definecolor{HSEbglighter}{HTML}{F0F2F5}
+
+% ==== Замены твоих "HSE-шрифтов" на стандартные переключатели ====
+\newcommand{\thintext}[1]{{\mdseries #1}}
+\newcommand{\blacktext}[1]{{\bfseries #1}}
+
+% ==== Полезные обозначения из твоего исходника ====
+\newcommand{\Od}[2]{O_{#1}\!\left(#2\right)}
+\newcommand{\Odp}[2]{\dot O_{#1}\!\left(#2\right)}
+
+% операторы (у babel/russian часто заняты \tg,\sh,\ch — освобождаем)
+\let\sh\relax
+\let\ch\relax
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\arcsh}{arcsh}
+\DeclareMathOperator{\Lip}{Lip}
+\renewcommand{\Re}{\operatorname{Re}}
+\renewcommand{\Im}{\operatorname{Im}}
+\providecommand{\NOD}{\operatorname{НОД}}
+\providecommand{\NOK}{\operatorname{НОК}}
+
+% множества функций (чтобы \UC, \Cont, \Bnd компилились)
+\DeclareMathOperator{\UC}{UC}
+\DeclareMathOperator{\Cont}{C}
+\DeclareMathOperator{\Bnd}{Bnd}
+
+% дополнительные обозначения для диффуров
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\vect}[1]{\boldsymbol{#1}}
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\dd}{\mathop{}\!\mathrm{d}}
+
+% ==== Заголовки ====
+\titleformat{\section}
+  {\Large\bfseries\color{HSEblue}}
+  {\thesection.}{0.5em}{}
+
+\titleformat{\subsection}
+  {\large\bfseries\color{HSEblue}}
+  {\thesubsection.}{0.5em}{}
+
+% ==== Колонтитулы ====
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\bfseries\nouppercase{\leftmark}}
+\fancyhead[R]{\thepage}
+\setlength{\headheight}{15pt}
+
+\renewcommand{\headrulewidth}{0.4pt}
+
+% ==== Ссылки ====
+\hypersetup{
+  colorlinks=true,
+  linkcolor=HSEblue,
+  urlcolor=HSEblue
+}
+
+% ==== tcolorbox базовый стиль ====
+\newcommand{\sqbullet}{\raisebox{0.15ex}{\scalebox{0.4}{$\blacksquare$}}}
+
+\tcbset{
+  enhanced,
+  breakable,
+  boxrule=0.8pt,
+  arc=6pt,
+  boxsep=1.5pt,
+  before upper=\par\vspace{6pt}\noindent,
+  top=2pt,
+  fonttitle=\bfseries,
+  fontupper=\normalsize,
+  attach boxed title to top left={yshift=-2mm},
+  boxed title style={
+    boxrule=0pt,
+    frame hidden,
+    interior style={fill opacity=1}
+  }
+}
+
+% ===== Коробочки без нумерации =====
+\tcbset{
+  hsebox/.style={
+    enhanced,
+    breakable,
+    boxrule=0.8pt,
+    arc=6pt,
+    boxsep=1.5pt,
+    top=2pt,
+    fonttitle=\bfseries,
+    coltitle=white,
+    attach boxed title to top left={yshift=-2mm,xshift=2mm},
+    boxed title style={
+      boxrule=0pt,
+      frame hidden,
+      interior style={fill opacity=1}
+    },
+    before upper={
+      \setlength{\parskip}{0.7em}%
+      \setlength{\parindent}{0pt}%
+      \par\vspace{6pt}\noindent\ignorespaces
+    }
+  }
+}
+
+\newcommand{\DeclareHSEBox}[5]{%
+  \newtcolorbox{#1}[1][#2]{%
+    hsebox,
+    colframe=#3,
+    colback=HSEgray!10,
+    colbacktitle=#4,
+    title={##1},
+    before upper app={%
+      \setlist[enumerate]{label=\color{#5}\arabic*., font=\color{#5}, itemsep=0.6em, topsep=0.3em}%
+      \setlist[itemize]{label=\sqbullet, leftmargin=1.2em, itemsep=0.6em, topsep=0.3em}%
+    }
+  }%
+}
+
+\DeclareHSEBox{definitionHSE}{Определение}{HSEblue}{HSEblue!90!black}{HSEblue}
+\DeclareHSEBox{theoremHSE}{Теорема}{HSEgreen!70!black}{HSEgreen!80!black}{HSEgreen}
+\DeclareHSEBox{lemmaHSE}{Лемма}{HSEteal!80!black}{HSEteal!85!black}{HSEteal}
+\DeclareHSEBox{corollaryHSE}{Следствие}{HSEpurple!60!black}{HSEpurple!70!black}{HSEpurple}
+\DeclareHSEBox{exampleHSE}{Пример}{HSEred!80!black}{HSEred!90!black}{HSEred}
+\DeclareHSEBox{taskHSE}{Задача}{HSEmagenta!80!black}{HSEmagenta!90!black}{HSEmagenta}
+\DeclareHSEBox{remarkHSE}{Замечание}{HSEorange!70!black}{HSEorange!80!black}{HSEorange}
+
+% --- Доказательство ---
+\renewenvironment{proof}[1][Доказательство]{\begin{center}\textbf{#1}\end{center}}{\hfill$\blacksquare$\par}
+
+% ==== Единый стиль графиков ====
+\pgfplotsset{
+  hseaxis/.style={
+    axis lines=middle,
+    axis line style={draw=HSEdarkgray},
+    tick style={draw=HSEdarkgray},
+    tick label style={text=HSEdarkgray},
+    label style={text=HSEdarkgray},
+    grid style={draw=HSElightgray!45},
+    minor grid style={draw=HSElightgray!25}
+  },
+  hseoriginal/.style={samples=201,draw=HSEgray,thick},
+  hsetransformed/.style={samples=201,very thick,draw=HSEblue},
+  hseguide/.style={draw=HSEgray,dashed,semithick,no markers},
+  hsepoint/.style={only marks,mark=*,mark size=2pt,draw=HSEblue,fill=HSEblue}
+}
+
+% ==== Единый стиль геометрических рисунков TikZ ====
+\tikzset{
+  hsetriangle/.style={draw=HSEdarkgray,thick},
+  hseangle/.style={draw=HSEblue,fill=HSElightblue!25,thick}
+}
+
+% === МЕТАДАННЫЕ ===
+\title{\textbf{Диффуры}\\[0.3em]\large Вопросник к экзамену и материалы с лекций}
+\author{Медведев Максим --- \href{https://t.me/krols}{@krols}}
+\date{}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\clearpage
+
+\section{Базовые определения ОДУ}
+
+\begin{definitionHSE}[Опредение ОДУ и его порядка]
+Обыкновенным дифференциальным уравнением (ОДУ) называется \underline{соотношение}
+\begin{equation}
+F\bigl(x,y,y',\ldots,y^{(n)}\bigr)=0,
+\label{eq:odu}
+\end{equation}
+связывающее значения независимой переменной $x\in\R$, неизвестной функции $y=y(x)$ и её производных.
+
+Порядок старшей производной, входящей в уравнение \eqref{eq:odu}, называется \textbf{порядком ОДУ}.
+\end{definitionHSE}
+
+Слово «обыкновенное» означает, что переменная одна: неизвестная функция зависит от одной независимой переменной. Если бы их было несколько, и стояли частные производные, уравнение называлось бы уравнением в частных производных, а это отдельный курс (уравнения математической физики).
+
+\begin{definitionHSE}[Определение решения ОДУ]
+Решением ОДУ \eqref{eq:odu} на множестве $M\subset\R$ называется \underline{функция} $y=\varphi(x)$, которая \textbf{на этом множестве}:
+\begin{enumerate}
+  \item определена и имеет производные \(\varphi',\varphi'',\ldots,\varphi^{(n)}\) до порядка $n$ включительно;
+  \item при подстановке обращает уравнение \eqref{eq:odu} в тождество:
+  \[
+  F\bigl(x,\varphi(x),\varphi'(x),\ldots,\varphi^{(n)}(x)\bigr)=0,
+  \qquad \forall x\in M.
+  \]
+\end{enumerate}
+\end{definitionHSE}
+
+Решение \textbf{всегда} задаётся вместе с множеством, на котором оно рассматривается.
+
+\begin{definitionHSE}[Определение ОДУ, разрешённого относительно старшей производной]
+ОДУ порядка \(n\) называется \textit{разрешённым относительно старшей
+производной}, если оно записано в виде
+\[
+y^{(n)}=f\bigl(x,y,y',\ldots,y^{(n-1)}\bigr)
+\]
+\end{definitionHSE}
+Для первого порядка это \(y'=f(x,y)\). Уравнение в иной форме записи называют уравнением \textit{неразрешённого вида}.
+
+\section[Геометрическая интерпретация ОДУ]{Геометрическая интерпретация ОДУ}
+
+Рассмотрим ДУ первого порядка, разрешённое относительно производной:
+\begin{equation}
+ y'=f(x,y),
+ \label{eq:first-order}
+\end{equation}
+где $f$ определена в некоторой области $G\subset\mathbb{R}^2$.
+
+\begin{remarkHSE}
+Под \textit{областью} мы понимаем открытое связное множество.
+\end{remarkHSE}
+
+Если график решения $y=\varphi(x)$ ДУ \eqref{eq:first-order} на множестве \(M\) проходит через $P_0=(x_0,y_0)\in G$ (то есть \(\varphi(x_0)=y_0\)), то его касательная в этой точке имеет наклон
+\begin{gather*}
+\tan\alpha=\varphi'(x_0)=f(x_0,\varphi(x_0))=f(x_0,y_0),\\
+\varphi'(x)=f(x,\varphi(x))\quad\forall x\in M,
+\end{gather*}
+где $\alpha$ --- угол касательной к графику решения с положительным направлением оси $Ox$.
+
+Поэтому уравнение \eqref{eq:first-order} задаёт в каждой точке области \(G\) направление касательной к решению \(\varphi(x)\).
+
+\begin{center}
+\begin{tikzpicture}[
+  >=Stealth, line cap=round, line join=round,
+  every node/.style={font=\normalsize}
+]
+  \definecolor{solution}{HTML}{C84949}
+  \definecolor{tangent}{HTML}{2787BD}
+
+  % Точка M_0 и наклон касательной.
+  \def\xzero{3}
+  \def\yzero{2.1}
+  \def\slope{1.2}
+  \pgfmathsetmacro{\xintercept}{\xzero-\yzero/\slope}
+  \pgfmathsetmacro{\ang}{atan(\slope)}
+  \coordinate (M) at (\xzero,\yzero);
+  \coordinate (A) at (\xintercept,0);
+
+  % Область G с выраженной волнистой границей и плавными впадинами.
+  % Область не предполагается выпуклой.
+  \begin{scope}[shift={(1.8,1.45)}, rotate=18]
+    \path[draw=black!65, fill=black!2, line width=0.9pt]
+      plot[smooth cycle, domain=0:359, samples=360, variable=\t]
+      ({3.85*(1+0.08*sin(7*\t+225)+0.025*sin(11*\t-20))*cos(\t)},
+       {2.60*(1+0.08*sin(7*\t+225)+0.025*sin(11*\t-20))*sin(\t)})
+      -- cycle;
+  \end{scope}
+  \node at (-0.85,-0.30) {$G$};
+
+  % Оси координат.
+  \draw[->, thick] (-2.35,0) -- (6,0) node[below] {$x$};
+  \draw[->, thick] (0,-1.5) -- (0,4.65) node[left] {$y$};
+  \node[below left, inner sep=3pt] at (0,0) {$O$};
+
+  % Проекции M_0 на оси.
+  \draw[densely dashed, black!65]
+    (0,\yzero) node[left, text=black] {$y_0$}
+    -- (M) -- (\xzero,0) node[below, text=black] {$x_0$};
+
+  % Касательная: y = y_0 + slope*(x-x_0).
+  \draw[tangent, line width=1.2pt]
+    (A) -- (4.3,{\yzero+\slope*(4.3-\xzero)})
+    node[pos=0.92, left, inner sep=5pt] {$\ell$};
+
+  % Кривая проходит через M_0 и имеет там производную slope.
+  \draw[solution, line width=1.4pt, domain=1.25:4.65, samples=101]
+    plot (\x,{\yzero+\slope*(\x-\xzero)-0.25*(\x-\xzero)^3});
+  \node[solution] at (1.55,1.65) {$y=\varphi(x)$};
+
+  % Угол касательной с положительным направлением оси Ox.
+  \begin{scope}[shift={(A)}]
+    \draw[tangent, line width=0.8pt]
+      (0.65,0) arc[start angle=0,end angle=\ang,radius=0.65];
+    \node[tangent] at ({0.95*cos(\ang/2)},{0.95*sin(\ang/2)})
+      {$\alpha$};
+  \end{scope}
+
+  \fill (M) circle (2pt);
+  \node[below right, inner sep=6pt, font=\normalsize] at (M)
+    {$P_0=(x_0,y_0)$};
+
+  \node at (1.8,-2.10)
+    {$\tan\alpha=\varphi'(x_0)=f(x_0,y_0)$};
+\end{tikzpicture}
+\end{center}
+
+\begin{remarkHSE}[Мощное свойство]
+Дифференциальное уравнение \eqref{eq:first-order} позволяет узнать наклон касательной к графику решения, даже \textbf{когда само решение \(\varphi(x)\) ещё не найдено}.
+\end{remarkHSE}
+
+В качестве примера рассмотрим поле направлений \(y'=y-x^2\):
+\begin{center}
+\begin{tikzpicture}[
+    x=0.82cm, y=0.82cm,
+    >=Stealth,
+    field/.style={gray!65, line width=0.45pt, line cap=round},
+    horizontal/.style={black!75, line width=0.8pt, line cap=round},
+    solution/.style={blue!65!black, line width=0.95pt},
+    isocline/.style={line width=1.05pt, dashed}
+]
+    % ===== Left: direction field without isoclines =====
+    \begin{scope}
+        \draw[step=0.5, gray!15, very thin] (-3,-2) grid (3,5);
+
+        \begin{scope}
+            \clip (-3.15,-2.15) rectangle (3.15,5.15);
+            \foreach \x in {-3,-2.5,...,3} {
+                \foreach \y in {-2,-1.5,...,5} {
+                    \pgfmathsetmacro{\m}{\y-\x*\x}
+                    \pgfmathsetmacro{\dx}{0.16/sqrt(1+\m*\m)}
+                    \pgfmathsetmacro{\dy}{\m*\dx}
+                    \draw[field]
+                        ({\x-\dx},{\y-\dy}) -- ({\x+\dx},{\y+\dy});
+                }
+            }
+
+            % The zero isocline y=x^2.
+            \draw[isocline, orange!85!black]
+                plot[domain=-2.3:2.3, samples=121, smooth]
+                (\x,{\x*\x});
+
+            % Explicit horizontal direction marks on y=x^2.
+            \foreach \x in {-2,-1.75,...,2} {
+                \pgfmathsetmacro{\yy}{\x*\x}
+                \draw[horizontal]
+                    ({\x-0.15},\yy) -- ({\x+0.15},\yy);
+            }
+        \end{scope}
+
+        \draw[->, semithick] (-3.35,0) -- (3.45,0) node[right] {$x$};
+        \draw[->, semithick] (0,-2.25) -- (0,5.35);
+        \node[anchor=west] at (0.12,5.13) {$y$};
+        \foreach \t in {-3,-2,-1,1,2,3} {
+            \draw (\t,0.055) -- (\t,-0.055)
+                node[below, fill=white, inner sep=1pt, font=\scriptsize] {$\t$};
+        }
+        \foreach \t in {-2,-1,1,2,3,4,5} {
+            \draw (0.055,\t) -- (-0.055,\t)
+                node[left, fill=white, inner sep=1pt, font=\scriptsize] {$\t$};
+        }
+        \node[below left, fill=white, inner sep=1pt, font=\scriptsize]
+            at (0,0) {$0$};
+    \end{scope}
+
+    % ===== Right: the previous view with solution curves and y=x^2 =====
+    \begin{scope}[xshift=6.5cm]
+        \draw[step=0.5, gray!15, very thin] (-3,-2) grid (3,5);
+
+        \begin{scope}
+            \clip (-3.15,-2.15) rectangle (3.15,5.15);
+            \foreach \x in {-3,-2.5,...,3} {
+                \foreach \y in {-2,-1.5,...,5} {
+                    \pgfmathsetmacro{\m}{\y-\x*\x}
+                    \pgfmathsetmacro{\dx}{0.16/sqrt(1+\m*\m)}
+                    \pgfmathsetmacro{\dy}{\m*\dx}
+                    \draw[field]
+                        ({\x-\dx},{\y-\dy}) -- ({\x+\dx},{\y+\dy});
+                }
+            }
+
+            % Exact solutions: y=x^2+2x+2+Ce^x.
+            \foreach \C in {-4,-2,-1,0,1} {
+                \draw[solution]
+                    plot[domain=-3.18:3.18, samples=241, smooth]
+                    (\x,{\x*\x+2*\x+2+\C*exp(\x)});
+            }
+
+            % Zero isocline: y'=0 along y=x^2.
+            \draw[isocline, orange!85!black]
+                plot[domain=-2.3:2.3, samples=121, smooth]
+                (\x,{\x*\x});
+        \end{scope}
+
+        \draw[->, semithick] (-3.35,0) -- (3.45,0) node[right] {$x$};
+        \draw[->, semithick] (0,-2.25) -- (0,5.35);
+        \node[anchor=west] at (0.12,5.13) {$y$};
+        \foreach \t in {-3,-2,-1,1,2,3} {
+            \draw (\t,0.055) -- (\t,-0.055)
+                node[below, fill=white, inner sep=1pt, font=\scriptsize] {$\t$};
+        }
+        \foreach \t in {-2,-1,1,2,3,4,5} {
+            \draw (0.055,\t) -- (-0.055,\t)
+                node[left, fill=white, inner sep=1pt, font=\scriptsize] {$\t$};
+        }
+        \node[below left, fill=white, inner sep=1pt, font=\scriptsize]
+            at (0,0) {$0$};
+
+    \end{scope}
+
+    % One centered legend for both panels.
+    \node at (4,-2.75) {%
+        \tikz[baseline=-0.55ex]
+            \draw[blue!65!black, line width=0.95pt] (0,0) -- (0.75,0);
+        \quad $y=x^2+2x+2+Ce^x$
+        \qquad
+        \tikz[baseline=-0.55ex]
+            \draw[orange!85!black, dashed, line width=1.05pt]
+                (0,0) -- (0.75,0);
+        \quad $y=x^2\ (y'=0)$%
+    };
+\end{tikzpicture}
+\end{center}
+
+В каждой точке области \(G\) правая часть уравнения \eqref{eq:first-order} определяет направление касательной к решению, проходящему через эту точку. Множество всех подобных отрезков касательных к решениям в области \(G\) называется \textit{полем направлений}.
+
+\begin{definitionHSE}[Определение поля направлений]
+\textit{Полем направлений} уравнения \eqref{eq:first-order} называется множество всех отрезков касательных с угловым коэффициентом \(k=f(x,y)\), проведённых через точки области \(G\).
+\end{definitionHSE}
+
+\begin{remarkHSE}
+Для уравнений высших порядков классическое двумерное поле направлений (на плоскости \(xOy\)) не строится.
+
+Для уравнения второго порядка, например $y''=f(x,y,y')$, по одним только \(x\) и \(y\) направление уже определить нельзя: нужно ещё знать \(y'\). В одной и той же точке \((x,y)\) разные решения могут иметь разные наклоны.
+\end{remarkHSE}
+
+Формула для \(f(x,y)\) может не иметь смысла в отдельных точках, хотя предел там может существовать:
+\[
+f(x,y)=\frac{x^2-y^2}{x-y}\;(x\neq y),\;\lim_{y\rightarrow x}\frac{x^2-y^2}{x-y}=2x
+\]
+В таким местах функцию доопределяют по непрерывности, из-за чего область \(G\) становится шире, а поле направлений полнее. Но могут существовать разрывы, которые не устраняются подобным образом:
+\begin{gather*}
+f(x,y)=\frac{1}{x-y}\;(x\neq y),\;\lim_{y\rightarrow x}\frac{1}{x-y}=\infty
+\end{gather*}
+Если касасательная вертикальна (\(\alpha=\pi/2\)), то тангенс бесконечен, и функция в этой точке \textbf{не определена}. А кривые с такими касательными хотелось бы включить в рассмотрение.
+
+Мы можем перевернуть уравнение и мерить угол не от оси \(Ox\), а \(Oy\):
+\[
+\frac{\dd y}{\dd x}=f(x,y)\iff\frac{\mathrm{d}x}{\mathrm{d}y}=\frac{1}{f(x,y)}
+\]
+Рассматриваем уравнение в тех точках, где его правая часть определена. Объединяя обе области определения (исходного уравнения и перевёрнутого), получают область определения \(\tilde{G} = G \cup G'\) \textit{расширенного поля направлений}.
+
+На этой области исходное и перевёрнутое уравнения совместно задают расширенное поле направлений.
+
+\begin{definitionHSE}[Определение изоклины]
+Изоклина --- это геометрическое место точек, в которых поле направлений имеет один и тот же наклон.
+\end{definitionHSE}
+
+Её также называют линией равного наклона касательных.
+
+Для уравнения \(y' = f(x, y)\) изоклины определяются уравнениями
+\[
+f(x,y)=k=\text{const}.
+\]
+
+\begin{remarkHSE}[Для чего нужны изоклины]
+Нанеся несколько изоклин и короткие отрезки соответствующего наклона, можно приближённо восстановить вид интегральных кривых.
+\end{remarkHSE}
+
+Геометрически все штрихи поля направлений на этой линии параллельны.
+
+\begin{exampleHSE}
+«Изоклина двух» --- это линия, на которой тангенс угла наклона касательной к решению равен двум: \(\tg\alpha = 2\).
+\end{exampleHSE}
+
+\begin{definitionHSE}[Определение изолированной особой точки]
+Точка \(P=(x_0,y_0)\) -- изолированная особая, если:
+\begin{itemize}
+\item в ней \textbf{не} определено расширенное поле направлений;
+\item \(\exists\delta>0\): во всех точках \(\Odp{\delta}{x_0,y_0}\) расширенное поле определено.
+\end{itemize} 
+\end{definitionHSE}
+
+Например, для \(y' = y/x\) исходная запись не определена при \(x = 0\), перевёрнутая
+\(\mathrm{d}x/\mathrm{d}y = x/y\) не определена при \(y = 0\), но их объединение задаёт направление всюду,
+кроме \((0, 0)\). Поэтому \((0, 0)\) – изолированная особая точка.
+
+\begin{definitionHSE}[Определение интегральной кривой]
+Кривая, имеющая в каждой точке направление касательной, определяемое расширенным полем направлений уравнения \eqref{eq:first-order}, называется \textit{интегральной кривой}.
+\end{definitionHSE}
+
+Решение имеет вид \(y=\varphi(x)\), а интегральная кривая — его график, геометрическое место точек. Поэтому вертикальная прямая \(x=0\) не может быть интегральной кривой такого уравнения: она не задаёт \(y\) как функцию от \(x\).
+
+\begin{definitionHSE}[Определение интеграла уравнения]
+Соотношение \(\Phi(x,y)=0\), задающее некоторую интегральную кривую, называется \textit{интегралом уравнения}.
+\end{definitionHSE}
+
+\begin{definitionHSE}[Общее решение уравнения]
+Однопараметрическое семейство решений уравнения \eqref{eq:first-order}
+\[
+y=\varphi(x,C),\qquad C\in E\subset\mathbb{R},
+\]
+называется \textit{общим решением уравнения} \eqref{eq:first-order} на множестве $M$, если
+\begin{itemize}
+\item при каждом $C_0\in E$ функция \(y=\varphi(x,C_0)\) является решением уравнения \eqref{eq:first-order} на \(M\);
+\item для любого решения уравнения \eqref{eq:first-order} на \(M\) найдётся \(\tilde{C}\in E\), задающее это решение.
+\end{itemize}
+\end{definitionHSE}
+
+Первое условие нужно для того, чтобы удостовериться в том, что мы не придумали лишних решений, а второе --- что мы никакие решения не потеряли.
+
+\begin{definitionHSE}[Общий интеграл]
+Соотношение
+\[
+\Phi(x,y,C)=0,\qquad C\in E\subset\mathbb{R},
+\]
+называется \textit{общим интегралом} уравнения \eqref{eq:first-order} на области \(D\subseteq\tilde{G}\), если
+\begin{itemize}
+\item при каждом $C_0\in E$ уравнение \(\Phi(x,y,C_0)=0\) задаёт интеграл уравнения \eqref{eq:first-order}, интегральная кривая которого лежит в \(D\);
+\item для любой интегральной кривой уравнения \eqref{eq:first-order}, лежащей в \(D\), найдётся $\tilde{C}\in E$ такое, что уравнение \(\Phi(x,y,\tilde{C})=0\) задаёт эту интегральную кривую.
+\end{itemize}
+\end{definitionHSE}
+
+\begin{remarkHSE}[Спор о выборе множества]
+\end{remarkHSE}
+
+Главное отличие \textit{общего интеграла} от \textit{общего решения} заключается в том, что он задаётся неявным уравнением, которое не всегда удаётся разрешить относительно \(y\).
+
+Пример: \(x^2+y^2=C\) --- семейство концетрических окружностей. Окружность не является графиком функции.
+
+Теорема о неявной функции утверждает: если функция \(F\) непрерывно дифференцируема в окрестности точки \((x_0,y_0)\), причём \(F(x_0,y_0)=0\) и \(F'_y(x_0,y_0)\neq 0\), то в некоторой окрестности этой точки уравнение \(F(x,y)=0\) однозначно разрешимо относительно \(y\), то есть задаёт \(y\) как функцию от \(x\).
+
+\begin{exampleHSE}[Уравнение $y'=-x/y$]
+\[
+\frac{\dd y}{\dd x}=-\frac{x}{y},\qquad
+\frac{\dd x}{\dd y}=-\frac{y}{x}.
+\]
+Область определения правой части исходного уравнения:
+\[G=\mathbb{R}^2\setminus\{y=0\}\]
+Область определения правой части перевёрнутого уравнения:
+\[G'=\mathbb{R}^2\setminus\{y=0\}\]
+Область определения расширенного поля направлений:
+\[
+\widetilde G=G\cup G'=\R^2\setminus\{(0,0)\},
+\]
+где $(0,0)$ --- изолированная особая точка. Разделяя переменные,
+\[
+y\dd y=-x\dd x,
+\]
+получаем
+\[
+\frac{x^2+y^2}{2}=C,\quad\boxed{\ x^2+y^2=C_1\ }\quad
+(C,C_1\in\R)
+\]
+то есть интегральные кривые --- концетрические окружности с центром в начале координат.
+
+% TODO: рисунок поля направлений и окружностей (страница 8 исходника).
+\end{exampleHSE}
+
+\begin{exampleHSE}[Уравнение $y'=y/x$ (дикритический узел)]
+\[
+\frac{\dd y}{\dd x}=\frac{y}{x},\qquad x\neq0.
+\]
+Область определения расширенного поля направлений аналогична предыдущему примеру:
+\[
+\widetilde G=G\cup G'=\R^2\setminus\{(0,0)\}
+\]
+Нестационарные решения:
+\begin{gather*}
+\frac{\dd y}{y}=\frac{\dd x}{x}
+\ \Longrightarrow\ 
+\ln|y|=\ln|x|+\ln C\ (C>0)
+\ \Longrightarrow\ |y|=C|x|\ \Longrightarrow\ y=\pm Cx
+\end{gather*}
+Объединяем со стационарным решением \(y=0\):
+\[y=C_1 x,\ (C_1\in\R)\]
+В расширенном поле направлений дополнительно учитывается вертикальная интегральная прямая $x=0$.
+
+Интегральными кривыми являются всевозможные лучи, выходящие из проколотого начала координат.
+
+% TODO: рисунок изоклин и интегральных прямых (страница 9 исходника).
+\end{exampleHSE}
+
+\section{Алгоритмы решения ОДУ}
+
+\begin{definitionHSE}[Семейство кривых]
+Семейство кривых --- все кривые, получаемые из уравнения
+\[\Phi(x,y,C_1,\ldots,C_n)=0\]
+при различных значениях произвольных постоянных \(C_1,\ldots,C_n\).
+\end{definitionHSE}
+
+Пусть дано семейство кривых
+\[\Phi(x, y, C_1,\ldots, C_n) = 0.\]
+
+Чтобы получить дифференциальное уравнение этого семейства, дифференцируем соотношение по \(x\) столько раз, сколько имеется независимых постоянных, а затем исключаем \(C_1,\ldots,C_n\).
+
+\subsection{Линейные и однородные уравнения}
+
+\phantomsection\label{box:type0}
+\begin{definitionHSE}[Уравнения типа 0]
+Если \(y' = f(x)\), то семейство решений имеет вид:
+\begin{gather*}
+y'=f(x),\quad\frac{\dd y}{\dd x}=f(x),\quad\int\dd y = \int f(x)\dd x,\\
+\boxed{\ y = \int f(x)\dd x + C, \quad C \in \mathbb{R}.\ }
+\end{gather*}
+\end{definitionHSE}
+
+\phantomsection\label{box:type1}
+\begin{definitionHSE}[Уравнения типа 1 (с разделяющимися переменными)]
+Рассмотрим уравнение
+\[
+y' = f(x)g(y).
+\]
+Отыщем стационарные решения. Стационарное решение должно обращать ОДУ в тождество:
+\begin{itemize}
+\item \(y=y_0-\text{const}: f(x)g(y_0)=0\);
+\item \(x=x_0-\text{const}: \dfrac{1}{f(x_0)g(y)}=0\).
+\end{itemize}
+Далее разделяем переменные:
+\[
+\frac{y'}{g(y)} = f(x),\quad\frac{\frac{\dd y}{\dd x}}{g(y)}=f(x)
+\]
+и после интегрирования
+\[
+\boxed{\ \int \frac{\dd y}{g(y)} = \int f(x)\dd x + C, \quad C \in \mathbb{R}.\ }
+\]
+То есть изначально мы фактически интегрируем по \(x\), но в левой части делаем замену переменной:
+\[
+\int \frac{y'(x)}{g(y(x))}\dd x = \int f(x)\dd x + C, \quad C \in \mathbb{R}.
+\]
+
+Получаем, что решение описывается однопараметрическим семейством и набором стационарных решений.
+
+\end{definitionHSE}
+
+\phantomsection\label{box:type2}
+\begin{definitionHSE}[Уравнения типа 2 (с линейной правой частю)]
+Пусть
+\[y'=f(ax+by+c)\]
+Вводим \(z=ax+by+c\). Тогда
+\[z'=a+by'=a+bf(z),\quad y=\frac{z-ax-c}{b}\]
+Получаем уравнение на \(z\) с разделяющимися переменными (\hyperref[box:type1]{тип 1}):
+\[\boxed{\ z'=a+bf(z) \ }\]
+\end{definitionHSE}
+
+\begin{exampleHSE}[\(y'-y=2x-3\)]
+\begin{gather*}
+y'-y=2x-3,\quad y'=\underbrace{2x+y-3}_{=z}\quad\Longrightarrow\quad z'=(2x+y-3)'=2+y'=2+z
+\end{gather*}
+Стационарное решение перед делением:
+\[z'=0\Rightarrow z+2=0\Rightarrow z=-2-\text{решение}\]
+Делим:
+\begin{gather*}
+\frac{\dd z}{z+2}=\dd x,\quad\int\frac{\dd z}{z+2}=x+C,\ C\in\R\\
+\ln|z+2|=x+C,\quad z+2=\pm\e^{x+C}\\
+z+2=\pm C_1\e^x\quad\xRightarrow[]{\text{стац. реш.}}\quad z=C_1\e^x-2
+\end{gather*}
+\end{exampleHSE}
+
+\begin{remarkHSE}
+Часто произвольную постоянную при интегрировании удобнее записать как \(\ln C, C > 0\). Тогда можно чуть сократить количество переобозначений произвольных постоянных.
+\end{remarkHSE}
+
+Cтационарные решения по \(x\) (\(x=x_0=\text{const}\)) не являются решениями в классическом смысле, поэтому в дальнейшем мы ищем их только в следующих случаях:
+
+\begin{itemize}
+\item \(M(x,y)dx+N(x,y)dy=0\).
+\item Когда ищем интегральные кривые.
+\item \(y'=f(x,y)\).
+\end{itemize}
+
+\phantomsection\label{box:type3}
+\begin{definitionHSE}[Уравнения типа 3 (с однородной правой частью)]
+Рассмотрим уравнение
+\[y'=f\left(\frac{y}{x}\right)\]
+\begin{definitionHSE}[Определение однородной функции]
+Функция \(f(x,y)\) называется \textit{однородной} порядка \(k\), если
+\[\forall\lambda\neq0\quad f(\lambda x,\lambda y)=\lambda^kf(x,y)\]
+\end{definitionHSE}
+Сделаем замену:
+\vspace{-\baselineskip}
+\begin{gather*}
+y=u(x)\cdot x,\quad y'=\boxed{u'x+u=f(u)}=f\left(\frac{y}{x}\right)\\
+u'=\frac{f(u)-u}{x},\quad\frac{\dd u}{f(u)-u}=\frac{\dd x}{x}
+\end{gather*}
+Далее решаем уравнение с \hyperref[box:type1]{разделяющимися перменными}.
+\end{definitionHSE}
+Уравнение
+\[M(x,y)\dd x+N(x,y)\dd y=0\]
+называется однородным, если \(M(x,y)\) и \(N(x,y)\) --- однородные функции одного и того же порядка. Оно решается таким же способом.
+
+\begin{exampleHSE}[\(y'=\dfrac{y}{x}\cos\ln\left(\dfrac{y}{x}\right)\)]
+\[y'=\frac{y}{x}\cos\ln\left(\frac{y}{x}\right),\quad y=ux,\quad\frac{y}{x}>0\]
+\[
+\begin{aligned}
+y'&=(ux)'=u'x+u,\\
+y'&=u\cos\ln u
+\end{aligned}\quad\Longrightarrow\quad u'x+u=u\cos\ln u,\quad u'=\frac{u\cos\ln u-u}{x}\]
+
+Отыщем стационарные решения:
+\[u\cos\ln u-u=0,\quad\cos\ln u=1,\quad \ln u=2\pi k,\ k\in\Z,\quad u=\e^{2\pi k}\]
+Продолжим решать:
+\begin{gather*}
+\frac{\dd u}{\dd x}=\frac{u\cos\ln u-u}{x},\quad\frac{\dd u}{u\cos\ln u-u}=\frac{\dd x}{x}\\
+\int\frac{\dd u}{u\cos\ln u-u}=|\ln u=t|=\int\frac{\dd t}{\cos t-1}=\int\frac{\dd t}{\cos t-1}=\int\frac{\dd t}{-2\sin^2(t/2)}=\\=-\frac{1}{2}\cdot\left(-2\ctg\left(\frac{t}{2}\right)\right)+C=\ctg\left(\frac{t}{2}\right)+C=\ctg\left(\frac{\ln u}{2}\right)+C,\ C\in\R\\
+\ctg\left(\frac{\ln u}{2}\right)=\ln|x|+C_1,\quad\boxed{\ctg\left(\frac{\ln (x/y)}{2}\right)=\ln|C_2x|\ (C_2\neq0)}
+\end{gather*}
+Сделаем обратную замену в стационарном решении:
+\[\boxed{y=e^{2\pi k}x,\ k\in\Z}\]
+\end{exampleHSE}
+
+\begin{exampleHSE}[\((x+2y)\dd x-x\dd y=0\)]
+$M=x+2y$ и $N=-x$ --- однородные функции первого порядка, значит, уравнение однородное.
+
+$x=0$ --- решение ($\dd x=0$, и уравнение обращается в тождество). Делаем замену $y=ux$, $\dd y=x\dd u+u\dd x$:
+\begin{gather*}
+(x+2ux)\dd x-x(x\dd u+u\dd x)=0,\quad (x+ux)\dd x-x^2\dd u=0,\\
+x(1+u)\dd x=x^2\dd u\quad\bigl|\,:(1+u)x^2
+\end{gather*}
+Когда делим, смотрим, не потеряли ли стационарные решения: $1+u=0$ --- решение.
+\begin{gather*}
+\frac{\dd x}{x}=\frac{\dd u}{1+u},\qquad
+\ln|x|=\ln|1+u|+\ln C_1,\ C_1>0,\\
+|x|=|1+u|\cdot C_1,\qquad x=\pm(1+u)\,C_1.
+\end{gather*}
+\[
+\left[\begin{aligned}
+&x=(1+u)\,C,\ C\in\R,\\
+&u=-1
+\end{aligned}\right.
+\ \longrightarrow\
+\left[\begin{aligned}
+&x=\Bigl(1+\frac yx\Bigr)C,\ C\in\R,\\
+&\frac yx=-1
+\end{aligned}\right.
+\ \longrightarrow\
+\boxed{\left[\begin{aligned}
+&x^2=Cx+Cy,\ C\in\R,\\
+&y=-x
+\end{aligned}\right.}
+\]
+Решение $x=0$ входит в семейство при $C=0$.
+\end{exampleHSE}
+
+\phantomsection\label{box:type4}
+\begin{definitionHSE}[Уравнения типа 4 (уравнением с дробно-линейной правой частью)]
+Рассмотрим уравнение
+\[y'=f\left(\frac{ax+by+c}{a_1x+b_1y+c_1}\right),\quad\begin{vmatrix}a&b\\a_1&b_1\end{vmatrix}\neq0\]
+Идея --- убрать свободные члены, чтобы уравнение стало однородным. Сделаем замену
+\[
+\begin{aligned}
+x&=x_0+t,\\y&=y_0+w,
+\end{aligned}
+\text{ где }x_0,y_0\text{ находим из }\begin{cases}
+ax_0+by_0+c=0\\a_1x_0+b_1y_0+c_1=0
+\end{cases}
+\]
+Тогда
+\[ax+by+c=a(x_0+t)+b(y_0+w)+c=(ax_0+by_0+c)+at+bw=at+bw,\]
+Аналогично
+\[a_1x+b_1y+c_1=a_1t+b_1w\]
+Таким образом
+\[w'=f\left(\frac{at+bw}{a_1t+b_1w}\right)=\left(\frac{a+b(w/t)}{a_1+b_1(w/t)}\right)\]
+\end{definitionHSE}
+
+\begin{exampleHSE}[\((x+4y)y'=2x+3y-5\)]
+\[
+y'=\frac{2x+3y-5}{x+4y},\qquad y=-\frac{x}{4}\ \text{--- не решение.}
+\]
+Определитель $\begin{vmatrix}2&3\\1&4\end{vmatrix}=5\neq0$. Центр сдвига:
+\[
+\left( \begin{array}{cc|c} 
+2 & 3 & 5 \\ 
+1 & 4 & 0 
+\end{array} \right) 
+\rightarrow 
+\left( \begin{array}{cc|c} 
+0 & 1 & -1 \\ 
+1 & 0 & 4 
+\end{array} \right) 
+\rightarrow 
+\begin{array}{l} 
+y_0 = -1 \\ 
+x_0 = 4 
+\end{array}
+\]
+\[
+\begin{cases}2x_0+3y_0-5=0\\x_0+4y_0=0\end{cases}\quad\Longrightarrow\quad x_0=4,\ y_0=-1.
+\]
+Замена $x=4+t$, $y=-1+w$, затем $w=u(t)\cdot t$:
+\begin{gather*}
+w'=\frac{2t+3w}{t+4w}=\frac{2+3\frac{w}{t}}{1+4\frac{w}{t}},\qquad
+u't+u=\frac{2+3u}{1+4u},\\
+\frac{\dd u}{\dd t}=\frac{-4u^2+2u+2}{(1+4u)\,t}=\frac{-2(u-1)(2u+1)}{(1+4u)\,t}.
+\end{gather*}
+Стационарные решения: $u=1$, $u=-1/2$. Разделяем переменные:
+\begin{gather*}
+\frac{(1+4u)\dd u}{-4(u-1)\left(u+\frac12\right)}=\frac{\dd t}{t},\qquad
+\frac{1+4u}{-4(u-1)\left(u+\frac12\right)}=-\frac{5/6}{u-1}-\frac{1/6}{u+\frac12},\\
+\frac56\ln|u-1|+\frac16\ln\Bigl|u+\frac12\Bigr|=-\ln|t|+\ln C_1\ (C_1>0),\\
+|u-1|^5\Bigl|u+\frac12\Bigr|\,|t|^6=C_2\ (C_2>0)
+\ \xRightarrow[]{\text{стац. реш.}}\
+(u-1)^5\Bigl(u+\frac12\Bigr)t^6=C_3,\ (C_3\in\R).
+\end{gather*}
+Обратная замена $u=w/t=(y+1)/(x-4)$:
+\[
+\boxed{\ (y-x+5)^5\Bigl(y+\frac{x}{2}-1\Bigr)=C\ (C\in\R)\ }
+\]
+\end{exampleHSE}
+
+\phantomsection\label{box:type5}
+\begin{definitionHSE}[Уравнения типа 5 (сводящиеся к однородным степенной заменой)]
+Если уравнение не однородно, но становится однородным после замены
+\[
+y=z^m\Longrightarrow y'=m\,z^{m-1}z',
+\]
+то показатель $m$ подбираем так, чтобы все слагаемые получили одинаковую степень, и уравнение стало \hyperref[box:type3]{однородным}.
+\end{definitionHSE}
+\begin{remarkHSE}[Как распознать применение метода?]
+Что-то должно «мешать» быть уравнению однородным. Пример:
+\begin{gather*}
+y'=\frac{y^3+xy}{2x^2}=\frac{y}{2x}\left(1+\frac{y^2}{x}\right)\Longrightarrow z=y^2\\
+z'=2yy'=2y\cdot\frac{y}{2x}\left(1+\frac{y^2}{x}\right)=\frac{z}{x}\left(1+\frac{z}{x}\right)
+\end{gather*}
+\end{remarkHSE}
+\begin{exampleHSE}[\(y'=\dfrac{y^3+xy}{2x^2}\)]
+$y=0$ --- решение. Замена $y=z^m$:
+\[
+m\,z^{m-1}z'=\frac{z^{3m}+x\,z^m}{2x^2}\ \Longrightarrow\
+z'=\frac{z^{2m+1}+x\,z}{2m\,x^2},\qquad 2m+1=2\ \Longrightarrow\ m=\frac12.
+\]
+Итак, $y^2=z$ и
+\[
+z'=\frac{z^2+xz}{x^2}\ \text{--- однородное.}
+\]
+Замена $z=ux$:
+\begin{gather*}
+u'x+u=u^2+u,\quad x\,\frac{\dd u}{\dd x}=u^2,\quad u=0\ \text{--- решение},\\
+\frac{\dd u}{u^2}=\frac{\dd x}{x},\quad -\frac1u=\ln|x|+C,\quad u=-\frac{1}{\ln|x|+C}.
+\end{gather*}
+Обратная замена $z=ux$, $y^2=z$:
+\[
+\boxed{\ y^2=-\frac{x}{\ln|x|+C},\ C\in\R;\quad y=0\ }
+\]
+\end{exampleHSE}
+
+\phantomsection\label{box:type6}
+\begin{definitionHSE}[Уравнения типа 6 (линейные)]
+\textit{Лниейнное однородное} уравнение:
+\[y'+a(x)y=0.\]
+Всегда есть стационарное решение $y=0$; при $y\neq0$
+\begin{gather*}
+\frac{\dd y}{y}=-a(x)\dd x,\qquad \ln|y|=-\int a(x)\dd x+\ln C_0,\ C_0>0,\\
+|y|=C_0\,\e^{-\int a(x)\dd x},\quad y=\pm C_0\,\e^{-\int a(x)\dd x}
+\end{gather*}
+Объединяем со стационарным решением:
+\[\boxed{\ y=C\,\e^{-\int a(x)\dd x},\quad C\in\R\ }\]
+Представим \(y\) в следующем виде: \(y=C\cdot u(x)\), где \(u(x)\) --- функция, удовлетворяющая однородному уравнению
+
+\textit{Лниейнное неоднородное} уравнение:
+\[y'+a(x)y=b(x).\]
+\textcircled{1} Сначала решаем соответствующее ЛНУ. Выражаем \(y=C\cdot u(x)\).
+
+\textcircled{2} Используем \textit{метод вариации постоянной} $C=C(x)$, $y=C(x)u(x)$:
+\begin{gather*}
+C'u+Cu'+a(x)Cu=b(x),\quad C'u+C\underbrace{\bigl(u'+a(x)u\bigr)}_{=0}=b(x),\\
+\underline{C'(x)=\frac{b(x)}{u(x)}},\quad C(x)=\int\frac{b(x)}{u(x)}\dd x+\widetilde C,
+\end{gather*}
+Подставим \(C(x)\) в \(y=C(x)u(x)\) из первого пункта:
+\[
+\boxed{\ y=\left(\int\frac{b(x)}{u(x)}\dd x+\widetilde C\right)u(x),\quad\widetilde C\in\R\ }
+\]
+\end{definitionHSE}
+
+\begin{exampleHSE}[\((2x+1)y'=4x+2y\)]
+\begin{gather*}
+y'=\frac{4x+2y}{2x+1}=\frac{2}{2x+1}\,y+\frac{4x}{2x+1},\qquad
+y'-\frac{2}{2x+1}\,y=\frac{4x}{2x+1}.
+\end{gather*}
+\textcircled{1} Однородное уравнение: $y=0$ --- решение;
+\[
+\frac{\dd y}{y}=\frac{2\dd x}{2x+1},\qquad \ln|y|=\ln|2x+1|+\ln C_0,\qquad y=C(2x+1),\ C\in\R.
+\]
+\textcircled{2} Вариация постоянной, $y=C(x)(2x+1)$:
+\begin{gather*}
+C'(2x+1)=\frac{4x}{2x+1},\qquad C'=\frac{4x}{(2x+1)^2}=\frac{2}{2x+1}-\frac{2}{(2x+1)^2},\\
+C=\ln|2x+1|+\frac{1}{2x+1}+\widetilde C.
+\end{gather*}
+\[
+\boxed{\ y=(2x+1)\ln|2x+1|+1+\widetilde C(2x+1),\quad \widetilde C\in\R\ }
+\]
+\end{exampleHSE}
+
+\phantomsection\label{box:type6-1}
+\begin{definitionHSE}[Уравнения типа 6.1 (линейные относительно \(x\))]
+Если уравнение линейно относительно функции $x(y)$, переходим к ней, используя
+\[
+y'=\frac{1}{x'_y},
+\]
+и решаем как \hyperref[box:type6]{уравнение типа 6} с независимой переменной $y$.
+\end{definitionHSE}
+\begin{remarkHSE}[Как распознать подобное уравнение?]
+\(y'\) умножается на выражение, линейное по \(x\), а в другой части стоит функция от \(y\).
+
+Практический признак для таких примеров:
+\[\bigl(a(y)x+b(y)\bigr)y'=c(y)\]
+\end{remarkHSE}
+
+\begin{exampleHSE}[\((\sin^2y+x\ctg y)\,y'=1\)]
+\[
+(\sin^2y+x\ctg y)\,\frac{1}{x'_y}=1\quad\Longrightarrow\quad x'_y-x\ctg y=\sin^2y.
+\]
+\textcircled{1} Однородное: $x=0$ --- решение;
+\[
+\frac{\dd x}{x}=\ctg y\dd y,\quad \ln|x|=\ln|\sin y|+\ln C_1,\quad x=C\sin y,\ C\in\R.
+\]
+\textcircled{2} $C=C(y)$, $x=C(y)\sin y$:
+\[
+C'\sin y+C\cos y-\underbrace{x\ctg y}_{=C\cos y}=\sin^2y,\quad C'=\sin y,\quad C=-\cos y+\widetilde C.
+\]
+\[
+\boxed{\ x=(\widetilde C-\cos y)\sin y,\quad\widetilde C\in\R\ }
+\]
+\end{exampleHSE}
+
+\phantomsection\label{box:type8}
+\begin{definitionHSE}[Уравнения типа 8 (уравнение Бернулли)]
+Это линейное неоднородное уравнение, свободный член которого домножили на \(y^n\):
+\[
+y'+a(x)y=b(x)\,y^n,\qquad n\neq0,1.
+\]
+При $n>0$ будет решение $y=0$. Делим на $y^n$ и делаем замену $z=y^{1-n}\Rightarrow z'=(1-n)y^{-n}y'$:
+\begin{gather*}
+y'y^{-n}+a(x)\,\underbrace{y^{1-n}}_{=z}=b(x)\quad\Longrightarrow\quad\frac{z'}{1-n}+a(x)z=b(x)\\
+\boxed{\ z'+(1-n)\,a(x)\,z=(1-n)\,b(x)\ }
+\end{gather*}
+--- линейное уравнение (\hyperref[box:type6]{тип 6}).
+\end{definitionHSE}
+
+\begin{exampleHSE}[\(y'=y^4\cos x+y\tg x\)]
+\[
+y'-y\tg x=y^4\cos x,\quad y=0\ \text{--- решение},\quad \frac{y'}{y^4}-\frac{\tg x}{y^3}=\cos x.
+\]
+Замена $z=y^{-3}$, $z'=-3y^{-4}y'$:
+\[
+z'+3\tg x\cdot z=-3\cos x.
+\]
+\textcircled{1} Однородное: $\dfrac{\dd z}{z}=-3\tg x\dd x$, $\ln|z|=3\ln|\cos x|+\ln C_1$, $z=C\cos^3x$.
+
+\textcircled{2} Вариация, $C=C(x)$:
+\[
+C'\cos^3x-\cancel{3C\cos^2x\sin x}+\cancel{3C\cos^3x\tg x}=-3\cos x,
+\]
+\[
+C'=-\frac{3}{\cos^2x},\qquad C=-3\tg x+\widetilde C.
+\]
+\[
+\boxed{\ y^{-3}=(\widetilde C-3\tg x)\cos^3x,\ \widetilde C\in\R;\quad y=0\ }
+\]
+\end{exampleHSE}
+
+\phantomsection\label{box:type9}
+\begin{definitionHSE}[Уравнения типа 9 (в полных дифференциалах)]
+Мы предполагаем, что левая часть этого уравнения — это полный дифференциал \(\dd u\) некоторой функции \(u(x,y)\) (которую мы называем потеницалом).
+\[
+\begin{array}{r@{}c@{}l@{}c@{}l}
+          & M(x,y)                         & \,\dd x+{} & N(x,y)                         & \,\dd y=0\\
+          & \Updownarrow                   &            & \Updownarrow                   &          \\
+\dd u={}  & \dfrac{\partial u}{\partial x} & \,\dd x+{} & \dfrac{\partial u}{\partial y} & \,\dd y=0
+\end{array}
+\]
+то есть $\dfrac{\partial u}{\partial x}=M$, $\dfrac{\partial u}{\partial y}=N$. Тогда $\dd u=0$ и
+\[
+\boxed{\ u(x,y)=C,\quad C\in\R\ }
+\]
+--- интегральные кривые.
+
+\textbf{Необходимое условие:} $M_y=N_x$.
+
+\textbf{Достаточные условия:} $M,N,M_y,N_x$ непрерывны в \emph{односвязной} области («без дыр») и $M_y=N_x$.
+
+Восстановим $u$. При интегрировании по \(x\) считаем \(y\) постоянной:
+\[u=\int M(x,y)\dd x+C(y).\]
+
+Мы знаем, что \(\dfrac{\partial u}{\partial y}=N\), воспользуемся этим, для того чтобы найти \(C'(y)\) и затем \(C(y)\):
+\begin{gather*}
+\bigl(u\bigr)'_y=\left(\int M(x,y)\dd x\right)'_y+C'(y)=N(x,y)\ \Longrightarrow\\ \Longrightarrow C'(y)\ \Longrightarrow\ C(y).
+\end{gather*}
+Подставим \(C(y)\) в восстановленный \(u\).
+\end{definitionHSE}
+
+\begin{remarkHSE}
+Неодносвязную область можно покрыть односвязными. Например, $\R^2\setminus\{(0,0)\}=G_1\cup G_2$, где $G_1$ --- плоскость с разрезом по лучу $\{y=0,\ x\le0\}$, а $G_2$ --- с разрезом по лучу $\{y=0,\ x\ge0\}$.
+\end{remarkHSE}
+
+\begin{remarkHSE}
+Любое уравнение с разделяющимися переменными представимо как уравнение в полных дифференциалах, но не наоборот.
+\end{remarkHSE}
+
+\begin{exampleHSE}[\(\dfrac{y}{x}\dd x+(y^3+\ln x)\dd y=0\)]
+\[
+M=\frac yx,\quad N=y^3+\ln x,\quad M_y=\frac1x=N_x.
+\]
+$M,N,M_y,N_x$ непрерывны в односвязной области $G=\{(x,y):x>0\}$.
+\begin{gather*}
+u=\int\frac yx\dd x=y\ln x+C(y),\qquad
+u'_y=\underline{\ln x+C'(y)=y^3+\ln x}=N,\\
+C'(y)=y^3,\quad C(y)=\frac{y^4}{4}\quad(\text{можем не писать константу, она поглотится}).
+\end{gather*}
+\[
+\boxed{\ y\ln x+\frac{y^4}{4}=C,\quad C\in\R\ }
+\]
+\end{exampleHSE}
+
+\phantomsection\label{box:type10}
+\begin{definitionHSE}[Уравнения типа 10 (введение под знак дифференциала)]
+Группируем слагаемые так, чтобы выделить полные дифференциалы, и делаем замену. Полезные формулы:
+\[
+\dd(uv)=u\dd v+v\dd u,\qquad
+\dd\Bigl(\frac uv\Bigr)=\frac{v\dd u-u\dd v}{v^2},\qquad
+\dd y^2=2y\dd y,\qquad
+\dd\ln y=\frac{\dd y}{y}.
+\]
+\end{definitionHSE}
+
+\begin{exampleHSE}[\((x^2+y^2+x)\dd x+y\dd y=0\)]
+\[
+(x^2+y^2)\dd x+\frac{\dd(x^2)}{2}+\frac{\dd(y^2)}{2}=0,\qquad u=x^2+y^2:\quad u\dd x+\frac{\dd u}{2}=0.
+\]
+$u=0$, то есть $x^2+y^2=0$, --- не решение: это точка, а не дифференцируемая функция. При $u\neq0$:
+\[
+\frac{\dd u}{u}=-2\dd x,\qquad 2x=-\ln|u|-\ln C,\ C>0,\qquad \e^{2x}=\frac{1}{C(x^2+y^2)}.
+\]
+\[
+\boxed{\ \e^{2x}(x^2+y^2)=C,\quad C>0\ }
+\]
+\end{exampleHSE}
+
+\subsection{Уравнения, не разрешённые относительно производной}
+
+\[
+F(x,y,p)=0,\qquad p=y'=\frac{\dd y}{\dd x}.
+\]
+Если удаётся разрешить относительно $p$, получаем совокупность уравнений
+\[
+p=f_1(x,y),\quad\ldots,\quad p=f_n(x,y).
+\]
+Например, $y'^2-x^2=0\ \Longrightarrow\ y'=x$ или $y'=-x$.
+
+Иначе используем параметр $p$: из уравнения выражаем $y$ (или $x$), берём дифференциал и подставляем $\dd y=p\dd x$.
+
+Подобным методом решается 4 типа уравнений:
+\begin{itemize}
+\item уравнение Клеро;
+\item уравнение Лагранжа;
+\item \(y=f(y')\);
+\item \(x=f(y')\).
+\end{itemize}
+
+\subsubsection{Уравнения на замену \(y'=p\)}
+
+\phantomsection\label{box:type11}
+\begin{definitionHSE}[Уравнения типа 11 (уравнение Клеро)]
+\[
+y=xy'+\varphi(y').
+\]
+$\boxed{y'=p}\Rightarrow y=xp+\varphi(p)$. Дифференцируем по $x$:
+\[
+p=p+xp'+\varphi'(p)p'\quad\Longrightarrow\quad p'\bigl(x+\varphi'(p)\bigr)=0.
+\]
+\textcircled{\small I} $p'=0$, $p=C$ --- общее решение (семейство прямых):
+\[
+\boxed{\ y=Cx+\varphi(C),\quad C\in\R\ }
+\]
+\textcircled{\small II} $x+\varphi'(p)=0$ --- особое решение (огибающая семейства прямых):
+\[
+\boxed{\ \begin{cases}x=-\varphi'(p),\\ y=-p\,\varphi'(p)+\varphi(p).\end{cases}}
+\]
+\end{definitionHSE}
+
+\begin{exampleHSE}[\(y=xy'-y'^2\)]
+\[
+y'=p,\quad y=xp-p^2,\quad p=p+xp'-2pp',\quad p'(x-2p)=0.
+\]
+\textcircled{\small I} $p'=0\Rightarrow p=C\Rightarrow$ Подставляем в исходное уравнение: $y=Cx-C^2$.
+
+\textcircled{\small II} $x=2p\Rightarrow p=\dfrac x2\Rightarrow$ Подставляем в исходное уравнение: \(y=\dfrac{x^2}{2}-\dfrac{x^2}{4}=\dfrac{x^2}{4}\).
+\[
+\boxed{\ y=Cx-C^2,\ C\in\R;\quad y=\frac{x^2}{4}\ }
+\]
+\end{exampleHSE}
+
+\phantomsection\label{box:type12}
+\begin{definitionHSE}[Уравнения типа 12 (уравнение Лагранжа)]
+\[
+y=x\,\varphi(y')+\psi(y').
+\]
+$\boxed{y'=p}\Rightarrow y=x\varphi(p)+\psi(p)$. Дифференцируем по $x$:
+\begin{gather*}
+p=\varphi(p)+x\varphi'(p)p'+\psi'(p)p',\qquad p'\bigl(x\varphi'(p)+\psi'(p)\bigr)=p-\varphi(p),\\[0.6em]
+\bigl(x\varphi'(p)+\psi'(p)\bigr)\dd p=(p-\varphi(p))\dd x\\[0.6em]
+dp=0\Longrightarrow p-\varphi(p)=0
+\end{gather*}
+Корни уравнения $p-\varphi(p)=0$ дают решения $y=x\varphi(p_i)+\psi(p_i)$. Если \(p-\varphi(p)\neq0\), получаем \hyperref[box:type6]{линейное} по $x$ уравнение:
+\[
+\boxed{\ x'_p-\frac{\varphi'(p)}{p-\varphi(p)}\,x=\frac{\psi'(p)}{p-\varphi(p)}\ }
+\]
+Ответ в параметрической форме: $\begin{cases}x=x(p),\\ y=x(p)\,\varphi(p)+\psi(p).\end{cases}$
+\end{definitionHSE}
+
+\begin{exampleHSE}[\(y+xy'=4\sqrt{y'}\)]
+$y'=p\ge0$, $y=-xp+4\sqrt p$. Дифференцируем:
+\[
+p=-p-xp'+\frac{2p'}{\sqrt p}\quad\Longrightarrow\quad 2p=p'\Bigl(\frac{2}{\sqrt p}-x\Bigr).
+\]
+$p=0\ \Longrightarrow\ y=0$ --- решение. При $p\neq0$, $p'=\frac{1}{x'_p}$:
+\[
+2p\,x'_p=\frac{2}{\sqrt p}-x\quad\Longrightarrow\quad x'_p+\frac{x}{2p}=\frac{1}{p\sqrt p}.
+\]
+Однородное:
+\[\frac{\dd x}{x}=-\frac{\dd p}{2p},\quad x=\frac{C}{\sqrt p}.\]
+Вариация $C=C(p)$:
+\[
+\frac{C'}{\sqrt p}=\frac{1}{p\sqrt p},\quad C'=\frac1p,\quad C=\ln p+\widetilde C.
+\]
+\[
+\boxed{\ \begin{cases}x=\dfrac{\ln p+C}{\sqrt p},\\[1.5ex] y=(4-\ln p-C)\sqrt p,\end{cases}\ C\in\R;\qquad y=0\ }
+\]
+\end{exampleHSE}
+
+\phantomsection\label{box:type13}
+\begin{definitionHSE}[Уравнения типа 13: \(y=f(y')\)]
+$\boxed{y'=p}\Rightarrow y=f(p)$, $\dd y=p\dd x$:
+\[
+p\dd x=f'(p)\dd p,\quad \frac{\dd x}{\dd p}=\frac{f'(p)}{p},\ p\neq0\quad\Longrightarrow\quad x=\int\frac{f'(p)}{p}\dd p+C.
+\]
+\[
+\boxed{\ \begin{cases}x=\displaystyle\int\frac{f'(p)}{p}\dd p+C,\\ y=f(p);\end{cases}\quad y=f(0)\ \text{--- тоже решение.}}
+\]
+\end{definitionHSE}
+
+\begin{exampleHSE}[\(3y'^4=y'+y\)]
+\[
+y=3y'^4-y',\qquad y=0\ \text{--- решение}\ (p=0).
+\]
+$y'=p\Rightarrow y=3p^4-p$, $p\dd x=\dd y=(12p^3-1)\dd p$:
+\[
+\frac{\dd x}{\dd p}=12p^2-\frac1p\quad\Longrightarrow\quad x=4p^3-\ln|p|+C.
+\]
+\[
+\boxed{\ \begin{cases}x=4p^3-\ln|p|+C,\\ y=3p^4-p,\end{cases}\ C\in\R;\qquad y=0\ }
+\]
+\end{exampleHSE}
+
+\phantomsection\label{box:type14}
+\begin{definitionHSE}[Уравнения типа 14: \(x=f(y')\)]
+$\boxed{y'=p}\Rightarrow x=f(p)$, $\dd x=f'(p)\dd p$; из $\dd y=p\dd x$:
+\[
+\dd y=p\,f'(p)\dd p\quad\Longrightarrow\quad
+\boxed{\ \begin{cases}y=\displaystyle\int p\,f'(p)\dd p+C,\ C\in\R,\\ x=f(p).\end{cases}}
+\]
+\end{definitionHSE}
+
+\begin{exampleHSE}[\(2y'=x+\ln y'\) (№360)]
+$x=2y'-\ln y'$; $y'=p>0$, $x=2p-\ln p$:
+\[
+\dd y=p\dd x=p\Bigl(2-\frac1p\Bigr)\dd p=(2p-1)\dd p,\quad y=p^2-p+C.
+\]
+\[
+\boxed{\ \begin{cases}x=2p-\ln p,\\ y=p^2-p+C,\end{cases}\quad C\in\R\ }
+\]
+\end{exampleHSE}
+
+\subsubsection{Уравнения старшего порядка}
+\phantomsection\label{box:type15}
+\begin{definitionHSE}[Уравнения типа 15 (понижение порядка: нет младших производных)]
+\[
+F\bigl(y^{(n)},y^{(n-1)},\ldots,y^{(n-k)},x\bigr)=0.
+\]
+Замена \textbf{младшей} из существующих производных $z=y^{(n-k)}$ понижает порядок уравнения на её порядок $n-k$:
+\[
+F\bigl(z^{(k)},z^{(k-1)},\ldots,z,x\bigr)=0,\quad z=\varphi(x),\quad y^{(n-k)}=\varphi(x).
+\]
+\end{definitionHSE}
+
+\begin{exampleHSE}[\(y'''=y''^2\)]
+Замена $z=y''$: $z'=z^2$.
+
+$z=0$: $y''=0$, $y=C_1x+C_2$.
+
+$z\neq0$:
+\[\frac{\dd z}{\dd x}=z^2,\quad\frac{\dd z}{z^2}=\dd x,\quad-\frac1z=x+C,\]
+то есть $y''=-\dfrac{1}{x+C}$.
+
+Интегрируем дважды:
+\[
+y'=-\ln|x+C|+C_1,\qquad y=-(x+C)\ln|x+C|+(x+C)+C_1x+C_2.
+\]
+\[
+\boxed{\ y=-(x+C)\ln|x+C|+C_1x+C_2;\qquad y=C_1x+C_2,\qquad C,C_1,C_2\in\R\ }
+\]
+\end{exampleHSE}
+
+\phantomsection\label{box:type16}
+\begin{definitionHSE}[Уравнения типа 16 (не содержащие явно \(x\))]
+\[
+F\bigl(y^{(n)},y^{(n-1)},\ldots,y',y\bigr)=0.
+\]
+Замена $y'=p(y)$ понижает порядок на единицу:
+\[
+y''=\frac{\dd}{\dd x}\,p=\frac{\dd p}{\dd y}\cdot\underbrace{\frac{\dd y}{\dd x}}_{=p}=p'_y\,p.
+\]
+\end{definitionHSE}
+
+\begin{exampleHSE}[\(y^3y''=1\)]
+$y'=p(y)$, $y''=p'_yp$:
+\[
+y^3p\,p'_y=1,\quad p\dd p=\frac{\dd y}{y^3},\quad p^2=-\frac{1}{y^2}+C_1,\quad
+y'=\pm\sqrt{\frac{C_1y^2-1}{y^2}}.
+\]
+Стационарных решений нет, иначе левая часть бы обращалась в нуль.
+\[
+\frac{y\dd y}{\sqrt{C_1y^2-1}}=\pm\dd x,\quad \frac{\sqrt{C_1y^2-1}}{C_1}=\pm(x+C_2).
+\]
+\[
+\boxed{\ C_1^2(x+C_2)^2=C_1y^2-1,\quad C_1>0,\ C_2\in\R\ }
+\]
+\end{exampleHSE}
+
+\phantomsection\label{box:thm-n}
+\begin{theoremHSE}[Существование и единственность для уравнения \(n\)-го порядка]
+Рассмотрим задачу Коши
+\[
+\begin{cases}
+y^{(n)}=F\bigl(x,y,y',\ldots,y^{(n-1)}\bigr),\\
+y(x_0)=y_0,\\
+y'(x_0)=y_1,\\
+\ldots,\\
+y^{(n-1)}(x_0)=y_{n-1}.
+\end{cases}
+\]
+\textcircled{\small 1} \(F,\ F'_y,\ F'_{y'},\ \ldots,\ F'_{y^{(n-1)}}\in C(\Omega),\ \Omega-\text{область}\subset\R^{n+1}.\)
+
+\textcircled{\small 2} \((x_0,y_0,y_1,\ldots,y_{n-1})\in\Omega.\)
+
+Если существует подобная область $\Omega$, и выполнены указанные условия, то задача Коши имеет, причём единственное решение, определённое на \([x_0-h,x_0+h]\).
+\end{theoremHSE}
+
+\begin{exampleHSE}[\(y''\cos y+y'^2\sin y=y',\ y(-1)=\dfrac\pi6,\ y'(-1)=2\)]
+\textbf{Существование и единственность.} Необходимо разрешить уравнение относительно старшей производной. При $\cos y\neq0$
+\[
+y''=F=\frac{y'-y'^2\sin y}{\cos y},\qquad
+F'_y=\frac{y'\sin y-y'^2}{\cos^2y},\qquad
+F'_{y'}=\frac{1-2y'\sin y}{\cos y}.
+\]ы
+В области $\Omega=\bigl\{(x,y,y')\mid 0<y<\frac\pi2\bigr\}$, содержащей $\bigl(-1,\frac\pi6,2\bigr)$, функции $F,F'_y,F'_{y'}$ непрерывны $\Longrightarrow$ решение существует и единственно.
+
+\textbf{Решение.} Так как $\Bigl(\dfrac{y'}{\cos y}\Bigr)'=\dfrac{y''\cos y+y'^2\sin y}{\cos^2y}$, после деления на $\cos^2y$:
+\[
+\Bigl(\frac{y'}{\cos y}\Bigr)'=\frac{y'}{\cos^2y}=(\tg y)'\quad\Longrightarrow\quad\frac{y'}{\cos y}=\tg y+C.
+\]
+Из начальных условий $C=\sqrt3$, поэтому $y'=\sin y+\sqrt3\cos y=2\sin\bigl(y+\frac\pi3\bigr)$ и
+\[
+\boxed{\ y=2\arctg\e^{2(x+1)}-\frac\pi3\ }
+\]
+\end{exampleHSE}
+
+\phantomsection\label{box:type17}
+\begin{definitionHSE}[Уравнения типа 17 (однородные относительно \(y\) и её производных)]
+Если уравнение не меняется при замене $y\to ky,\ y'\to ky',\ \ldots,\ y^{(n)}\to ky^{(n)}$, то порядок понижается подстановкой
+\[
+y'=y\cdot z(x)\Longrightarrow y''=y'z+yz'=y\,(z^2+z').
+\]
+\end{definitionHSE}
+
+\begin{exampleHSE}[\(y'^2+2yy''=0\)]
+$y=0$ --- решение. Замена $y'=yz$:
+\[
+y^2z^2+2y^2(z^2+z')=0\quad\Longrightarrow\quad 3z^2+2z'=0.
+\]
+$z=0$: $y'=0$, $y=C$. При $z\neq0$:
+\[
+3\dd x=-\frac{2\dd z}{z^2},\quad 3x=\frac2z-C_1,\quad \frac{y'}{y}=z=\frac{2}{3x+C_1},\quad \ln|y|=\frac23\ln|3x+C_1|+\widetilde C.
+\]
+\[
+\boxed{\ y=C_2\,(3x+C_1)^{2/3},\ C_1,C_2\in\R;\qquad y=C,\ C\in\R\ }
+\]
+\end{exampleHSE}
+
+\phantomsection\label{box:type18}
+\begin{definitionHSE}[Уравнения типа 18 (выделение полной производной)]
+Левую часть приводим к виду $\bigl(\Phi(x,y,y',\ldots)\bigr)'=0$, откуда $\Phi=C$, и порядок понижается на единицу. Например,
+\[
+y'y''+yy'''=(yy'')',\qquad 2y'y''=(y'^2)'.
+\]
+\end{definitionHSE}
+
+\begin{exampleHSE}[\(yy'''+3y'y''=0\)]
+\[(yy'')'=y'y''+yy''',\quad yy'''=(yy'')'-y'y''\]
+\begin{gather*}
+(yy'')'+2y'y''=0,\quad (yy'')'+(y'^2)'=0,\quad (yy''+y'^2)'=0,\\
+yy''+y'^2=C,\quad (yy')'=C,\quad yy'=Cx+C_1,\quad \frac12(y^2)'=Cx+C_1.
+\end{gather*}
+\[
+\boxed{\ y^2=C_1x^2+C_2x+C_3,\quad C_1,C_2,C_3\in\R\ }
+\]
+\end{exampleHSE}
+
+\phantomsection\label{box:type19}
+\begin{definitionHSE}[Уравнения типа 19 (обобщённо-однородные)]
+Пусть уравнение не меняется при
+\[
+x\to kx,\quad y\to k^my,\quad y'\to k^{m-1}y',\quad \ldots,\quad y^{(l)}\to k^{m-l}y^{(l)}.
+\]
+Тогда делаем замену
+\[
+\begin{cases}x=\e^t,\\ y=z\,\e^{mt},\end{cases}\quad z=z(t).
+\]
+Например, при $m=2$:
+\[
+y'=\e^t(z'_t+2z),\qquad y''=z''_{tt}+3z'_t+2z.
+\]
+После замены уравнение не содержит $t$ явно (\hyperref[box:type16]{тип 16}).
+\end{definitionHSE}
+
+\begin{exampleHSE}[\(x^2y''-3xy'=\dfrac{6y^2}{x^2}-4y,\ y(1)=1,\ y'(1)=4\)]
+Подбираем $m$: $x^2y''\sim k^m$, $xy'\sim k^m$, $y\sim k^m$, $\frac{y^2}{x^2}\sim k^{2m-2}$, откуда $2m-2=m$, $m=2$.
+
+Замена $x=\e^t$, $y=z\e^{2t}$:
+\[
+\e^{2t}(z''+3z'+2z)-3\e^{2t}(z'+2z)=6z^2\e^{2t}-4z\e^{2t}\quad\Longrightarrow\quad z''=6z^2.
+\]
+Начальные условия: $t=0$, $z(0)=1$, $z'(0)=y'(1)-2z(0)=2$. Умножаем на $z'$:
+\[
+(z'^2)'=(4z^3)',\qquad z'^2=4z^3+C,\quad C=0,\qquad z'=2z^{3/2},\qquad z^{-1/2}=1-t.
+\]
+\[
+z=\frac{1}{(1-t)^2}\quad\Longrightarrow\quad
+\boxed{\ y=\frac{x^2}{(1-\ln x)^2}\ }
+\]
+\end{exampleHSE}
+
+\clearpage
+\phantomsection
+\subsection{Схема решения произвольного ОДУ}
+\label{sec:ode-scheme}
+
+\begin{center}
+\begin{tikzpicture}[
+    font=\small,
+    >={Stealth[length=2.2mm]},
+    odestep/.style={draw=HSEblue, thick, rounded corners=4pt, fill=HSEblue!6,
+                 align=center, inner sep=5pt},
+    odeask/.style={draw=HSEorange!85!black, thick, rounded corners=10pt, fill=HSEorange!10,
+                align=center, inner sep=5pt},
+    odeleaf/.style={draw=HSEgreen!70!black, thick, rounded corners=4pt, fill=HSEgreen!6,
+                 align=flush left, inner sep=5pt, text width=4.95cm, anchor=north},
+    odefin/.style={draw=HSEred!80!black, thick, rounded corners=4pt, fill=HSEred!5,
+                align=flush left, inner sep=6pt, text width=16.2cm},
+    odelab/.style={font=\footnotesize\itshape, fill=white, inner sep=1.5pt}
+  ]
+  % --- шаг 0 ---
+  \node[odestep, text width=15cm] (start) at (0,0)
+    {\textbf{Шаг 0.} Привести уравнение к удобному виду, определить порядок $n$.\\
+     Сразу выписать всё, на что придётся делить, и проверить, не решения ли это
+     (стац. решения $y=\text{const}$, а для $M\dd x+N\dd y=0$ также $x=\text{const}$).};
+
+  % --- вопросы ---
+  \node[odeask] (q1) at (0,-1.75) {Порядок $n=1$?};
+  \node[odeask, text width=5.4cm] (q2) at (-2.95,-3.35)
+    {Разрешено относительно $y'$\\ (или вид $M\dd x+N\dd y=0$)?};
+
+  % --- листья ---
+  \node[odeleaf] (A) at (-5.6,-4.75) {%
+    \textbf{Первый порядок, $y'=f(x,y)$}\\[2pt]
+    1) $y'=f(x)$ --- \hyperref[box:type0]{тип~0};\\
+    2) $y'=f(x)g(y)$ --- \hyperref[box:type1]{тип~1};\\
+    3) $y'=f(ax+by+c)$ --- \hyperref[box:type2]{тип~2};\\
+    4) $y'=f\bigl(\frac yx\bigr)$ или $M,N$ однородны одного порядка --- \hyperref[box:type3]{тип~3};\\
+    5) $y'=f\Bigl(\frac{ax+by+c}{a_1x+b_1y+c_1}\Bigr)$: при $\Delta\neq0$ --- \hyperref[box:type4]{тип~4}, при $\Delta=0$ --- \hyperref[box:type2]{тип~2};\\
+    6) «почти» однородно: однородно после $y=z^m$ --- \hyperref[box:type5]{тип~5};\\
+    7) линейно по $y$ --- \hyperref[box:type6]{тип~6}; линейно по $x(y)$ --- \hyperref[box:type6-1]{тип~6.1};\\
+    8) $y'+a(x)y=b(x)y^n$ --- \hyperref[box:type8]{тип~8};\\
+    9) $M_y=N_x$ --- \hyperref[box:type9]{тип~9};\\
+    10) видны $\dd(x^2+y^2)$, $\dd\bigl(\frac xy\bigr)$, \ldots\ --- \hyperref[box:type10]{тип~10}.};
+
+  \node[odeleaf] (B) at (0,-4.75) {%
+    \textbf{Первый порядок, $F(x,y,y')=0$}\\[2pt]
+    0) Разрешить относительно $y'$: получится совокупность \(y'=f(x,y)\);\\
+    1) $y=xy'+\varphi(y')$ --- \hyperref[box:type11]{тип~11} (Клеро);\\
+    2) $y=x\varphi(y')+\psi(y')$ --- \hyperref[box:type12]{тип~12} (Лагранж);\\
+    3) $y=f(y')$ --- \hyperref[box:type13]{тип~13};\\
+    4) $x=f(y')$ --- \hyperref[box:type14]{тип~14}.\\[3pt]
+    \textit{В общем случае:} $y'=p$, выразить $y$ или $x$, взять дифференциал и подставить $\dd y=p\dd x$.};
+
+  \node[odeleaf] (C) at (5.6,-4.75) {%
+    \textbf{Высший порядок, $n\ge2$}\\[2pt]
+    0) Задача Коши --- проверить \hyperref[box:thm-n]{теорему $\exists!$};\\
+    1) нет мл. производных --- $z=y^{(k)},k=\min\{i:y^{(i)}\}$, \hyperref[box:type15]{тип~15};\\
+    2) нет $x$: $y'=p(y)$, \hyperref[box:type16]{тип~16};\\
+    3) однородно по $y,y',\ldots$ --- $y'=yz(x)$, \hyperref[box:type17]{тип~17};\\
+    4) обобщённо-однородно --- $x=\e^t$, $y=z\e^{mt}$, \hyperref[box:type19]{тип~19};\\
+    5) левая часть --- полная производная --- \hyperref[box:type18]{тип~18}.\\[3pt]
+    \textit{После понижения порядка --- снова по схеме.}};
+
+  % --- стрелки ---
+  \draw[->, thick, HSEgray] (start) -- (q1);
+  \draw[->, thick, HSEgray] (q1.west) -| node[odelab, pos=0.25] {да} (q2.north);
+  \draw[->, thick, HSEgray] (q1.east) -| node[odelab, pos=0.25] {нет} (C.north);
+  \draw[thick, HSEgray] (q2.south) -- ++(0,-0.3) coordinate (br);
+  \draw[->, thick, HSEgray] (br) -| node[odelab, pos=0.3] {да} (A.north);
+  \draw[->, thick, HSEgray] (br) -| node[odelab, pos=0.3] {нет} (B.north);
+
+  % --- итог ---
+  \path let \p1 = (A.south), \p2 = (B.south), \p3 = (C.south)
+        in coordinate (low) at (0, {min(\y1,\y2,\y3)});
+  \node[odefin, anchor=north] (F) at ($(low)+(0,-0.8)$) {%
+    \textbf{Итог.} 1) Сделать обратную замену. 2) Добавить стационарные и особые решения; проверить, что ничего не потеряли при делении. 3) Где можно, объединить семейства (часто стац. решение получается при $C=0$). 4) Для задачи Коши найти константы из начальных условий.};
+  \foreach \n in {A,B,C} \draw[->, thick, HSEgray] (\n.south) -- (\n.south |- F.north);
+\end{tikzpicture}
+\end{center}
+
+\begin{remarkHSE}[Если ни один тип не подошёл]
+\begin{itemize}
+  \item Поменять ролями $x$ и $y$: уравнение для $x(y)$ может оказаться линейным, Бернулли и т.\,д.
+  \item Попробовать замену, подсказанную видом уравнения: $u=\frac yx$, $z=ax+by$, $z=y^m$, $z=\varphi(y)$.
+  \item Для $M\dd x+N\dd y=0$ при $M_y\neq N_x$ искать интегрирующий множитель $\mu(x)$ или $\mu(y)$.
+\end{itemize}
+\end{remarkHSE}
+
+\section{Задача Коши. Теорема Коши--Липшица}
+
+\begin{definitionHSE}[Задача Коши]
+Для уравнения первого порядка
+\[
+y'=f(x,y)
+\]
+задачей Коши называется система
+\begin{equation}
+\begin{cases}
+ y'=f(x,y),\\
+ y(x_0)=y_0.
+\end{cases}
+\label{eq:cauchy}
+\end{equation}
+Условие $y(x_0)=y_0$ называется начальным условием.
+\end{definitionHSE}
+
+Геометрически это означает, что среди всех возможных интегральных кривых уравнения \eqref{eq:first-order} необходимо найти ту, которая проходит через заданную точку \(P_0=(x_0,y_0)\).
+
+\begin{theoremHSE}[Коши--Липшица]
+Достаточные условия существования и единственности решения задачи Кошу ОДУ 1-го порядка, разрешённого относительно производной.
+\end{theoremHSE}
+
+\begin{center}
+\begin{tikzpicture}[
+  >=Stealth,
+  line cap=round,
+  line join=round,
+  every node/.style={font=\normalsize}
+]
+
+  \definecolor{solution}{HTML}{C84949}
+  \definecolor{domain}{HTML}{444444}
+
+  % Основные параметры.
+  \def\xzero{3.4}
+  \def\yzero{2.4}
+  \def\a{1.4}
+  \def\b{1.1}
+  \def\h{0.85}
+
+  \pgfmathsetmacro{\xleft}{\xzero-\a}
+  \pgfmathsetmacro{\xright}{\xzero+\a}
+  \pgfmathsetmacro{\ybottom}{\yzero-\b}
+  \pgfmathsetmacro{\ytop}{\yzero+\b}
+
+  \pgfmathsetmacro{\jhleft}{\xzero-\h}
+  \pgfmathsetmacro{\jhright}{\xzero+\h}
+
+  \coordinate (M) at (\xzero,\yzero);
+
+% Область D: асимметричная, округлая,
+% левая часть более волнистая, но без резких изломов.
+\path[
+  draw=black!65,
+  fill=black!2,
+  line width=0.9pt
+]
+  (1.00,0.80)
+  .. controls (0.78,0.95) and (0.55,1.20) ..
+  (0.62,1.55)
+  .. controls (0.70,1.90) and (0.95,2.05) ..
+  (0.90,2.35)
+  .. controls (0.84,2.65) and (0.62,2.95) ..
+  (0.82,3.25)
+  .. controls (1.02,3.55) and (1.45,3.85) ..
+  (1.78,4.05)
+  .. controls (2.10,4.25) and (2.40,4.42) ..
+  (2.85,4.55)
+  .. controls (3.45,4.80) and (3.85,4.30) ..
+  (4.35,4.20)
+  .. controls (4.90,4.10) and (5.25,4.45) ..
+  (5.75,4.25)
+  .. controls (6.20,4.05) and (6.20,3.55) ..
+  (6.35,3.15)
+  .. controls (6.55,2.70) and (6.95,2.55) ..
+  (6.70,2.10)
+  .. controls (6.50,1.75) and (6.05,1.70) ..
+  (5.85,1.30)
+  .. controls (5.60,0.85) and (5.15,0.70) ..
+  (4.55,0.65)
+  .. controls (4.00,0.60) and (3.55,0.30) ..
+  (3.00,0.35)
+  .. controls (2.35,0.40) and (1.55,0.35) ..
+  (1.00,0.80)
+  -- cycle;
+
+\node at (6.35,4.15) {$D$};
+
+  % Оси координат.
+  \draw[->, thick]
+    (-0.45,0) -- (6.8,0)
+    node[below] {$x$};
+
+  \draw[->, thick]
+    (0,-1.05) -- (0,5.15)
+    node[left] {$y$};
+
+  \node[below left, inner sep=3pt] at (0,0) {$O$};
+
+  % Прямоугольник Pi.
+  \draw[line width=0.9pt]
+    (\xleft,\ybottom)
+    rectangle
+    (\xright,\ytop);
+
+  \node[anchor=north east, inner sep=5pt]
+    at (\xright,\ytop)
+    {$\Pi$};
+
+  % Проекции границ прямоугольника на оси.
+  \draw[densely dashed, black!60]
+    (0,\ytop)
+      node[left, text=black] {$y_0+b$}
+    -- (\xleft,\ytop);
+
+  \draw[densely dashed, black!60]
+    (0,\yzero)
+      node[left, text=black] {$y_0$}
+    -- (M);
+
+  \draw[densely dashed, black!60]
+    (0,\ybottom)
+      node[left, text=black] {$y_0-b$}
+    -- (\xleft,\ybottom);
+
+  \draw[densely dashed, black!60]
+    (\xleft,0) -- (\xleft,\ybottom);
+
+  \draw[densely dashed, black!60]
+    (\xright,0) -- (\xright,\ybottom);
+
+  \draw[densely dashed, black!60]
+    (M) -- (\xzero,0);
+
+  % Подписи x_0-a, x_0, x_0+a.
+  \node[below=4pt] at (\xleft,0)
+    {$x_0-a$};
+
+  \node[below=4pt] at (\xzero,0)
+    {$x_0$};
+
+  \node[below=4pt] at (\xright,0)
+    {$x_0+a$};
+
+  % Интервал J.
+  \draw[line width=1.3pt]
+    (\jhleft,-0.13) -- (\jhright,-0.13);
+
+  \fill (\jhleft,-0.13) circle (1.5pt);
+  \fill (\jhright,-0.13) circle (1.5pt);
+
+  \node[below=18pt] at (\jhleft,0)
+    {$x_0-h$};
+
+  \node[below=18pt] at (\jhright,0)
+    {$x_0+h$};
+
+  \node[below=36pt] at (\xzero,0)
+    {$J$};
+
+  % Решение y = phi(x), проходящее через M_0.
+  \draw[
+    solution,
+    line width=1.4pt,
+    domain=\jhleft:\jhright,
+    samples=101
+  ]
+    plot
+    (
+      \x,
+      {
+        \yzero
+        +0.60*(\x-\xzero)
+        -0.16*(\x-\xzero)^3
+      }
+    );
+
+  % Точка M_0.
+  \fill (M) circle (2pt);
+
+  % Подпись точки — близко к M_0, но не на кривой.
+  \node[
+    anchor=south east,
+    inner sep=4pt
+  ] at (3.30,2.53)
+    {$P_0(x_0,y_0)$};
+
+  % Подпись решения.
+  \node[
+    solution,
+    anchor=west
+  ] at (4.18,2.87)
+    {$y=\varphi(x)$};
+
+\end{tikzpicture}
+\end{center}
+\begin{proof}[Условия]
+\textbf{Первое условие}. $\boxed{\ f\in C(D)$, $(x_0,y_0)\in D,\ D\subset\mathbb{R}^2.\ }$
+
+Обозначим через \(\Pi\) замкнутый прямоугольник, целиком лежащий в области \(G\):
+\[
+\Pi=\{(x,y):|x-x_0|\le a,\ |y-y_0|\le b\}\subset D.
+\]
+Положим
+\[
+M=\max|f(x,y)|,\quad (x,y)\in\Pi,
+\]
+предполагаем, что $M\neq0$, случай нулевого максимума разберём отдельно.
+
+Поскольку
+\[|\varphi'(x)|=|f(x,\varphi(x))|\le M,\ (x,\varphi(x))\in\Pi,\]
+получаем
+\begin{gather*}
+\varphi(x)=y_0+\int_{x_0}^{x}f(t,\varphi(t))\,dt\\[1em]
+|\varphi(x)-y_0|=\left|\int_{x_0}^{x}f(t,\varphi(t))\,dt\right|\le\int_{x_0}^{x}|f(t,\varphi(t))|\,dt\le\int_{x_0}^{x} M\,dt=M|x-x_0|,\\[1em]
+|\varphi(x)-y_0|\le M|x-x_0|
+\end{gather*}
+График решения \underline{на прямоугольнике} находится \textbf{внутри} «бабочки» с наклонами \(\pm M\).
+
+Ограничиваем движение по \(x\), чтобы точка \((x,\varphi(x))\) не оказалась за пределами верхней или нижней границы \(\Pi\).
+\[|\varphi(x)-y_0|\le M|x-x_0|\le b\quad\Longrightarrow\quad |x-x_0|\le\frac{b}{M}.\]
+Оба ограничения на \(x\) должны выполняться одновременно, поэтому берём минимум:
+\[J=\{x:|x-x_0|\le h\},\quad h=\min\left(a,\frac{b}{M}\right).\]
+Если \(M=0\), полагают \(h=a\).
+
+\textbf{Второе условие}. Если $f$ удовлетворяет условию Липшица по $y$ в $\Pi\in D$, то есть существует $L\ge0$ такое, что
+\[
+|f(x,y_1)-f(x,y_2)|\le L|y_1-y_2|,\quad\forall(x,y_1),(x,y_2)\in\Pi.
+\]
+\end{proof}
+Если выполнены оба условия, то задача Коши \eqref{eq:cauchy} имеет притом единственное решение, определённое на основном отрезке $J$.
+
+Непрерывность функции \(f\) существенна для \textbf{существования} решения.
+
+Условие Липшица существенно для \textbf{единственности} решения.
+
+Грубо говоря, существенность означает, что если условие есть, то всё хорошо. А если его нет, то может быть как хорошо, так и плохо.
+
+\begin{center}
+\begin{tikzpicture}[
+    >=Stealth,
+    scale=1.15,
+    axis/.style={->, thick},
+    bound/.style={red!70!black, dashed, thick},
+    solution/.style={blue!70!black, very thick}
+]
+ 
+% Основные точки и размеры
+\coordinate (M0) at (0,3);
+\coordinate (BL) at (-3,1);
+\coordinate (TR) at (3,5);
+ 
+% Область допустимых наклонов
+\fill[red!8]
+    (M0) -- (2.4,5) -- (2.4,1) -- cycle;
+ 
+\fill[red!8]
+    (M0) -- (-2.4,5) -- (-2.4,1) -- cycle;
+ 
+% Оси
+\draw[axis] (-4,0) -- (4.3,0) node[right] {$x$};
+\draw[axis] (-3.7,-0.3) -- (-3.7,5.8) node[above] {$y$};
+ 
+% Прямоугольник Pi
+\draw[thick]
+    (BL) rectangle (TR);
+ 
+\node[above right] at (3,5) {$\Pi$};
+ 
+% Уровни y_0-b, y_0, y_0+b
+\draw[dashed, gray] (-3.7,1) -- (3,1);
+\draw[dashed, gray] (-3.7,3) -- (0,3);
+\draw[dashed, gray] (-3.7,5) -- (3,5);
+ 
+\node[left] at (-3.7,1) {$y_0-b$};
+\node[left] at (-3.7,3) {$y_0$};
+\node[left] at (-3.7,5) {$y_0+b$};
+ 
+% Границы по x
+\draw[dashed, gray] (-3,0) -- (-3,1);
+\draw[dashed, gray] (3,0) -- (3,1);
+ 
+\node[below] at (-3,0) {$x_0-a$};
+\node[below] at (3,0) {$x_0+a$};
+\node[below] at (0,0) {$x_0$};
+ 
+% Предельные прямые с наклонами +M и -M
+\draw[bound] (M0) -- (2.4,5)
+    node[pos=0.72, above, sloped] {$y-y_0=M(x-x_0)$};
+ 
+\draw[bound] (M0) -- (2.4,1)
+    node[pos=0.72, below, sloped] {$y-y_0=-M(x-x_0)$};
+ 
+\draw[bound] (M0) -- (-2.4,5);
+\draw[bound] (M0) -- (-2.4,1);
+ 
+% Плавная кубическая интегральная кривая
+% \varphi(x)=3+0.18x+0.04x^3
+\draw[solution, domain=-2.1:2.1, samples=150]
+    plot (\x,{3 + 0.18*\x + 0.04*\x^3});
+
+\node[blue!70!black, above right] at (1.45,3.48)
+    {$y=\varphi(x)$};
+
+% Начальная точка
+\fill (M0) circle (2pt);
+\node[above left] at (M0) {$M_0(x_0,y_0)$};
+
+% Касательная в начальной точке:
+% \varphi'(0)=0.18
+\draw[orange!80!black, thick]
+    (-1.2,{3-1.2*0.18}) --
+    (1.2,{3+1.2*0.18});
+
+\node[orange!80!black, below right] at (0.85,3.15)
+    {$\varphi'(x_0)=f(x_0,y_0)$};
+\end{tikzpicture}
+\end{center}
+
+\section{6 замечаний к теореме Коши–Липшица}
+
+\begin{remarkHSE}[Достаточные условия Липшица]
+Если $\dfrac{\partial f}{\partial y}$ существует и \(\left|\dfrac{\partial f}{\partial y}(x,y)\right|\le L\) на $\Pi$, то \(f\) липшицева по \(y\) с той же константой.
+\begin{proof}
+По теореме Лагранжа, если $g\in C[a;b]\cap D(a;b)$, то
+\[
+  \exists\, c\in(a;b)\colon\quad g(b)-g(a)=g'(c)\,(b-a).
+\]
+Возьмём $g(y)=f(\tilde x,y)$, где $\tilde x$ фиксировано. Тогда
+\[
+  g(y_1)-g(y_2)=\frac{\partial f}{\partial y}(\tilde x,c)\cdot(y_1-y_2),
+\]
+где $c$ лежит между $y_1$ и $y_2$. Поскольку
+\(\left|\dfrac{\partial f}{\partial y}(\tilde x,c)\right|\le L\), получаем
+\[
+  |g(y_1)-g(y_2)|\le L\,|y_1-y_2|\qquad\forall\, y_1,y_2\in[y_0-b;\,y_0+b],
+\]
+т.\,е.
+\[
+  |f(\tilde x,y_1)-f(\tilde x,y_2)|\le L\,|y_1-y_2|\qquad\forall\,(\tilde x,y_1),\,(\tilde x,y_2)\in\Pi.
+\]
+\end{proof}
+\end{remarkHSE}
+
+\begin{remarkHSE}[Непрерывной производной по \(y\) достаточно для условия Липшица.]
+В частности, если $\dfrac{\partial f}{\partial y}\in C(\Pi)$, то на компактном прямоугольнике эта производная ограничена (по теореме Вейерштрасса), а значит условие Липшица выполнено согласно первому замечанию.
+\end{remarkHSE}
+
+\begin{exampleHSE}[Условие Липшица слабее дифференцируемости]
+Функция \(f(x,y)=|y|\) не дифференцируема по $y$ при $y=0$, но
+\begin{gather*}
+\bigl||y_1|-|y_2|\bigr|\le1\cdot|y_1-y_2|,
+\end{gather*}
+то есть условие Липшица выполнено с $L=1$.
+
+Функция липшицева всюду, но не дифференцируема в нуле.
+\end{exampleHSE}
+
+\begin{exampleHSE}[Условие Липшица существенно для единственности]
+Для \(y'=3y^{2/3}\) частная производная по $y$ \textbf{не существует} при $y=0$. Имеются решения
+\[
+y=0,
+\qquad
+y=\left(x+C\right)^3,\;C\in\mathbb{R}.
+\]
+Через точки оси $Ox$ могут проходить разные решения, поэтому единственность нарушается.
+\end{exampleHSE}
+
+\begin{center}
+\begin{tikzpicture}[
+    >=Stealth,
+    line cap=round,
+    line join=round,
+    axis/.style={->, thick},
+    solution/.style={very thick},
+    scale=1.15
+]
+
+% Оси
+\draw[axis] (-4.4,0) -- (4.8,0)
+    node[below right] {$x$};
+
+\draw[axis] (0,-3.1) -- (0,3.2)
+    node[above left] {$y$};
+
+% Нулевое решение
+\draw[
+    blue!70!black,
+    very thick
+]
+    (-4.2,0) -- (4.5,0);
+
+\node[
+    blue!70!black,
+    below
+] at (-4,-0.08)
+    {$y=0$};
+
+% Кубическое решение
+\draw[
+    red!75!black,
+    very thick
+]
+plot[
+    domain=-1.45:1.45,
+    samples=150,
+    variable=\x
+]
+    ({\x},{\x^3});
+
+\node[
+    red!75!black,
+    left
+] at (-1,-1)
+    {$\displaystyle y=x^3$};
+
+% Решение с задержкой
+\draw[
+    green!35!black,
+    ultra thick,
+    dash pattern=on 7pt off 3pt
+]
+    (-4.2,0) -- (0.8,0);
+
+% После точки a
+\draw[
+    green!35!black,
+    ultra thick
+]
+plot[
+    domain=0.8:2.25,
+    samples=150,
+    variable=\x
+]
+    ({\x},{(\x-0.8)^3});
+
+% Точка отделения
+\fill[green!25!black] (0.8,0) circle (2.5pt);
+
+\node[below] at (0.8,-0.12)
+    {$a$};
+
+% Начальная точка
+\fill (0,0) circle (2.2pt);
+
+\node[above left] at (0,0)
+    {$M_0=(0,0)$};
+
+% Подпись зелёного решения ниже оси Ox
+\node[
+    green!25!black,
+    fill=white,
+    inner sep=3pt,
+    align=left
+] at (2.8,-1.1)
+{
+    $\displaystyle
+    y=
+    \begin{cases}
+        0, & x\le a,\\[2pt]
+        (x-a)^3, & x>a
+    \end{cases}$
+};
+
+% Уравнение
+\node at (-2.7,2.35)
+    {$y'=3y^{2/3}$};
+
+\end{tikzpicture}
+\end{center}
+
+Через каждую точку \((x_0,0)\) проходит бесконечно много решений: они могут произвольное время совпадать с \(y=0\), а затем перейти в кубическую ветвь. Следовательно, единственность решения нарушается.
+
+Проверим, почему Липшиц здесь не выполняется.
+\begin{proof}
+Пусть \(L\) существует. Берём \(y_2=0\):
+\begin{gather*}
+\bigl|3y_1^{2/3}-0\bigr|\le L|y_1|\\
+3\le Ly_1^{1/3}\Longrightarrow y_1^{1/3}\ge\frac{3}{L}
+\end{gather*}
+Но \(y_1\) можно брать сколь угодно малым, например \(y_1=1/n\):
+\[\left(\frac{1}{n}\right)^{1/3}\ge\frac{3}{L}\xrightarrow[n\rightarrow\infty]{}0\ge\frac{3}{L}>0,\]
+противоречие, значит \(L\) не существует.
+\end{proof}
+
+\begin{exampleHSE}[Непрерывность существенна для существования]
+Рассмотрим задачу
+\[y'=\sgn x,\quad y(0)=14\]
+Она имеет решения
+\begin{gather*}
+y=x+C_1,\;(x>0);\qquad y=x+C_2,\;(x<0)
+\end{gather*}
+Склеиваем по непрерывности и начальному условию:
+\[y(x)=|x|+14\]
+\(|x|\) не дифференцируема в нуле, а решение должно быть дифференцируемо всюду, следовательно \textbf{решения не существует} вообще.
+\end{exampleHSE}
+
+\begin{exampleHSE}[Непрерывность достаточна, но не необходима]
+Рассмотрим уравнение, у которого правая часть разрывна в нуле (\(2x\sin(1/x)\rightarrow0\), \(\cos(1/x)\) не имеет предела):
+\[
+y'=
+\begin{cases}
+ 2x\sin\dfrac1x-\cos\dfrac1x,&x\neq0,\\
+ 0,&x=0,
+\end{cases}
+\]
+но решение существует:
+\[
+\varphi(x)=
+\begin{cases}
+ x^2\sin\dfrac1x,&x\neq0,\\
+ 0,&x=0.
+\end{cases}
+\]
+\[\varphi'(x)=\lim_{x\rightarrow0}\frac{x^2\sin(1/x)-0}{x-0}=\lim_{x\rightarrow0}x\sin\left(\frac{1}{x}\right)=0\]
+\end{exampleHSE}
+
+\section{Теорема Пеано}
+
+\begin{theoremHSE}[Пеано]
+Пусть в задаче Коши \eqref{eq:cauchy} функция $f(x,y)$ непрерывна в области $D\subset\mathbb{R}^2$. Тогда через каждую точку $D$ проходит \textbf{хотя бы одно} решение. 
+
+Для фиксированной точки $(x_0,y_0)$ можно указать отрезок $J$, на котором решение существует.
+\end{theoremHSE}
+
+\section{Эквивалентное интегральное уравнение}
+
+Производная -- вещь неудобная, интеграл лучше. К тому же мы можем встроить начальное условие в само уравнение.
+
+\begin{theoremHSE}[Эквивалентность задачи Коши и интегрального уравнения]
+Пусть $f\in C(D)$. Задача Коши \eqref{eq:cauchy} эквивалентна интегральному уравнению
+\begin{equation}
+ y(x)=y_0+\int_{x_0}^{x} f\bigl(t,y(t)\bigr)\,dt.
+ \label{eq:integral-cauchy}
+\end{equation}
+\begin{itemize}
+\item если \(y=\varphi(x)\) --- решение задачи Коши, то \(\varphi(x)\) --- решение уравнения \eqref{eq:integral-cauchy}.
+\item если \(y=\varphi(x)\) --- непрерывное решение интегрального уравнения \eqref{eq:integral-cauchy}, то \(\varphi(x)\) --- решение задачи Коши.
+\end{itemize}
+\end{theoremHSE}
+Доказательство в три строки:
+\[
+\left.
+\begin{aligned}
+\int_{x_0}^{x}\varphi'(t)\,dt
+    &= \int_{x_0}^{x}f(t,\varphi(t))\,dt,\\
+\int_{x_0}^{x}\varphi'(t)\,dt
+    &= \varphi(x)-\varphi(x_0),\\
+\varphi(x_0) &= y_0
+\end{aligned}\
+\right|
+\quad\Longrightarrow\quad
+\varphi(x)=y_0+\int_{x_0}^{x}f(t,\varphi(t))\,dt
+\]
+
+\begin{proof}
+\(\boxed{\implies}\)
+
+Если $y=\varphi(x)$ (непрерывная на \(M\)) решает задачу Коши, то
+\[
+\varphi'(x)=f(x,\varphi(x)).
+\]
+Интегрируя от $x_0$ до $x$, получаем
+\[
+\varphi(x)-\varphi(x_0)=\int_{x_0}^{x}f(t,\varphi(t))\,dt,
+\]
+а так как $\varphi(x_0)=y_0$, получаем \eqref{eq:integral-cauchy}.
+
+\(\boxed{\impliedby}\)
+
+Обратно, если $\varphi(x)$ (непрерывная на \(M\)) удовлетворяет \eqref{eq:integral-cauchy}, то, по теореме о производной интеграла с переменным верхним
+пределом, дифференцирование даёт
+\[
+\varphi'(x)=f(x,\varphi(x)),
+\]
+а при $x=x_0$ интеграл равен нулю, поэтому $\varphi(x_0)=y_0$.
+\end{proof}
+
+\section{Метод Пикара}
+
+\begin{definitionHSE}[Последовательные приближения Пикара]
+Начинают с $y_0(x)\equiv y_0$ и строят
+\[
+\begin{array}{l@{\;}l}
+y_1(x)     &= y_0+\displaystyle\int_{x_0}^{x} f(t,y_0)\,dt,\\[12pt]
+y_2(x)     &= y_0+\displaystyle\int_{x_0}^{x} f\bigl(t,y_1(t)\bigr)\,dt,\\
+\vdots     &\\[-2pt]
+y_{n+1}(x) &= y_0+\displaystyle\int_{x_0}^{x} f\bigl(t,y_n(t)\bigr)\,dt.
+\end{array}
+\]
+\end{definitionHSE}
+Последовательность \(\{y_n\}\) равномерно сходится на множестве \(M\) к функции \(\varphi\), являющейся решением задачи Коши:
+\[
+y_n(x)\underset{x\in M}{\overset{n\to\infty}{\rightrightarrows}}\varphi(x).
+\]
+\begin{exampleHSE}[Задача $y'=y$, $y(0)=3$]
+\[
+y_1=3+3x,
+\]
+\[
+y_2=3+3x+\frac{3x^2}{2!},
+\]
+\[
+y_3=3+3x+\frac{3x^2}{2!}+\frac{3x^3}{3!},
+\]
+и в общем виде
+\[
+y_n(x)=3\left(1+x+\frac{x^2}{2!}+\cdots+\frac{x^n}{n!}\right).
+\]
+При $n\to\infty$ получаем
+\[
+y(x)=3e^x.
+\]
+\end{exampleHSE}
+
+\section[Продолжение решения]{Продолжение решения и предельное поведение}
+
+\begin{definitionHSE}[Продолжение вправо]
+Пусть решение $\varphi$ определено на промежутке $J$. Решение $\widetilde\varphi$ называется продолжением $\varphi$ вправо, если оно определено на большем промежутке $\widetilde J\supset J$ и
+\[
+\widetilde\varphi(x)=\varphi(x),\qquad x\in J.
+\]
+Аналогично определяется продолжение влево.
+\end{definitionHSE}
+
+\begin{definitionHSE}[Продолжаемое решение]
+Решение называется продолжаемым вправо, если существует его продолжение на больший промежуток справа. Аналогично определяется продолжаемость влево.
+\end{definitionHSE}
+
+В ограниченной области решение можно продолжать, последовательно ставя новые задачи Коши в концах уже построенных отрезков, пока траектория остаётся внутри области определения и выполняются условия единственности.
+
+\begin{theoremHSE}[Предельное поведение в правой полуплоскости]
+Пусть
+\[
+D=\{(x,y):x_0\le x<+\infty,\ -\infty<y<+\infty\},
+\]
+$f\in C(D)$ и выполнены условия единственности. Тогда решение, начинающееся на прямой $x=x_0$, либо продолжается вправо неограниченно, либо существует $x_1>x_0$ такое, что
+\[
+\lim_{x\to x_1-0}|\varphi(x)|=+\infty.
+\]
+То есть при невозможности продолжения внутри такой неограниченной области возникает вертикальная асимптота.
+\end{theoremHSE}
+
+\section[Разделяющиеся переменные]{Уравнение с разделяющимися переменными}
+
+Рассмотрим задачу
+\begin{equation}
+\begin{cases}
+ y'=f(x)g(y),\\
+ y(x_0)=y_0.
+\end{cases}
+\label{eq:separable}
+\end{equation}
+
+\begin{theoremHSE}[Существование и единственность]
+Пусть
+\[
+f\in C(a,b),\qquad g\in C(c,d),\qquad g(y)\neq0\quad \forall y\in(c,d).
+\]
+Тогда через каждую точку прямоугольника
+\[
+\Pi=\{(x,y):a<x<b,\ c<y<d\}
+\]
+проходит единственное решение задачи Коши \eqref{eq:separable}.
+\end{theoremHSE}
+
+\begin{proof}
+Пусть $y=\varphi(x)$ --- решение. Так как $g(\varphi(x))\neq0$,
+\[
+\frac{d\varphi}{g(\varphi)}=f(x)\,dx.
+\]
+Интегрируя от $x_0$ до $x$ и делая замену $u=\varphi(t)$, получаем
+\[
+\int_{y_0}^{\varphi(x)}\frac{du}{g(u)}
+=
+\int_{x_0}^{x}f(t)\,dt.
+\]
+Пусть $G'(y)=1/g(y)$ и $F'(x)=f(x)$. Тогда
+\[
+G(\varphi(x))=F(x)+G(y_0)-F(x_0).
+\]
+Так как $1/g$ непрерывна и не меняет знак, $G$ строго монотонна, поэтому существует обратная функция:
+\[
+\varphi(x)=G^{-1}\bigl(F(x)+G(y_0)-F(x_0)\bigr).
+\]
+Эта формула одновременно даёт существование и единственность решения.
+\end{proof}
+
+\subsection{Частный случай: \texorpdfstring{$y'=f(x)$}{y'=f(x)}}
+Если $f\in C(a,b)$, то
+\[
+y(x)=y_0+\int_{x_0}^{x}f(t)\,dt.
+\]
+Все решения отличаются вертикальным сдвигом.
+
+Если $f(x)\to\infty$ при $x\to a_1$, то поведение определяется несобственным интегралом
+\[
+J_1=\int_{x_0}^{a_1-0}f(t)\,dt.
+\]
+Если $J_1$ сходится, решения подходят к прямой $x=a_1$ в конечных точках и единственность в расширенном поле может нарушаться. Если $J_1$ расходится, $x=a_1$ становится вертикальной асимптотой.
+
+\subsection{Частный случай: \texorpdfstring{$y'=g(y)$}{y'=g(y)}}
+При $g(y)\neq0$
+\[
+x(y)=x_0+\int_{y_0}^{y}\frac{du}{g(u)}.
+\]
+Все решения отличаются горизонтальным сдвигом.
+
+Если $g(c_1)=0$, то $y=c_1$ --- стационарное решение. Поведение соседних решений определяется интегралом
+\[
+J_2=\int_{y_0}^{c_1-0}\frac{du}{g(u)}.
+\]
+При сходимости возможен контакт с прямой $y=c_1$ за конечное время; при расходимости $y=c_1$ выступает горизонтальной асимптотой.
+
+\begin{exampleHSE}[Построение интегральных кривых]
+Для
+\[
+y'=-\frac{x}{y}
+\]
+получаем изоклины $f(x,y)=k$ и общий интеграл
+\[
+x^2+y^2=C.
+\]
+Интегральные кривые --- окружности. Точка $(0,0)$ является изолированной особой точкой расширенного поля.
+
+% TODO: таблица изоклин и рисунок со страницы 20 исходника.
+\end{exampleHSE}
+
+\section[Однородное уравнение]{Уравнение с однородной правой частью}
+
+Рассмотрим
+\begin{equation}
+\begin{cases}
+ y'=f\!\left(\dfrac{y}{x}\right),\quad x\neq0,\\
+ y(x_0)=y_0.
+\end{cases}
+\label{eq:homogeneous-first}
+\end{equation}
+
+\begin{theoremHSE}[Существование и единственность]
+Пусть $f$ непрерывна на $(a,b)$ и
+\[
+f(u)-u\neq0,\qquad u\in(a,b).
+\]
+Тогда через каждую точку
+\[
+G=\left\{(x,y):a<\frac{y}{x}<b,\ x\neq0\right\}
+\]
+проходит единственное решение задачи Коши \eqref{eq:homogeneous-first}.
+\end{theoremHSE}
+
+\begin{proof}
+Делаем замену
+\[
+u=\frac{y}{x},\qquad y=ux,\qquad y'=u'x+u.
+\]
+Тогда
+\[
+u'x+u=f(u),
+\]
+то есть
+\[
+\frac{du}{dx}=\frac{f(u)-u}{x}.
+\]
+Получили уравнение с разделяющимися переменными. Условия теоремы обеспечивают непрерывность множителей и отсутствие нулей $f(u)-u$, поэтому к нему применима теорема предыдущего билета.
+\end{proof}
+
+Разделяя переменные,
+\[
+\frac{dx}{x}=\frac{du}{f(u)-u}.
+\]
+После интегрирования
+\[
+\ln|x|=\Phi(u)+C
+=
+\Phi\!\left(\frac{y}{x}\right)+C.
+\]
+
+\begin{corollaryHSE}[Подобие интегральных кривых]
+Если $(x,y)$ лежит на одной интегральной кривой, то замена
+\[
+\widetilde x=kx,\qquad \widetilde y=ky
+\]
+не меняет отношение $y/x$, а константа в общем интеграле изменяется на $\ln|k|$. Поэтому все интегральные кривые подобны с центром подобия в начале координат.
+\end{corollaryHSE}
+
+\begin{definitionHSE}[Уравнение возможных касательных]
+Уравнение
+\[
+f(u)-u=0
+\]
+называется уравнением возможных касательных. Если $u_1$ --- его корень, то
+\[
+y=u_1x
+\]
+является решением исходного однородного уравнения и задаёт инвариантный луч.
+\end{definitionHSE}
+
+\section[Нормальная система ОДУ]{Нормальная система. ЛОС и ЛНС}
+
+«Нормальная» здесь значит «стандартного вида». Система нормальная, если все её уравнения первого порядка и каждое разрешено относительно производной: слева стоит одна производная \(\dot{x}_i\), а справа --- выражение без производных.
+
+\begin{definitionHSE}[Нормальная система ОДУ]
+Нормальной системой порядка $n$ называется система
+\[
+\left\{
+\begin{aligned}
+\frac{dx_1}{dt} &= F_1(t, x_1, \dots, x_n),\\[3pt]
+\frac{dx_2}{dt} &= F_2(t, x_1, \dots, x_n),\\[3pt]
+&\;\;\vdots\\
+\frac{dx_n}{dt} &= F_n(t, x_1, \dots, x_n).
+\end{aligned}
+\right.
+\]
+\begin{equation}
+\frac{dx_i}{dt}=F_i(t,x_1,\ldots,x_n),\qquad i=1,\ldots,n.
+\label{eq:normal-system}
+\end{equation}
+В векторной форме:
+\[
+\dot{\vect{x}}=\vect{F}(t,\vect{x}).
+\]
+\end{definitionHSE}
+
+Неизвестные в системе --- функции \(x_1(t),\ldots, x_n(t)\), а \(t\) — их общий аргумент: вещественное число из некоторого интервала.
+
+Вектор \(x(t) = (x_1(t),\ldots,x_n(t))\) удобно представлять как положение точки в \(\mathbb{R}^n\) в момент \(t\).
+
+\begin{definitionHSE}[Решение нормальной системы]
+Решением системы \eqref{eq:normal-system} на промежутке $(a,b)$ называется набор функций
+\[
+\varphi_1(t),\ldots,\varphi_n(t),
+\]
+которые дифференцируемы, их график лежит в области определения $G$, и для всех $t$ выполняются все уравнения системы.
+\end{definitionHSE}
+
+\begin{definitionHSE}[Задача Коши для системы]
+К системе добавляют начальное условие
+\[\underbrace{(x_1(t_0),\ldots,x_n(t_0))}_{\textstyle\mathstrut\vect{x}(t_0)}=\underbrace{(x_1^0,\ldots,x_n^0)}_{\textstyle\mathstrut\vect{x}_0}.\]
+то есть
+\[
+x_i(t_0)=x_i^0,\qquad i=1,\ldots,n.
+\]
+\end{definitionHSE}
+
+\begin{theoremHSE}[Существование и единственность для нормальной системы]
+Если в области $G\subset\R^{n+1}$ функции $F_i$ и все частные производные
+\(\dfrac{\partial F_i}{\partial x_j}\) (\(i,j=1,\ldots,n\)) непрерывны, то через каждую точку $(t_0,\vect{x}_0)\in G$ проходит единственное локальное решение задачи Коши.
+\end{theoremHSE}
+
+\begin{definitionHSE}[Линейная система]
+Линейная нормальная система имеет вид
+\[
+\left\{
+\begin{aligned}
+\dot{x}_1 &= a_{11}(t)x_1 + a_{12}(t)x_2 + \dots + a_{1n}(t)x_n + f_1(t),\\
+\dot{x}_2 &= a_{21}(t)x_1 + a_{22}(t)x_2 + \dots + a_{2n}(t)x_n + f_2(t),\\
+&\;\;\vdots\\
+\dot{x}_n &= a_{n1}(t)x_1 + a_{n2}(t)x_2 + \dots + a_{nn}(t)x_n + f_n(t).
+\end{aligned}
+\right.
+\]
+\begin{equation}
+\dot{\vect{x}}=A(t)\vect{x}+\vect{f}(t).
+\label{eq:los}
+\end{equation}
+Если $\vect{f}(t)\equiv0$, система называется \textbf{линейной однородной системой} (ЛОС):
+\[
+\dot{\vect{x}}=A(t)\vect{x}.
+\]
+Если $\vect{f}\not\equiv0$, система называется \textbf{линейной неоднородной системой} (ЛНС).
+\end{definitionHSE}
+
+\begin{theoremHSE}[Линейная система с непрерывными коэффициентами]
+Если все элементы $A(t)$ и координаты $\vect{f}(t)$ непрерывны на промежутке $(a,b)$, то для любого $t_0\in(a,b)$ и любого $\vect{x}_0\in\R^n$ задача
+\[
+\begin{cases}
+\dot{\vect{x}}=A(t)\vect{x}+\vect{f}(t),\\
+\vect{x}(t_0)=\vect{x}_0
+\end{cases}
+\]
+имеет единственное решение, причём оно продолжается на весь промежуток $(a,b)$.
+\end{theoremHSE}
+
+\section[Линейная зависимость и вронскиан]{Линейная зависимость вектор-функций и вронскиан}
+
+\begin{definitionHSE}[Линейная зависимость вектор-функций]
+Вектор-функции $\vect{x}_1(t),\ldots,\vect{x}_n(t)$ называются линейно зависимыми на множестве $M$, если существуют константы
+\[
+(c_1,\ldots,c_n)\neq(0,\ldots,0)
+\]
+такие, что
+\[
+c_1\vect{x}_1(t)+\cdots+c_n\vect{x}_n(t)=\vect{0},
+\qquad \forall t\in M.
+\]
+Если такого набора нет, система линейно независима.
+\end{definitionHSE}
+
+\begin{lemmaHSE}[Связь функций и их значений]
+Если вектор-функции линейно зависимы на $M$, то при каждом фиксированном $t_0\in M$ векторы
+\[
+\vect{x}_1(t_0),\ldots,\vect{x}_n(t_0)
+\]
+линейно зависимы. Обратное в общем случае неверно.
+\end{lemmaHSE}
+
+\begin{definitionHSE}[Вронскиан вектор-функций]
+Определителем Вронского $n$ вектор-функций называется
+\[
+W(t)=\det X(t),
+\qquad
+X(t)=\bigl(\vect{x}_1(t)\ \cdots\ \vect{x}_n(t)\bigr).
+\]
+\end{definitionHSE}
+
+\begin{corollaryHSE}[Линейная зависимость и вронскиан]
+Если $\vect{x}_1,\ldots,\vect{x}_n$ линейно зависимы на $M$, то
+\[
+W(t)=0\qquad \forall t\in M.
+\]
+Следовательно, если существует $t_0$ такое, что $W(t_0)\neq0$, то вектор-функции линейно независимы.
+\end{corollaryHSE}
+
+\begin{lemmaHSE}[Вронскиан решений ЛОС]
+Пусть $\vect{x}_1(t),\ldots,\vect{x}_n(t)$ --- решения ЛОС \eqref{eq:los}, где $A(t)$ непрерывна на $M$. Если \(\exists t_1\in M:W(t_1)=0\), то:
+\begin{itemize}
+\item Решения линейно зависимы на всём $M$.
+\item \(W(t)=0\quad\forall t\in M.\)
+\end{itemize}
+\end{lemmaHSE}
+
+\begin{proof}
+Из $W(t_1)=0$ следует линейная зависимость векторов $\vect{x}_j(t_1)$. Поэтому существуют постоянные $c_j$, не все нулевые, такие что
+\[
+\sum_{j=1}^{n}c_j\vect{x}_j(t_1)=\vect{0}.
+\]
+Функция
+\[
+\vect{z}(t)=\sum_{j=1}^{n}c_j\vect{x}_j(t)
+\]
+является решением ЛОС, так как любая линейная комбинация решений с постоянными коэффициентами --- снова решение:
+\[
+\dot{\vect{z}}
+= \sum_{j=1}^{n} c_j\,\dot{\vect{x}}_j
+= \sum_{j=1}^{n} c_j A(t)\vect{x}_j
+= A(t)\sum_{j=1}^{n} c_j\vect{x}_j
+= A(t)\vect{z}
+\]
+и удовлетворяет начальному условию $\vect{z}(t_1)=0$ (проверили в начале). 
+
+Ставим задачу Коши (\(A(t)\) непрерывна на \(M\) по условию):
+\[
+\dot{\vect{z}} = A(t)\vect{z}, \quad \vect{z}(t_1) = 0.
+\]
+
+Нулевое решение удовлетворяет. По единственности
+\[
+\vect{z}(t)\equiv0,
+\]
+откуда следует линейная зависимость решений на всём $M$.
+\end{proof}
+
+\section[ФСР и фундаментальная матрица]{ФСР, общее решение и фундаментальная матрица ЛОС}
+
+\begin{definitionHSE}[Фундаментальная система решений]
+Фундаментальной системой решений (ФСР) ЛОС порядка $n$ называется система из $n$ линейно независимых решений
+\[
+\vect{x}_1(t),\ldots,\vect{x}_n(t).
+\]
+\end{definitionHSE}
+
+\begin{theoremHSE}[Общее решение ЛОС]
+Пусть $A(t)$ непрерывна на $M$, а $\vect{x}_1,\ldots,\vect{x}_n$ --- ФСР системы \eqref{eq:los}.
+
+Тогда общее решение имеет вид
+\[
+\vect{x}(t)=c_1\vect{x}_1(t)+\cdots+c_n\vect{x}_n(t),
+\quad c_i\in\R.
+\]
+\end{theoremHSE}
+
+\begin{proof}
+Любая линейная комбинация решений ЛОС снова является решением. Обратно, пусть $\vect{x}(t)$ --- произвольное решение и $t_0\in M$.
+
+Так как \(W(t_0)\neq0\), векторы $\vect{x}_1(t_0),\ldots,\vect{x}_n(t_0)$ образуют базис в \(\mathbb{R}^n\).
+
+Разложение вектора по базису единственно, то есть существуют единственные числа $c_1,\ldots,c_n$ такие, что
+\[
+\vect{x}(t_0)=\sum_{j=1}^{n}c_j\vect{x}_j(t_0).
+\]
+Обе функции решают одну и ту же задачу Коши, поэтому по единственности совпадают на всём $M$.
+\end{proof}
+
+\begin{definitionHSE}[Фундаментальная матрица]
+Матрица
+\[
+X(t)=\bigl(\vect{x}_1(t)\ \cdots\ \vect{x}_n(t)\bigr),
+\]
+столбцы которой образуют ФСР, называется фундаментальной матрицей ЛОС.
+\end{definitionHSE}
+
+\begin{theoremHSE}[Переход между фундаментальными матрицами]
+Если $X(t)$ --- фундаментальная матрица ЛОС, а $C$ --- постоянная невырожденная матрица, то
+\[
+Y(t)=X(t)C
+\]
+также является фундаментальной матрицей той же системы.
+
+Обратно, любые две фундаментальные матрицы $X(t)$ и $Y(t)$ одной ЛОС связаны равенством
+\[
+Y(t)=X(t)C,
+\quad \det C\neq0.
+\]
+\end{theoremHSE}
+
+\section[Лиувилль-Остроградский для систем]{Диф-ие определителя.\\Формула Лиувилля--Остроградского}
+
+\begin{lemmaHSE}[Дифференцирование определителя]
+Пусть $X(t)$ --- матрица $n\times n$, $D(t)=\det X(t)$. Тогда
+\[
+D'(t)=D_1(t)+\cdots+D_n(t),
+\]
+где $D_i(t)$ --- определитель матрицы, полученной из $X(t)$ заменой $i$-й строки на её производную.
+\end{lemmaHSE}
+
+\begin{theoremHSE}[Формула Лиувилля--Остроградского]
+Пусть $W(t)$ --- вронскиан $n$ решений ЛОС \eqref{eq:los}, тогда
+\begin{equation}
+W(t)=W(t_0)\exp\left(\int_{t_0}^{t}\tr A(\tau)\,d\tau\right),
+\label{eq:liouville-system}
+\end{equation}
+где \(\displaystyle\tr A(t)=\sum_{i=1}^{n}a_{ii}(t)\).
+\end{theoremHSE}
+
+\begin{proof}
+По формуле дифференцирования определителя
+\[
+W'(t)=D_1+\cdots+D_n.
+\]
+Так как столбцы фундаментальной матрицы являются решениями $\dot{\vect{x}}=A(t)\vect{x}$, после линейных преобразований строк каждый $D_i$ приводится к виду
+\[
+D_i=a_{ii}(t)W(t).
+\]
+Поэтому
+\[
+W'(t)=\tr A(t)\,W(t).
+\]
+Отсюда
+\[
+\Bigl(W(t)\,e^{-\int_{t_0}^{t}\operatorname{tr}A(s)\,ds}\Bigr)'
+=\bigl(W'(t)-\operatorname{tr}A(t)\,W(t)\bigr)\,e^{-\int_{t_0}^{t}\operatorname{tr}A(s)\,ds}=0,
+\]
+поэтому выражение в скобках постоянно. При $t=t_0$ оно равно $W(t_0)$, что и даёт \eqref{eq:liouville-system}.
+\end{proof}
+
+\section[ЛНС и вариация постоянных]{Общее решение ЛНС и метод вариации постоянных}
+
+\begin{theoremHSE}[Связь общего решения ЛНС и ЛОС]
+Для ЛНС
+\[
+\dot{\vect{x}}=A(t)\vect{x}+\vect{f}(t)
+\]
+и соответствующей ЛОС
+\[
+\dot{\vect{x}}=A(t)\vect{x}
+\]
+общее решение неоднородной системы имеет вид
+\[
+\vect{x}_{\text{общ.\,неодн.}}
+=
+\vect{x}_{\text{част.\,неодн.}}
++
+\vect{x}_{\text{общ.\,одн.}}.
+\]
+\end{theoremHSE}
+
+\begin{proof}
+Пусть $\vect{x}_p$ --- фиксированное решение ЛНС, а $\vect{u}$ --- любое другое решение. Тогда
+\[
+\vect{v}=\vect{u}-\vect{x}_p
+\]
+удовлетворяет
+\[
+\dot{\vect{v}}
+=A(t)\vect{u}+\vect{f}-\bigl(A(t)\vect{x}_p+\vect{f}\bigr)
+=A(t)\vect{v},
+\]
+то есть является решением ЛОС. Обратная проверка проводится прямой подстановкой.
+\end{proof}
+
+\begin{theoremHSE}[Метод вариации постоянных]
+Пусть $X(t)$ --- фундаментальная матрица ЛОС. Ищем решение ЛНС в виде
+\[
+\vect{x}(t)=X(t)\vect{c}(t).
+\]
+После подстановки получаем
+\[
+X(t)\dot{\vect{c}}(t)=\vect{f}(t),
+\]
+то есть
+\[
+\dot{\vect{c}}(t)=X^{-1}(t)\vect{f}(t).
+\]
+Следовательно,
+\[
+\vect{c}(t)=\vect{c}_0+
+\int_{t_0}^{t}X^{-1}(\tau)\vect{f}(\tau)\,d\tau,
+\]
+и
+\begin{equation}
+\vect{x}(t)=
+X(t)\vect{c}_0+
+X(t)\int_{t_0}^{t}X^{-1}(\tau)\vect{f}(\tau)\,d\tau.
+\label{eq:variation-system}
+\end{equation}
+\end{theoremHSE}
+
+\section[ЛУ \texorpdfstring{$n$}{n}-го порядка и система]{Переход от линейного уравнения к системе. Вронскиан}
+
+Рассмотрим линейное неоднородное уравнение
+\begin{equation}
+y^{(n)}+a_{n-1}(t)y^{(n-1)}+\cdots+a_1(t)y'+a_0(t)y=f(t).
+\label{eq:linear-n}
+\end{equation}
+
+Делаем замену
+\[
+x_1=y,\quad x_2=y',\quad\ldots,\quad x_n=y^{(n-1)}.
+\]
+Тогда \eqref{eq:linear-n} переходит в систему
+\[
+\begin{cases}
+\dot x_1=x_2,\\
+\dot x_2=x_3,\\
+\quad\vdots\\
+\dot x_{n-1}=x_n,\\
+\dot x_n=f(t)-a_0x_1-a_1x_2-\cdots-a_{n-1}x_n.
+\end{cases}
+\]
+В векторной форме
+\[
+\dot{\vect{x}}=A(t)\vect{x}+
+\begin{pmatrix}0\\0\\\vdots\\0\\f(t)\end{pmatrix},
+\]
+где
+\[
+A(t)=
+\begin{pmatrix}
+0&1&0&\cdots&0\\
+0&0&1&\cdots&0\\
+\vdots&\vdots&\vdots&\ddots&\vdots\\
+0&0&0&\cdots&1\\
+-a_0&-a_1&-a_2&\cdots&-a_{n-1}
+\end{pmatrix}.
+\]
+
+\begin{lemmaHSE}[Сохранение линейной зависимости]
+При указанной замене линейно зависимые решения линейного однородного уравнения переходят в линейно зависимые решения соответствующей ЛОС и наоборот.
+\end{lemmaHSE}
+
+\begin{proof}
+Если
+\[
+c_1y_1(t)+\cdots+c_ky_k(t)=0,
+\]
+то после дифференцирования $l=1,\ldots,n-1$ раз
+\[
+c_1y_1^{(l)}(t)+\cdots+c_ky_k^{(l)}(t)=0.
+\]
+Следовательно, после перехода к вектор-функциям
+\[
+c_1\vect{x}_1(t)+\cdots+c_k\vect{x}_k(t)=\vect{0}.
+\]
+Обратное следует из первой координаты векторного равенства.
+\end{proof}
+
+\begin{theoremHSE}[Общее решение ЛОУ]
+Пусть $y_1(t),\ldots,y_n(t)$ --- $n$ линейно независимых решений ЛОУ
+\[
+y^{(n)}+a_{n-1}(t)y^{(n-1)}+\cdots+a_1(t)y'+a_0(t)y=0,
+\]
+где $a_i\in C(M)$. Тогда
+\[
+y(t)=c_1y_1(t)+\cdots+c_ny_n(t)
+\]
+--- общее решение.
+\end{theoremHSE}
+
+\begin{definitionHSE}[Вронскиан функций]
+Для функций $y_1,\ldots,y_n$ определитель Вронского равен
+\[
+W(t)=
+\begin{vmatrix}
+y_1&\cdots&y_n\\
+y_1'&\cdots&y_n'\\
+\vdots&\ddots&\vdots\\
+y_1^{(n-1)}&\cdots&y_n^{(n-1)}
+\end{vmatrix}.
+\]
+Если решения линейно зависимы, то $W(t)\equiv0$. Если $W(t_0)\neq0$ хотя бы в одной точке, решения линейно независимы.
+\end{definitionHSE}
+
+\begin{theoremHSE}[Формула Лиувилля--Остроградского для ЛОУ]
+Для $n$ решений ЛОУ
+\[
+y^{(n)}+a_{n-1}(t)y^{(n-1)}+\cdots+a_0(t)y=0
+\]
+имеем
+\[
+W(t)=W(t_0)\exp\left(-\int_{t_0}^{t}a_{n-1}(\tau)\,d\tau\right).
+\]
+\end{theoremHSE}
+
+\begin{proof}
+При переходе к системе матрица имеет след
+\[
+\tr A(t)=-a_{n-1}(t).
+\]
+Подставляя это в формулу Лиувилля--Остроградского для систем, получаем требуемое равенство.
+\end{proof}
+
+\section[Вариация постоянных для ЛНУ]{Метод вариации постоянных для линейного неоднородного уравнения}
+
+Пусть известно общее решение соответствующего ЛОУ:
+\[
+y_{\text{одн.}}=c_1y_1(x)+\cdots+c_ny_n(x),
+\]
+где $y_1,\ldots,y_n$ --- ФСР.
+
+В методе вариации постоянных константы заменяют функциями:
+\[
+y(x)=c_1(x)y_1(x)+\cdots+c_n(x)y_n(x).
+\]
+Функции $c_i(x)$ выбираются из системы
+\[
+\begin{cases}
+ c_1'y_1+\cdots+c_n'y_n=0,\\
+ c_1'y_1'+\cdots+c_n'y_n'=0,\\
+ \qquad\vdots\\
+ c_1'y_1^{(n-2)}+\cdots+c_n'y_n^{(n-2)}=0,\\
+ c_1'y_1^{(n-1)}+\cdots+c_n'y_n^{(n-1)}=f(x).
+\end{cases}
+\]
+Определитель этой системы равен вронскиану $W(x)$ и не обращается в ноль для ФСР, поэтому $c_i'(x)$ находятся однозначно, после чего интегрируются.
+
+\section[Интегральная формула Коши]{Интегральная формула Коши для частного решения ЛНУ}
+
+Рассмотрим
+\[
+y^{(n)}+a_{n-1}(t)y^{(n-1)}+\cdots+a_0(t)y=f(t)
+\]
+и соответствующее ЛОУ. Пусть $y_1,\ldots,y_n$ --- его ФСР.
+
+\begin{definitionHSE}[Функция Коши]
+Функция $K(t,s)$ по переменной $t$ является решением ЛОУ и удовлетворяет условиям при $t=s$:
+\[
+K(s,s)=0,
+\quad
+\frac{\partial K}{\partial t}(s,s)=0,
+\quad\ldots\quad,
+\frac{\partial^{n-2}K}{\partial t^{n-2}}(s,s)=0,
+\quad
+\frac{\partial^{n-1}K}{\partial t^{n-1}}(s,s)=1.
+\]
+\end{definitionHSE}
+
+\begin{theoremHSE}[Интегральная формула Коши]
+Частное решение ЛНУ можно записать в виде
+\[
+Y(t)=\int_a^t K(t,s)f(s)\,ds,
+\qquad a\in M.
+\]
+\end{theoremHSE}
+
+\begin{proof}
+При последовательном дифференцировании интеграла граничные слагаемые исчезают до производной порядка $n$, поскольку
+\[
+K(s,s)=K_t'(s,s)=\cdots=K_t^{(n-2)}(s,s)=0.
+\]
+На $n$-м шаге появляется
+\[
+K_t^{(n-1)}(t,t)f(t)=f(t).
+\]
+Оставшаяся интегральная часть обращается в ноль, потому что при каждом фиксированном $s$ функция $K(t,s)$ решает соответствующее ЛОУ. Поэтому подстановка $Y$ в ЛНУ даёт правую часть $f(t)$.
+\end{proof}
+
+\section[Характеристический многочлен]{ЛОУ с постоянными коэф-ами: различные корни}
+
+Рассмотрим
+\begin{equation}
+a_ny^{(n)}+a_{n-1}y^{(n-1)}+\cdots+a_1y'+a_0y=0,
+\qquad a_n\neq0.
+\label{eq:lou-const}
+\end{equation}
+Обозначим оператор дифференцирования $D=\dfrac{d}{dx}$.
+
+\begin{definitionHSE}[Характеристический многочлен]
+Многочлен
+\[
+L(\lambda)=a_n\lambda^n+a_{n-1}\lambda^{n-1}+\cdots+a_1\lambda+a_0
+\]
+называется характеристическим многочленом уравнения \eqref{eq:lou-const}, а
+\[
+L(\lambda)=0
+\]
+--- характеристическим уравнением.
+\end{definitionHSE}
+
+\begin{theoremHSE}[Случай попарно различных корней]
+Если $\lambda_1,\ldots,\lambda_n$ --- попарно различные корни характеристического уравнения, то
+\[
+e^{\lambda_1x},\ldots,e^{\lambda_nx}
+\]
+образуют ФСР, а общее комплексное решение имеет вид
+\[
+y=C_1e^{\lambda_1x}+\cdots+C_ne^{\lambda_nx}.
+\]
+\end{theoremHSE}
+
+\begin{proof}
+Каждая функция $e^{\lambda_kx}$ является решением, поскольку
+\[
+L(D)e^{\lambda_kx}=L(\lambda_k)e^{\lambda_kx}=0.
+\]
+Для линейной независимости достаточно вычислить вронскиан в $x=0$:
+\[
+W(0)=
+\begin{vmatrix}
+1&\cdots&1\\
+\lambda_1&\cdots&\lambda_n\\
+\vdots&\ddots&\vdots\\
+\lambda_1^{n-1}&\cdots&\lambda_n^{n-1}
+\end{vmatrix}
+=
+\prod_{i>j}(\lambda_i-\lambda_j)\neq0.
+\]
+Это определитель Вандермонда.
+\end{proof}
+
+\section[Кратные корни]{ЛОУ с постоянными коэф-ами: кратные корни}
+
+\begin{lemmaHSE}[Формула смещения]
+Пусть $L(D)$ --- многочлен степени $n$ от оператора $D$, а $g$ имеет $n$ производных. Тогда
+\begin{equation}
+L(D)\bigl(e^{\lambda x}g(x)\bigr)
+=e^{\lambda x}L(D+\lambda)g(x).
+\label{eq:shift}
+\end{equation}
+\end{lemmaHSE}
+
+\begin{proof}
+Для линейного множителя
+\[
+D\bigl(e^{\lambda x}g\bigr)
+=e^{\lambda x}(D+\lambda)g.
+\]
+Последовательное применение этого равенства к степеням $D$ даёт формулу для любого многочлена $L$.
+\end{proof}
+
+\begin{theoremHSE}[Общее решение при кратных корнях]
+Пусть $\lambda_1,\ldots,\lambda_m$ --- различные корни характеристического многочлена кратностей $k_1,\ldots,k_m$, причём
+\[
+k_1+\cdots+k_m=n.
+\]
+Тогда ФСР составляют функции
+\[
+e^{\lambda_jx},\ xe^{\lambda_jx},\ldots,x^{k_j-1}e^{\lambda_jx},
+\qquad j=1,\ldots,m,
+\]
+а общее решение имеет вид
+\[
+y=
+P_{k_1-1}(x)e^{\lambda_1x}
++\cdots+
+P_{k_m-1}(x)e^{\lambda_mx},
+\]
+где $P_{k_j-1}$ --- произвольный многочлен степени не выше $k_j-1$.
+\end{theoremHSE}
+
+\begin{proof}
+Если $\mu$ --- корень кратности $k$, то
+\[
+L(\lambda)=(\lambda-\mu)^kM(\lambda),
+\qquad M(\mu)\neq0.
+\]
+Для $r=0,\ldots,k-1$ по формуле смещения
+\[
+L(D)\bigl(x^re^{\mu x}\bigr)
+=e^{\mu x}M(D+\mu)D^k(x^r)=0,
+\]
+так как $k>r$. Линейная независимость совокупности экспоненциально-полиномиальных решений в конспекте доказывается последовательным делением на экспоненты и дифференцированием до исчезновения полиномиальных блоков.
+\end{proof}
+
+\section[Квазимногочлен]{ЛНУ с правой частью в виде квазимногочлена}
+
+\begin{definitionHSE}[Квазимногочлен]
+Квазимногочлен --- конечная сумма функций вида
+\[
+P(x)e^{\mu x},
+\]
+где $P(x)$ --- многочлен, $\mu\in\mathbb C$.
+
+В вещественной записи это даёт комбинации функций вида
+\[
+P(x)e^{ax},\quad
+P(x)e^{ax}\cos bx,\quad
+P(x)e^{ax}\sin bx.
+\]
+\end{definitionHSE}
+
+Для линейного неоднородного уравнения
+\[
+L(D)y=e^{\mu x}P_N(x)
+\]
+общее решение имеет структуру
+\[
+y_{\text{общ.\,неодн.}}=y_{\text{част.\,неодн.}}+y_{\text{общ.\,одн.}}.
+\]
+
+\begin{theoremHSE}[Метод неопределённых коэффициентов]
+Пусть $s=0$, если $L(\mu)\neq0$, и пусть $s$ --- кратность $\mu$ как корня $L(\lambda)$, если $L(\mu)=0$. Тогда существует частное решение вида
+\[
+y_p=x^sQ_N(x)e^{\mu x},
+\]
+где $Q_N(x)$ --- многочлен степени $N$. Его коэффициенты определяются подстановкой и сравнением коэффициентов.
+\end{theoremHSE}
+
+\begin{proof}
+По формуле смещения
+\[
+L(D)\bigl(x^sQ_N(x)e^{\mu x}\bigr)
+=e^{\mu x}L(D+\mu)\bigl(x^sQ_N(x)\bigr).
+\]
+Поскольку
+\[
+L(D)=(D-\mu)^sM(D),\qquad M(\mu)\neq0,
+\]
+получаем оператор $M(D+\mu)D^s$. После $s$ дифференцирований старший член $x^{N+s}$ переходит в ненулевой кратный $x^N$. Коэффициент при $x^N$ можно подобрать однозначно, затем последовательно подбираются коэффициенты меньших степеней.
+\end{proof}
+
+\section[ЛОС с постоянными коэффициентами]{ЛОС с постоянными коэффициентами}
+
+Рассмотрим систему
+\[
+\dot{\vect{x}}=A\vect{x},
+\qquad A=\text{const}.
+\]
+
+\begin{definitionHSE}[Характеристическое уравнение системы]
+Уравнение
+\[
+\det(A-\lambda E)=0
+\]
+называется характеристическим уравнением системы. Его корни $\lambda$ --- собственные значения матрицы $A$.
+\end{definitionHSE}
+
+\begin{definitionHSE}[Собственный вектор]
+Ненулевой вектор $\vect{v}$ называется собственным вектором, отвечающим собственному значению $\lambda$, если
+\[
+A\vect{v}=\lambda\vect{v}.
+\]
+\end{definitionHSE}
+
+\begin{definitionHSE}[Присоединённые векторы]
+В исходном конспекте вводится цепочка присоединённых векторов. В стандартной матричной записи она имеет вид
+\[
+(A-\lambda E)\vect{h}_1=\vect{v},
+\qquad
+(A-\lambda E)\vect{h}_2=\vect{h}_1,
+\quad\ldots
+\]
+\end{definitionHSE}
+
+\begin{theoremHSE}[Решение по собственному вектору]
+Если $\vect{v}\neq0$ --- собственный вектор матрицы $A$, соответствующий собственному значению $\lambda$, то
+\[
+\vect{x}(t)=e^{\lambda t}\vect{v}
+\]
+является решением ЛОС.
+\end{theoremHSE}
+
+\begin{proof}
+\[
+\frac{d}{dt}\bigl(e^{\lambda t}\vect{v}\bigr)
+=\lambda e^{\lambda t}\vect{v},
+\]
+а
+\[
+A\bigl(e^{\lambda t}\vect{v}\bigr)
+=e^{\lambda t}A\vect{v}
+=\lambda e^{\lambda t}\vect{v}.
+\]
+Обе части системы совпадают.
+\end{proof}
+
+\begin{remarkHSE}[Объём исходного конспекта]
+В приложенном вопроснике для этого билета подробно выписаны определения характеристического уравнения, собственных и присоединённых векторов и доказана формула $e^{\lambda t}\vect v$. Полная формула общего решения через все жордановы цепочки в тексте источника отдельно не расписана, поэтому здесь она не добавлялась.
+\end{remarkHSE}
+
+\section[Векторный квазимногочлен]{Частное решение ЛНС с векторным квазимногочленом}
+
+\begin{theoremHSE}[Форма частного решения]
+Рассмотрим ЛНС с постоянной матрицей
+\[
+\dot{\vect{x}}=A\vect{x}+e^{\mu t}\vect{P}_N(t),
+\]
+где $\vect{P}_N(t)$ --- векторный многочлен степени $N$.
+
+Частное решение ищется в виде
+\[
+x_i(t)=G_i(t)e^{\mu t},
+\]
+где $G_i(t)$ --- многочлен степени не выше $N+S$. Здесь
+\begin{itemize}
+  \item $S=0$, если $\mu$ не является собственным значением $A$;
+  \item если $\mu$ --- собственное значение $A$, то $S$ берётся равным максимальному размеру жордановой клетки, соответствующей $\mu$.
+\end{itemize}
+\end{theoremHSE}
+
+Если правая часть является суммой нескольких векторных квазимногочленов, частные решения для каждого слагаемого находят отдельно и складывают.
+
+\begin{exampleHSE}[Векторный квазимногочлен]
+Для $n=2$, $N=3$ в источнике приведён пример
+\[
+e^{2t}
+\begin{pmatrix}
+17t+4\\
+2t^3+4t+5
+\end{pmatrix}.
+\]
+\end{exampleHSE}
+
+\section[Автономные системы]{Автономная система и фазовый портрет}
+
+\begin{definitionHSE}[Автономная система]
+Система ОДУ называется автономной, если независимая переменная $t$ не входит в неё явно:
+\[
+\dot{\vect{x}}=\vect{f}(\vect{x}).
+\]
+В координатах:
+\[
+\begin{cases}
+\dot x_1=f_1(x_1,\ldots,x_n),\\
+\qquad\vdots\\
+\dot x_n=f_n(x_1,\ldots,x_n).
+\end{cases}
+\]
+\end{definitionHSE}
+
+Кинематически $t$ понимается как время, $\vect{x}(t)$ --- положение точки, а $\dot{\vect{x}}(t)$ --- её скорость. В автономной системе скорость зависит только от положения точки.
+
+\begin{definitionHSE}[Фазовое пространство]
+Фазовым пространством называется множество $\widetilde G\subset\R^n$, в котором определены координаты системы и её правая часть.
+\end{definitionHSE}
+
+\begin{definitionHSE}[Фазовая траектория]
+Решение $\vect{x}(t)=\vect{\varphi}(t)$ задаёт в фазовом пространстве линию. Эта линия называется фазовой траекторией.
+\end{definitionHSE}
+
+\begin{definitionHSE}[Положение равновесия]
+Точка $\vect{a}$ является стационарной точкой, положением равновесия или особой точкой, если
+\[
+\vect{f}(\vect{a})=\vect{0}.
+\]
+В таком случае $\vect{x}(t)\equiv\vect a$ --- решение.
+\end{definitionHSE}
+
+\begin{definitionHSE}[Фазовый портрет]
+Совокупность всех фазовых траекторий автономной системы называется её фазовым портретом.
+\end{definitionHSE}
+
+\begin{theoremHSE}[Сдвиг времени]
+Если $\vect{\varphi}(t)$ --- решение автономной системы, то для любого $c\in\R$
+\[
+\vect{\psi}(t)=\vect{\varphi}(t+c)
+\]
+также является решением. Эти решения задают одну и ту же фазовую траекторию.
+\end{theoremHSE}
+
+\begin{proof}
+\[
+\dot{\vect{\psi}}(t)
+=\dot{\vect{\varphi}}(t+c)
+=\vect{f}(\vect{\varphi}(t+c))
+=\vect{f}(\vect{\psi}(t)).
+\]
+\end{proof}
+
+\begin{theoremHSE}[Фазовые траектории не пересекаются]
+Две фазовые траектории автономной системы либо совпадают, либо не пересекаются.
+\end{theoremHSE}
+
+\begin{proof}
+Пусть $\vect{\varphi}(t_1)=\vect{\psi}(t_2)$. Сдвинем первое решение по времени на $c=t_1-t_2$:
+\[
+\vect{\chi}(t)=\vect{\varphi}(t+c).
+\]
+Тогда $\vect{\chi}(t_2)=\vect{\psi}(t_2)$. По единственности решения одной задачи Коши $\vect{\chi}$ и $\vect{\psi}$ совпадают, а значит совпадают и их фазовые траектории.
+\end{proof}
+
+\begin{corollaryHSE}[Следствия]
+\begin{itemize}
+  \item Решение не может войти в особую точку за конечное время.
+  \item Если нестационарное решение возвращается в ту же фазовую точку, оно периодично.
+  \item Фазовая траектория автономной системы является либо точкой, либо замкнутой кривой без самопересечений, либо незамкнутой кривой без самопересечений.
+\end{itemize}
+\end{corollaryHSE}
+
+\section[Классификация особых точек]{Классификация изолированных особых точек}
+
+Рассматривается уравнение
+\[
+\frac{dy}{dx}=\frac{cx+dy}{ax+by},
+\]
+которому соответствует линейная автономная система
+\[
+\begin{cases}
+\dot x=ax+by,\\
+\dot y=cx+dy.
+\end{cases}
+\]
+Пусть
+\[
+A=\begin{pmatrix}a&b\\c&d\end{pmatrix},
+\qquad \det A\neq0.
+\]
+Тогда $(0,0)$ --- единственная особая точка.
+
+\begin{theoremHSE}[Классификационная теорема Пуанкаре]
+Тип точки $(0,0)$ определяется собственными значениями $\lambda_1,\lambda_2$ матрицы $A$:
+\begin{enumerate}
+  \item $\lambda_1,\lambda_2\in\R$ разных знаков --- \textbf{седло};
+  \item $\lambda_1,\lambda_2\in\R$ различны и одного знака --- \textbf{узел};
+  \item $\lambda_1=\lambda_2\in\R$ --- \textbf{вырожденный} или \textbf{дикритический узел};
+  \item $\lambda_{1,2}=\pm i\beta$ --- \textbf{центр};
+  \item $\lambda_{1,2}=\alpha\pm i\beta$, $\alpha\neq0$ --- \textbf{фокус}.
+\end{enumerate}
+Знак вещественных частей определяет направление движения к особой точке или от неё.
+\end{theoremHSE}
+
+\begin{exampleHSE}[Типовые примеры из конспекта]
+\begin{enumerate}
+  \item Центр:
+  \[
+y'=-\frac{x}{y},\qquad
+A=\begin{pmatrix}0&1\\-1&0\end{pmatrix},
+\qquad \lambda_{1,2}=\pm i.
+  \]
+  \item Седло:
+  \[
+y'=\frac{x}{y},\qquad
+A=\begin{pmatrix}0&1\\1&0\end{pmatrix},
+\qquad \lambda_{1,2}=\pm1.
+  \]
+  \item Дикритический узел:
+  \[
+y'=\frac{y}{x},\qquad
+A=\begin{pmatrix}1&0\\0&1\end{pmatrix},
+\qquad \lambda_{1,2}=1.
+  \]
+  \item Узел:
+  \[
+y'=\frac{2y}{x},\qquad
+A=\begin{pmatrix}1&0\\0&2\end{pmatrix},
+\qquad \lambda_1=1,\ \lambda_2=2.
+  \]
+  \item Вырожденный узел:
+  \[
+y'=\frac{x+y}{x},\qquad
+A=\begin{pmatrix}1&0\\1&1\end{pmatrix}.
+  \]
+  \item Фокус:
+  \[
+y'=\frac{x+y}{x-y},\qquad
+A=\begin{pmatrix}1&-1\\1&1\end{pmatrix},
+\qquad \lambda_{1,2}=1\pm i.
+  \]
+\end{enumerate}
+
+% TODO: фазовые портреты из таблицы на странице 50 и рисунки со страницы 52.
+\end{exampleHSE}
+
+\section[Пуанкаре--Перрон]{Исключительные направления. Теорема Пуанкаре--Перрона}
+
+\begin{definitionHSE}[Цикл]
+Циклом уравнения $y'=f(x,y)$ называется замкнутая интегральная кривая, не проходящая через особую точку.
+\end{definitionHSE}
+
+\begin{definitionHSE}[Исключительное направление]
+Исключительным называется направление, по которому в особую точку входит по крайней мере одна интегральная кривая.
+\end{definitionHSE}
+
+\subsection{Топологические типы особых точек}
+\begin{itemize}
+  \item \textbf{Центр}: в некоторой окрестности все интегральные кривые --- вложенные циклы; исключительных направлений нет.
+  \item \textbf{Фокус}: интегральные кривые --- спирали, асимптотически приближающиеся к особой точке; исключительных направлений нет.
+  \item \textbf{Седло}: две пары исключительных направлений; по ним входят сепаратрисы, остальные кривые в точку не входят.
+  \item \textbf{Простой узел}: две пары исключительных направлений; одна пара кривых входит по одному направлению, остальные --- по другому.
+  \item \textbf{Вырожденный узел}: одна пара исключительных направлений; все интегральные кривые входят в особую точку.
+  \item \textbf{Дикритический узел}: любое направление исключительное; по каждому направлению входит ровно одна интегральная кривая.
+  \item \textbf{Центро-фокус}: в любой достаточно малой окрестности встречаются и циклы, и спирали.
+\end{itemize}
+
+Рассмотрим автономную систему
+\[
+\begin{cases}
+\dot x=P(x,y),\\
+\dot y=Q(x,y),
+\end{cases}
+\]
+и изолированное положение равновесия $(0,0)$. Линеаризация имеет вид
+\[
+\begin{cases}
+P(x,y)=ax+by+p(x,y),\\
+Q(x,y)=cx+dy+q(x,y),
+\end{cases}
+\]
+где $p,q$ --- члены более высокого порядка.
+
+\begin{theoremHSE}[Пуанкаре--Перрона]
+Пусть
+\[
+\frac{dy}{dx}
+=
+\frac{cx+dy+q(x,y)}{ax+by+p(x,y)}
+\]
+--- полное уравнение, а
+\[
+\frac{dy}{dx}
+=
+\frac{cx+dy}{ax+by}
+\]
+--- укороченное. Пусть $\det A\neq0$, $(0,0)$ --- изолированная особая точка, выполнена локальная единственность, а $p,q$ имеют более высокий порядок малости.
+
+Если собственные значения $A$ удовлетворяют
+\[
+\Re\lambda_{1,2}\neq0,
+\]
+то тип особой точки полного уравнения совпадает с типом особой точки укороченного уравнения; исключительные направления также совпадают.
+
+Если
+\[
+\Re\lambda_{1,2}=0,
+\]
+то при центре линейной системы полная система может иметь центр, фокус или центро-фокус.
+\end{theoremHSE}
+
+\begin{exampleHSE}[Система $\dot x=y$, $\dot y=-x+x^2$]
+Положения равновесия:
+\[
+(0,0),\qquad(1,0).
+\]
+В точке $(0,0)$ линейная часть
+\[
+A=\begin{pmatrix}0&1\\-1&0\end{pmatrix},
+\qquad \lambda_{1,2}=\pm i.
+\]
+По теореме Пуанкаре--Перрона остаются варианты центр/фокус/центро-фокус; в исходнике дальнейшая симметрия используется для вывода о центре.
+
+Для точки $(1,0)$ после замены
+\[
+u=x-1,\qquad v=y
+\]
+линейная часть имеет матрицу
+\[
+A=\begin{pmatrix}0&1\\1&0\end{pmatrix},
+\qquad \lambda_{1,2}=\pm1,
+\]
+поэтому это седло.
+\end{exampleHSE}
+
+\section[Лотка--Вольтерра]{Модель Лотки--Вольтерры}
+
+Пусть $x(t)$ --- количество жертв, $y(t)$ --- количество хищников. Модель:
+\[
+\begin{cases}
+\dot x=\alpha x-\gamma xy,\\
+\dot y=-\beta y+\delta xy,
+\end{cases}
+\qquad \alpha,\beta>0.
+\]
+В конспекте берётся частный случай
+\[
+\alpha=\beta=\gamma=\delta=1,
+\]
+то есть
+\begin{equation}
+\begin{cases}
+\dot x=x-xy=x(1-y),\\
+\dot y=-y+xy=y(x-1).
+\end{cases}
+\label{eq:lotka}
+\end{equation}
+
+Положения равновесия:
+\[
+(0,0),\qquad(1,1).
+\]
+
+\subsection{Точка \texorpdfstring{$(0,0)$}{(0,0)}}
+Линеаризация:
+\[
+\begin{cases}
+\dot x=x,\\
+\dot y=-y,
+\end{cases}
+\qquad
+A=\begin{pmatrix}1&0\\0&-1\end{pmatrix}.
+\]
+Собственные значения $1$ и $-1$, поэтому $(0,0)$ --- седло и неустойчивая точка.
+
+\subsection{Точка \texorpdfstring{$(1,1)$}{(1,1)}}
+Делаем сдвиг
+\[
+\widetilde x=x-1,
+\qquad
+\widetilde y=y-1.
+\]
+Тогда
+\[
+\begin{cases}
+\dot{\widetilde x}=-\widetilde y-\widetilde x\widetilde y,\\
+\dot{\widetilde y}=\widetilde x+\widetilde x\widetilde y.
+\end{cases}
+\]
+Линейная часть:
+\[
+A=\begin{pmatrix}0&-1\\1&0\end{pmatrix},
+\qquad \lambda_{1,2}=\pm i.
+\]
+Для укороченной системы это центр. В конспекте далее исследуется симметрия и знаки $\dot x$, $\dot y$, после чего строится фазовый портрет с замкнутыми траекториями вокруг $(1,1)$.
+
+Знаки производных определяются прямыми $x=0$, $x=1$, $y=0$, $y=1$:
+\[
+\dot x=x(1-y),
+\qquad
+\dot y=y(x-1).
+\]
+
+% TODO: фазовый портрет Лотки--Вольтерры со страницы 59 исходника.
+
+\section[Устойчивость по Ляпунову]{Устойчивость (и асимптотическая) по Ляпунову}
+
+Рассмотрим систему
+\[
+\dot{\vect{x}}=\vect{f}(t,\vect{x})
+\]
+и её частное решение
+\[
+\vect{x}=\vect{\varphi}(t),
+\qquad t\ge t_0.
+\]
+
+\begin{definitionHSE}[Устойчивость по Ляпунову]
+Решение $\vect{\varphi}(t)$ называется устойчивым по Ляпунову, если для любого $\varepsilon>0$ существует $\delta=\delta(\varepsilon)>0$ такое, что всякое решение $\widetilde{\vect{x}}(t)$ с
+\[
+|\widetilde{\vect{x}}(t_0)-\vect{\varphi}(t_0)|<\delta
+\]
+продолжается вправо и удовлетворяет
+\[
+|\widetilde{\vect{x}}(t)-\vect{\varphi}(t)|<\varepsilon,
+\qquad \forall t\ge t_0.
+\]
+\end{definitionHSE}
+
+\begin{definitionHSE}[Асимптотическая устойчивость]
+Решение $\vect{\varphi}(t)$ называется асимптотически устойчивым, если оно устойчиво по Ляпунову и существует $\delta_0>0$ такое, что для всех решений с начальными данными из $\delta_0$-окрестности
+\[
+\lim_{t\to+\infty}
+|\widetilde{\vect{x}}(t)-\vect{\varphi}(t)|=0.
+\]
+\end{definitionHSE}
+
+\begin{exampleHSE}[Проверка по определению]
+Рассмотрим
+\[
+\dot x=1+t-x,
+\qquad x(0)=0.
+\]
+Общее решение:
+\[
+x(t)=t+Ce^{-t}.
+\]
+Начальному условию $x(0)=0$ соответствует $C=0$, поэтому
+\[
+\varphi(t)=t.
+\]
+Для соседнего решения
+\[
+|\widetilde x(t)-\varphi(t)|=|C|e^{-t}.
+\]
+Если $|C|<\delta$ и выбрать $\delta(\varepsilon)=\varepsilon$, то
+\[
+|C|e^{-t}<\varepsilon
+\qquad \forall t\ge0.
+\]
+Кроме того,
+\[
+\lim_{t\to+\infty}|C|e^{-t}=0.
+\]
+Следовательно, $\varphi(t)=t$ асимптотически устойчива.
+\end{exampleHSE}
+
+\begin{exampleHSE}[Одновременно устойчивое и неустойчивое стационарные решения]
+Для нелинейного уравнения
+\[
+\dot x=1-x^2
+\]
+стационарные решения равны
+\[
+x\equiv-1,
+\qquad x\equiv1.
+\]
+По фазовой прямой видно: $x=-1$ неустойчиво, а $x=1$ устойчиво.
+
+% TODO: графический разбор со страницы 62 исходника.
+\end{exampleHSE}
+
+\section[Устойчивость линейных систем]{Устойчивость ЛНС и нулевого решения ЛОС}
+
+Пусть
+\begin{equation}
+\dot{\vect{x}}=A(t)\vect{x}
+\label{eq:los-stab}
+\end{equation}
+--- ЛОС, а
+\begin{equation}
+\dot{\vect{y}}=A(t)\vect{y}+\vect{F}(t)
+\label{eq:lns-stab}
+\end{equation}
+--- соответствующая ЛНС.
+
+\begin{theoremHSE}[Сведение устойчивости ЛНС к ЛОС]
+При непрерывных $A(t)$ и $\vect{F}(t)$ на $[t_0,+\infty)$:
+\begin{enumerate}
+  \item все решения ЛНС устойчивы тогда и только тогда, когда нулевое решение ЛОС устойчиво;
+  \item все решения ЛНС асимптотически устойчивы тогда и только тогда, когда нулевое решение ЛОС асимптотически устойчиво.
+\end{enumerate}
+\end{theoremHSE}
+
+\begin{proof}
+Пусть $\vect{\psi}(t)$ --- фиксированное решение ЛНС. Любое другое решение ЛНС имеет вид
+\[
+\vect{y}(t)=\vect{\psi}(t)+\vect{x}(t),
+\]
+где $\vect{x}(t)$ --- решение ЛОС. Поэтому
+\[
+|\vect{y}(t)-\vect{\psi}(t)|=|\vect{x}(t)|.
+\]
+Все условия устойчивости и асимптотической устойчивости для $\vect{\psi}$ буквально превращаются в соответствующие условия для нулевого решения ЛОС. Обратное рассуждение проводится тем же равенством.
+\end{proof}
+
+\begin{theoremHSE}[Критерий для ЛОС с постоянными коэффициентами]
+Пусть
+\[
+\dot{\vect{x}}=A\vect{x},
+\qquad A=\text{const},
+\]
+и $\lambda_1,\ldots,\lambda_k$ --- собственные значения $A$.
+\begin{enumerate}
+  \item Если для всех $j$
+  \[
+  \Re\lambda_j<0,
+  \]
+  то нулевое решение асимптотически устойчиво.
+  \item Если
+  \[
+  \Re\lambda_j\le0
+  \]
+  для всех $j$, а каждому собственному значению с нулевой вещественной частью соответствуют только жордановы клетки размера $1\times1$, то нулевое решение устойчиво.
+  \item В остальных случаях нулевое решение неустойчиво: в частности, если существует $\Re\lambda_j>0$ или при $\Re\lambda_j=0$ имеется жорданова клетка размера не меньше $2\times2$.
+\end{enumerate}
+\end{theoremHSE}
+
+\section[Первое приближение]{Исследование устойчивости по первому приближению}
+
+Рассмотрим линейную систему
+\[
+\dot{\vect{x}}=A\vect{x},
+\qquad A=\text{const},
+\]
+и возмущённую систему
+\begin{equation}
+\dot{\vect{x}}=A\vect{x}+\vect{\varphi}(t,\vect{x}),
+\label{eq:first-approx}
+\end{equation}
+где $\vect{\varphi}$ и её частные производные непрерывны.
+
+Пусть при $\vect{x}\to0$
+\[
+|\vect{\varphi}(t,\vect{x})|
+\le
+\gamma(\vect{x})|\vect{x}|,
+\qquad
+\gamma(\vect{x})\to0.
+\]
+То есть нелинейная часть имеет более высокий порядок малости по сравнению с $|\vect{x}|$.
+
+\begin{theoremHSE}[Устойчивость по первому приближению]
+Пусть $\vect{x}=0$ --- решение \eqref{eq:first-approx}, а $\lambda$ --- собственные значения матрицы $A$.
+\begin{enumerate}
+  \item Если для всех собственных значений
+  \[
+  \Re\lambda<0,
+  \]
+  то нулевое решение полной системы асимптотически устойчиво.
+  \item Если существует собственное значение
+  \[
+  \Re\lambda>0,
+  \]
+  то нулевое решение полной системы неустойчиво.
+\end{enumerate}
+\end{theoremHSE}
+
+\begin{exampleHSE}[Система $\dot x=\sin x$, $\dot y=\cos y$]
+Рассмотрим положение равновесия
+\[
+\left(0,\frac{\pi}{2}\right).
+\]
+Сдвигаем координаты:
+\[
+\widetilde y=y-\frac{\pi}{2}.
+\]
+Тогда
+\[
+\begin{cases}
+\dot x=\sin x,\\
+\dot{\widetilde y}=-\sin\widetilde y.
+\end{cases}
+\]
+Разложение в окрестности нуля:
+\[
+\dot x=x-\frac{x^3}{3!}+O(x^5),
+\]
+\[
+\dot{\widetilde y}
+=-\widetilde y+\frac{\widetilde y^3}{3!}+O(\widetilde y^5).
+\]
+Матрица первого приближения
+\[
+A=\begin{pmatrix}1&0\\0&-1\end{pmatrix},
+\qquad \lambda_{1,2}=\pm1.
+\]
+Поскольку есть собственное значение с положительной вещественной частью, положение равновесия неустойчиво. Линейная часть имеет тип седла.
+\end{exampleHSE}
+
+\end{document}

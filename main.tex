@@ -2972,27 +2972,143 @@ u\cdot\bigl(y_1^{(n)}+a_{n-1}(t)y_1^{(n-1)}+\cdots+a_0(t)y_1\bigr)=0,
 
 \section[Вариация постоянных для ЛНУ]{Метод вариации постоянных для линейного неоднородного уравнения}
 
-Пусть известно общее решение соответствующего ЛОУ:
-\[
-y_{\text{одн.}}=c_1y_1(x)+\cdots+c_ny_n(x),
-\]
-где $y_1,\ldots,y_n$ --- ФСР.
+\subsection{Структура общего решения ЛНУ}
 
-В методе вариации постоянных константы заменяют функциями:
+Запишем ЛНУ \eqref{eq:linear-n} кратко: \(L y=f\), где
 \[
-y(x)=c_1(x)y_1(x)+\cdots+c_n(x)y_n(x).
+L=D^n+a_{n-1}(t)D^{n-1}+\cdots+a_1(t)D+a_0(t),\qquad D=\frac{d}{dt},
 \]
-Функции $c_i(x)$ выбираются из системы
+--- линейный оператор: \(L(y_1+y_2)=Ly_1+Ly_2\), \(L(\alpha y)=\alpha Ly\). Для системы аналогично: ЛНС записывается как \(L\vect{x}=\vect{f}\) с линейным оператором \(L=\dfrac{d}{dt}-A(t)\).
+
+Как и для систем (см. теорему об общем решении ЛНС), из линейности \(L\) следует
+\[
+y_{\text{о.н.}}=y_{\text{ч.н.}}+y_{\text{о.о.}},
+\]
+то есть общее решение ЛНУ --- это сумма какого-нибудь частного решения ЛНУ и общего решения соответствующего ЛОУ.
+
+\begin{theoremHSE}[Принцип суперпозиции]
+Пусть \(y_1\) --- решение уравнения \(Ly=f_1\), а \(y_2\) --- решение уравнения \(Ly=f_2\). Тогда \(y_1+y_2\) --- решение уравнения
+\[
+Ly=f_1+f_2.
+\]
+\end{theoremHSE}
+
+\begin{proof}
+Подставим \(y=y_1+y_2\) и воспользуемся линейностью \(L\):
+\[
+L(y_1+y_2)=Ly_1+Ly_2=f_1+f_2.
+\]
+\end{proof}
+
+Суперпозиция позволяет искать частное решение по кускам, если правая часть --- сумма нескольких слагаемых.
+
+\subsection{Метод вариации постоянных}
+
+Пусть \(y_1,\ldots,y_n\) --- ФСР ЛОУ, соответствующего ЛНУ \eqref{eq:linear-n}, то есть общее решение ЛОУ
+\[
+y_{\text{о.о.}}=c_1y_1(t)+\cdots+c_ny_n(t).
+\]
+При переходе к системе \eqref{eq:linear-n-system} ФСР ЛОУ переходит в ФСР соответствующей ЛОС, и её фундаментальная матрица --- это матрица Вронского:
+\[
+X(t)=
+\begin{pmatrix}
+y_1&\cdots&y_n\\
+y_1'&\cdots&y_n'\\
+\vdots&&\vdots\\
+y_1^{(n-1)}&\cdots&y_n^{(n-1)}
+\end{pmatrix},
+\qquad
+\vect{c}(t)=
+\begin{pmatrix}c_1(t)\\\vdots\\c_n(t)\end{pmatrix},
+\qquad
+\vect{F}(t)=
+\begin{pmatrix}0\\\vdots\\0\\f(t)\end{pmatrix}.
+\]
+Метод вариации постоянных для системы \(\dot{\vect{x}}=A(t)\vect{x}+\vect{F}(t)\) даёт \(X(t)\dot{\vect{c}}(t)=\vect{F}(t)\). Первая строка вектора \(\vect{x}=X\vect{c}\) --- это \(y\), поэтому получаем следующий алгоритм.
+
+\begin{theoremHSE}[Вариация постоянных для ЛНУ]
+Решение ЛНУ ищем в виде
+\[
+y(t)=c_1(t)y_1(t)+\cdots+c_n(t)y_n(t).
+\]
+\begin{enumerate}
+\item Находим \(\dot c_1(t),\ldots,\dot c_n(t)\) из системы
 \[
 \begin{cases}
- c_1'y_1+\cdots+c_n'y_n=0,\\
- c_1'y_1'+\cdots+c_n'y_n'=0,\\
- \qquad\vdots\\
- c_1'y_1^{(n-2)}+\cdots+c_n'y_n^{(n-2)}=0,\\
- c_1'y_1^{(n-1)}+\cdots+c_n'y_n^{(n-1)}=f(x).
+y_1\dot c_1(t)+\cdots+y_n\dot c_n(t)=0,\\
+y_1'\dot c_1(t)+\cdots+y_n'\dot c_n(t)=0,\\
+\qquad\vdots\\
+y_1^{(n-2)}\dot c_1(t)+\cdots+y_n^{(n-2)}\dot c_n(t)=0,\\
+y_1^{(n-1)}\dot c_1(t)+\cdots+y_n^{(n-1)}\dot c_n(t)=f(t).
 \end{cases}
 \]
-Определитель этой системы равен вронскиану $W(x)$ и не обращается в ноль для ФСР, поэтому $c_i'(x)$ находятся однозначно, после чего интегрируются.
+Её определитель --- вронскиан \(W_{y_1,\ldots,y_n}(t)\neq0\) на \(M\), поэтому решение единственно (например, по формулам Крамера).
+\item Интегрированием находим \(c_1(t),\ldots,c_n(t)\), каждую с точностью до своей произвольной постоянной \(\tilde c_i\).
+\item Итак, общее решение ЛНУ:
+\[
+y(t)=c_1(t)y_1(t)+\cdots+c_n(t)y_n(t).
+\]
+\end{enumerate}
+\end{theoremHSE}
+
+\begin{remarkHSE}
+Здесь ЛНУ записано с коэффициентом \(1\) при \(y^{(n)}\). Если старший коэффициент равен \(a_n\neq0\), то в последней строке системы стоит \(f(t)/a_n\), а не \(f(t)\).
+\end{remarkHSE}
+
+\begin{exampleHSE}[№\,578: \(\ddot y+4y=\operatorname{tg}t\)]
+\textbf{I. ЛОУ.} \(\ddot y+4y=0\), характеристическое уравнение \(\lambda^2+4=0\), \(\lambda_{1,2}=\pm2i\), кратности \(k_{1,2}=1\). Значит,
+\[
+\text{ФСР}=\{\cos2t,\ \sin2t\},\qquad
+y_{\text{о.о.}}=c_1\cos2t+c_2\sin2t,\quad c_1,c_2\in\R.
+\]
+
+\textbf{II. ЛНУ, вариация постоянных.} Ищем решение в виде \(y=c_1(t)\cos2t+c_2(t)\sin2t\). Тогда
+\[
+\begin{cases}
+\dot c_1(t)\cos2t+\dot c_2(t)\sin2t=0,\\
+-2\dot c_1(t)\sin2t+2\dot c_2(t)\cos2t=\operatorname{tg}t,
+\end{cases}
+\qquad
+\begin{pmatrix}\cos2t&\sin2t\\-2\sin2t&2\cos2t\end{pmatrix}
+\begin{pmatrix}\dot c_1\\\dot c_2\end{pmatrix}
+=\begin{pmatrix}0\\\operatorname{tg}t\end{pmatrix}.
+\]
+Определители:
+\[
+\Delta=\begin{vmatrix}\cos2t&\sin2t\\-2\sin2t&2\cos2t\end{vmatrix}=2=W_{\cos2t,\sin2t}(t),
+\]
+\[
+\Delta_1=\begin{vmatrix}0&\sin2t\\\operatorname{tg}t&2\cos2t\end{vmatrix}=-\operatorname{tg}t\,\sin2t=-2\sin^2t,
+\qquad
+\Delta_2=\begin{vmatrix}\cos2t&0\\-2\sin2t&\operatorname{tg}t\end{vmatrix}=\cos2t\,\operatorname{tg}t.
+\]
+Отсюда
+\[
+\dot c_1(t)=\frac{\Delta_1}{\Delta}=-\sin^2t,\qquad
+\dot c_2(t)=\frac{\Delta_2}{\Delta}=\frac12\cos2t\,\operatorname{tg}t.
+\]
+Интегрируем:
+\[
+c_1(t)=-\int\sin^2t\,dt=-\int\frac{1-\cos2t}{2}\,dt=-\frac t2+\frac{\sin2t}{4}+\tilde c_1,
+\]
+\[
+c_2(t)=\frac12\int\frac{(2\cos^2t-1)\sin t}{\cos t}\,dt
+=-\frac12\int\frac{2\cos^2t-1}{\cos t}\,d(\cos t)
+=-\frac{\cos^2t}{2}+\frac12\ln|\cos t|+\tilde c_2.
+\]
+Общее решение:
+\[
+y_{\text{о.н.}}=
+\underbrace{\tilde c_1\cos2t+\tilde c_2\sin2t}_{y_{\text{о.о.}}}
+-\frac t2\cos2t+\frac{\sin2t\cos2t}{4}-\frac{\cos^2t}{2}\sin2t+\frac12\ln|\cos t|\sin2t,
+\qquad \tilde c_1,\tilde c_2\in\R.
+\]
+Ответ можно упростить: \(\dfrac{\sin2t}{4}\bigl(\cos2t-2\cos^2t\bigr)=-\dfrac{\sin2t}{4}\) пропорционально \(\sin2t\) и поглощается слагаемым \(\tilde c_2\sin2t\). Итак,
+\[
+y=\tilde c_1\cos2t+\tilde c_2\sin2t-\frac t2\cos2t+\frac12\sin2t\,\ln|\cos t|,
+\]
+на любом промежутке \(\bigl(-\frac\pi2+\pi k;\frac\pi2+\pi k\bigr)\), \(k\in\Z\), где \(\operatorname{tg}t\) непрерывен.
+\end{exampleHSE}
 
 \section[Интегральная формула Коши]{Интегральная формула Коши для частного решения ЛНУ}
 
@@ -3035,78 +3151,203 @@ K_t^{(n-1)}(t,t)f(t)=f(t).
 Оставшаяся интегральная часть обращается в ноль, потому что при каждом фиксированном $s$ функция $K(t,s)$ решает соответствующее ЛОУ. Поэтому подстановка $Y$ в ЛНУ даёт правую часть $f(t)$.
 \end{proof}
 
-\section[Характеристический многочлен]{ЛОУ с постоянными коэф-ами: различные корни}
+\section[ЛУ с постоянными коэффициентами]{Линейные уравнения с постоянными коэффициентами. Общая теория}
 
-Рассмотрим
+Здесь неизвестная функция \(y=y(x)\). Рассмотрим уравнение
 \begin{equation}
 a_ny^{(n)}+a_{n-1}y^{(n-1)}+\cdots+a_1y'+a_0y=0,
-\qquad a_n\neq0.
+\qquad a_n\neq0,\quad a_i=\mathrm{const}\in\R,
 \label{eq:lou-const}
 \end{equation}
-Обозначим оператор дифференцирования $D=\dfrac{d}{dx}$.
+--- ЛОУ \(n\)-го порядка с постоянными коэффициентами. Поделив на \(a_n\), получаем уравнение вида \eqref{eq:lou-n} с коэффициентами, непрерывными на всём \(\R\), так что вся общая теория ЛОУ применима на \(M=\R\).
+
+\subsection{Оператор дифференцирования и характеристический многочлен}
+
+Пусть \(D=\dfrac{d}{dx}\) --- оператор взятия производной:
+\[
+Dy=y',\qquad D^2y=y'',\qquad\ldots,\qquad D^ky=y^{(k)}.
+\]
+Тогда \eqref{eq:lou-const} переписывается в виде
+\[
+a_nD^ny+a_{n-1}D^{n-1}y+\cdots+a_1Dy+a_0y=0,
+\qquad
+\underbrace{\bigl(a_nD^n+a_{n-1}D^{n-1}+\cdots+a_1D+a_0\bigr)}_{L(D)}y=0,
+\]
+где
+\[
+L(D)=a_nD^n+a_{n-1}D^{n-1}+\cdots+a_1D+a_0
+\]
+--- многочлен от оператора \(D\) (свободный член \(a_0\) понимается как \(a_0I\), \(I=\mathrm{id}\) --- тождественный оператор).
 
 \begin{definitionHSE}[Характеристический многочлен]
 Многочлен
 \[
-L(\lambda)=a_n\lambda^n+a_{n-1}\lambda^{n-1}+\cdots+a_1\lambda+a_0
+L(\lambda)=a_n\lambda^n+\cdots+a_1\lambda+a_0
 \]
-называется характеристическим многочленом уравнения \eqref{eq:lou-const}, а
-\[
-L(\lambda)=0
-\]
---- характеристическим уравнением.
+называется \textbf{характеристическим многочленом} ЛОУ \eqref{eq:lou-const}, а уравнение \(L(\lambda)=0\) --- его \textbf{характеристическим уравнением} (\(\deg L(\lambda)=n\)).
 \end{definitionHSE}
 
-\begin{theoremHSE}[Случай попарно различных корней]
-Если $\lambda_1,\ldots,\lambda_n$ --- попарно различные корни характеристического уравнения, то
+\subsection{Свойства многочленов от \texorpdfstring{$D$}{D}}
+
+Пусть \(L(D)\), \(M(D)\) --- многочлены степеней \(m\) и \(k\) с постоянными коэффициентами, \(y\), \(y_1(x)\), \(y_2(x)\) --- функции, \(\alpha=\mathrm{const}\). Тогда:
+
+\begin{enumerate}
+\item \(L(D)\) --- линейный оператор: для \(y_1,y_2\in D^m(M)\)
 \[
-e^{\lambda_1x},\ldots,e^{\lambda_nx}
+L(D)(y_1+y_2)=L(D)y_1+L(D)y_2,\qquad
+L(D)(\alpha y_1)=\alpha L(D)y_1.
 \]
-образуют ФСР, а общее комплексное решение имеет вид
+\item Сумма и умножение на число: для \(y\in D^{\max(m,k)}(M)\)
 \[
-y=C_1e^{\lambda_1x}+\cdots+C_ne^{\lambda_nx}.
+\bigl(L(D)+M(D)\bigr)y=L(D)y+M(D)y,\qquad
+\bigl(\alpha M(D)\bigr)y=\alpha M(D)y.
+\]
+\item Произведение: для \(y\in D^{m+k}(M)\)
+\[
+\bigl(M(D)L(D)\bigr)y=M(D)\bigl(L(D)y\bigr).
+\]
+\end{enumerate}
+
+Свойства 1--3 проверяются непосредственно: \(D^k\) линеен и \(D^iD^j=D^{i+j}\). Именно из-за постоянства коэффициентов многочлены от \(D\) можно складывать, перемножать и раскладывать на множители как обычные многочлены; в частности, \(L(D)M(D)=M(D)L(D)\).
+
+\begin{theoremHSE}[Свойство 4: экспонента как решение]
+Пусть \(L(D)\) --- многочлен с постоянными коэффициентами. Функция \(y=\e^{\lambda x}\) является решением ЛОУ \eqref{eq:lou-const} \(\iff\) \(\lambda\) --- корень характеристического уравнения.
+\end{theoremHSE}
+
+\begin{proof}
+Применим \(L(D)\) к \(\e^{\lambda x}\). Так как \(D\e^{\lambda x}=\lambda\e^{\lambda x}\) и \(D^k\e^{\lambda x}=\lambda^k\e^{\lambda x}\),
+\[
+L(D)\e^{\lambda x}=\bigl(a_nD^n+\cdots+a_0\bigr)\e^{\lambda x}
+=a_n\lambda^n\e^{\lambda x}+\cdots+a_1\lambda\e^{\lambda x}+a_0\e^{\lambda x}
+=\underbrace{\bigl(a_n\lambda^n+\cdots+a_1\lambda+a_0\bigr)}_{L(\lambda)}\e^{\lambda x}.
+\]
+Итак, \(L(D)\e^{\lambda x}=L(\lambda)\e^{\lambda x}=0\iff L(\lambda)=0\), поскольку \(\e^{\lambda x}\neq0\).
+\end{proof}
+
+\begin{theoremHSE}[Свойство 5: формула смещения]
+Пусть \(L(D)\) --- многочлен степени \(n\) с постоянными коэффициентами, \(f\in D^n(M)\), \(\lambda=\mathrm{const}\in\mathbb C\). Тогда
+\begin{equation}
+L(D)\bigl(\e^{\lambda x}f(x)\bigr)=\e^{\lambda x}L(D+\lambda)f(x).
+\label{eq:shift}
+\end{equation}
+\end{theoremHSE}
+
+\begin{exampleHSE}
+Для \(y''+4y=L(D)y\), \(L(D)=D^2+4I=D^2+4\), и \(\lambda=3\):
+\[
+L(D)\bigl(\e^{3x}f(x)\bigr)=(D^2+4I)\bigl(\e^{3x}f(x)\bigr)
+=\frac{d^2}{dx^2}\bigl(\e^{3x}f(x)\bigr)+4\e^{3x}f(x)
+=\frac{d}{dx}\bigl(3\e^{3x}f(x)+\e^{3x}f'(x)\bigr)+4\e^{3x}f(x)=
+\]
+\[
+=9\e^{3x}f+3\e^{3x}f'+3\e^{3x}f'+\e^{3x}f''+4\e^{3x}f=
+\]
+\[
+=\e^{3x}\bigl(\underbrace{f''+6f'+9f}_{(D+3)^2f}+4f\bigr)
+=\e^{3x}\bigl((D+3)^2+4\bigr)f=\e^{3x}L(D+3)f(x).
+\]
+\end{exampleHSE}
+
+\begin{proof}
+Индукция по \(n\).
+
+\textbf{База} \(n=1\): \(L(D)=aD+b\).
+\[
+L(D)\bigl(\e^{\lambda x}f(x)\bigr)=(aD+b)\bigl(\e^{\lambda x}f(x)\bigr)
+=a\lambda\e^{\lambda x}f(x)+a\e^{\lambda x}f'(x)+b\e^{\lambda x}f(x)=
+\]
+\[
+=\e^{\lambda x}\bigl(a\lambda f+af'+bf\bigr)
+=\e^{\lambda x}\bigl(\underbrace{aD+a\lambda+b}_{a(D+\lambda)+b}\bigr)f
+=\e^{\lambda x}L(D+\lambda)f.
+\]
+
+\textbf{Шаг.} Пусть формула верна для всех многочленов \(L(D)\) степени \(\le n-1\), и \(\deg L(D)=n\). Над \(\mathbb C\) многочлен раскладывается на множители:
+\[
+L(D)=L_1(D)\,L_2(D),\qquad \deg L_1=1,\quad \deg L_2=n-1.
+\]
+По свойству 3 и предположению индукции
+\[
+L(D)\bigl(\e^{\lambda x}f(x)\bigr)
+=L_1(D)\Bigl(L_2(D)\bigl(\e^{\lambda x}f(x)\bigr)\Bigr)
+=L_1(D)\Bigl(\e^{\lambda x}\underbrace{L_2(D+\lambda)f(x)}_{g(x)}\Bigr)=
+\]
+\[
+=\e^{\lambda x}L_1(D+\lambda)\bigl(L_2(D+\lambda)f(x)\bigr).
+\]
+(в последнем переходе база применена к функции \(g\)). Тогда
+\[
+L(D)\bigl(\e^{\lambda x}f(x)\bigr)=\e^{\lambda x}L_1(D+\lambda)L_2(D+\lambda)f(x)=\e^{\lambda x}L(D+\lambda)f(x).
+\]
+\end{proof}
+
+\begin{theoremHSE}[Свойство 6: действие на квазимногочлен]
+Пусть \(L(D)\) --- многочлен степени \(n\) с постоянными коэффициентами, \(P=P(x)\) --- многочлен степени \(k\) от \(x\), и \(\lambda\) --- не корень \(L\), то есть \(L(\lambda)\neq0\). Тогда
+\[
+L(D)\bigl(\e^{\lambda x}P(x)\bigr)=\e^{\lambda x}\tilde P(x),\qquad \deg\tilde P=k.
 \]
 \end{theoremHSE}
 
 \begin{proof}
-Каждая функция $e^{\lambda_kx}$ является решением, поскольку
+По формуле смещения \(L(D)\bigl(\e^{\lambda x}P(x)\bigr)=\e^{\lambda x}L(D+\lambda)P(x)\). Разложим \(L(D+\lambda)\) по степеням \(D\):
 \[
-L(D)e^{\lambda_kx}=L(\lambda_k)e^{\lambda_kx}=0.
+L(D+\lambda)=b_nD^n+\cdots+b_1D+b_0,\qquad b_0=L(\lambda).
 \]
-Для линейной независимости достаточно вычислить вронскиан в $x=0$:
+Каждое \(D^j\), \(j\ge1\), понижает степень многочлена, поэтому старший член \(\tilde P=L(D+\lambda)P\) получается только из \(b_0P\). Если \(L(\lambda)\neq0\), то \(\deg\bigl(L(D+\lambda)P(x)\bigr)=\deg P(x)=k\).
+\end{proof}
+
+\section[Различные корни]{Решение ЛОУ в случае некратных корней характеристического многочлена}
+
+\begin{theoremHSE}[Об общем решении ЛОУ в случае некратных корней]
+Рассмотрим ЛОУ \eqref{eq:lou-const} \(n\)-го порядка. Пусть \(\lambda_1,\ldots,\lambda_n\in\mathbb C\) --- \(n\) корней характеристического многочлена, все кратности \(1\). Тогда ФСР ЛОУ имеет вид
+\begin{equation}
+\bigl\{\e^{\lambda_1x},\ldots,\e^{\lambda_nx}\bigr\},
+\label{eq:fsr-simple}
+\end{equation}
+а общее решение ЛОУ \eqref{eq:lou-const}
+\begin{equation}
+y=C_1\e^{\lambda_1x}+\cdots+C_n\e^{\lambda_nx},\qquad x\in\R.
+\label{eq:gen-simple}
+\end{equation}
+\end{theoremHSE}
+
+\begin{proof}
+Докажем, что функции \eqref{eq:fsr-simple} образуют ФСР. Тогда по теореме об общем решении ЛОУ получим формулу \eqref{eq:gen-simple}.
+\begin{enumerate}[start=0]
+\item Функций ровно \(n\) --- столько, сколько нужно.
+\item Каждая \(y_k=\e^{\lambda_kx}\) --- решение по свойству 4.
+\item Они линейно независимы на \(\R\). Достаточно проверить, что \(\exists x_0\in\R:\ W_{y_1,\ldots,y_n}(x_0)\neq0\). Имеем
 \[
-W(0)=
+W_{\e^{\lambda_1x},\ldots,\e^{\lambda_nx}}(x)=
+\begin{vmatrix}
+\e^{\lambda_1x}&\cdots&\e^{\lambda_nx}\\
+\lambda_1\e^{\lambda_1x}&\cdots&\lambda_n\e^{\lambda_nx}\\
+\vdots&&\vdots\\
+\lambda_1^{n-1}\e^{\lambda_1x}&\cdots&\lambda_n^{n-1}\e^{\lambda_nx}
+\end{vmatrix},
+\]
+и при \(x_0=0\) получаем определитель Вандермонда:
+\[
+W_{\e^{\lambda_1x},\ldots,\e^{\lambda_nx}}(0)=
 \begin{vmatrix}
 1&\cdots&1\\
 \lambda_1&\cdots&\lambda_n\\
-\vdots&\ddots&\vdots\\
+\vdots&&\vdots\\
 \lambda_1^{n-1}&\cdots&\lambda_n^{n-1}
 \end{vmatrix}
-=
-\prod_{i>j}(\lambda_i-\lambda_j)\neq0.
+=\prod_{\substack{i>j\\ i,j=1,\ldots,n}}(\lambda_i-\lambda_j)\neq0,
 \]
-Это определитель Вандермонда.
+так как \(\lambda_i\neq\lambda_j\) при \(i\neq j\). Значит, \(y_1,\ldots,y_n\) линейно независимы на \(\R\).
+\end{enumerate}
 \end{proof}
+
+\begin{remarkHSE}
+Корни \(\lambda_k\) могут быть комплексными, тогда \eqref{eq:gen-simple} --- общее комплексное решение (\(C_k\in\mathbb C\)). Так как коэффициенты вещественны, комплексные корни идут парами \(\lambda=\alpha\pm i\beta\), и пару \(\e^{(\alpha\pm i\beta)x}\) в ФСР можно заменить вещественной парой \(\e^{\alpha x}\cos\beta x,\ \e^{\alpha x}\sin\beta x\) --- это их линейные комбинации \(\frac12(\cdot+\cdot)\) и \(\frac1{2i}(\cdot-\cdot)\). Например, в №\,578 корни \(\pm2i\) дают ФСР \(\{\cos2t,\sin2t\}\).
+\end{remarkHSE}
 
 \section[Кратные корни]{ЛОУ с постоянными коэф-ами: кратные корни}
 
-\begin{lemmaHSE}[Формула смещения]
-Пусть $L(D)$ --- многочлен степени $n$ от оператора $D$, а $g$ имеет $n$ производных. Тогда
-\begin{equation}
-L(D)\bigl(e^{\lambda x}g(x)\bigr)
-=e^{\lambda x}L(D+\lambda)g(x).
-\label{eq:shift}
-\end{equation}
-\end{lemmaHSE}
-
-\begin{proof}
-Для линейного множителя
-\[
-D\bigl(e^{\lambda x}g\bigr)
-=e^{\lambda x}(D+\lambda)g.
-\]
-Последовательное применение этого равенства к степеням $D$ даёт формулу для любого многочлена $L$.
-\end{proof}
+Основной инструмент --- формула смещения \eqref{eq:shift}.
 
 \begin{theoremHSE}[Общее решение при кратных корнях]
 Пусть $\lambda_1,\ldots,\lambda_m$ --- различные корни характеристического многочлена кратностей $k_1,\ldots,k_m$, причём

@@ -500,7 +500,7 @@ f(x,y)=\frac{1}{x-y}\;(x\neq y),\;\lim_{y\rightarrow x}\frac{1}{x-y}=\infty
 
 Мы можем перевернуть уравнение и мерить угол не от оси \(Ox\), а \(Oy\):
 \[
-\frac{\dd y}{\dd x}=f(x,y)\iff\frac{\mathrm{d}x}{\mathrm{d}y}=\frac{1}{f(x,y)}
+\frac{\dd y}{\dd x}=f(x,y)\iff\frac{\dd x}{\dd y}=\frac{1}{f(x,y)}
 \]
 Рассматриваем уравнение в тех точках, где его правая часть определена. Объединяя обе области определения (исходного уравнения и перевёрнутого), получают область определения \(\tilde{G} = G \cup G'\) \textit{расширенного поля направлений}.
 
@@ -536,7 +536,7 @@ f(x,y)=k=\text{const}.
 \end{definitionHSE}
 
 Например, для \(y' = y/x\) исходная запись не определена при \(x = 0\), перевёрнутая
-\(\mathrm{d}x/\mathrm{d}y = x/y\) не определена при \(y = 0\), но их объединение задаёт направление всюду,
+\({\dd x}/{\dd y} = x/y\) не определена при \(y = 0\), но их объединение задаёт направление всюду,
 кроме \((0, 0)\). Поэтому \((0, 0)\) – изолированная особая точка.
 
 \begin{definitionHSE}[Определение интегральной кривой]
@@ -850,8 +850,8 @@ M=\max|f(x,y)|,\quad (x,y)\in\Pi,
 \[|\varphi'(x)|=|f(x,\varphi(x))|\le M,\ (x,\varphi(x))\in\Pi,\]
 получаем
 \begin{gather*}
-\varphi(x)=y_0+\int_{x_0}^{x}f(t,\varphi(t))\,dt\\[1em]
-|\varphi(x)-y_0|=\left|\int_{x_0}^{x}f(t,\varphi(t))\,dt\right|\le\int_{x_0}^{x}|f(t,\varphi(t))|\,dt\le\int_{x_0}^{x} M\,dt=M|x-x_0|,\\[1em]
+\varphi(x)=y_0+\int_{x_0}^{x}f(t,\varphi(t))\dd t\\[1em]
+|\varphi(x)-y_0|=\left|\int_{x_0}^{x}f(t,\varphi(t))\dd t\right|\le\int_{x_0}^{x}|f(t,\varphi(t))|\dd t\le\int_{x_0}^{x} M\dd t=M|x-x_0|,\\[1em]
 |\varphi(x)-y_0|\le M|x-x_0|
 \end{gather*}
 График решения \underline{на прямоугольнике} находится \textbf{внутри} «бабочки» с наклонами \(\pm M\).
@@ -1169,7 +1169,7 @@ y'=
 \begin{theoremHSE}[Эквивалентность задачи Коши и интегрального уравнения]
 Пусть $f\in C(D)$. Задача Коши \eqref{eq:cauchy} эквивалентна интегральному уравнению
 \begin{equation}
- y(x)=y_0+\int_{x_0}^{x} f\bigl(t,y(t)\bigr)\,dt.
+ y(x)=y_0+\int_{x_0}^{x} f\bigl(t,y(t)\bigr)\dd t.
  \label{eq:integral-cauchy}
 \end{equation}
 \begin{itemize}
@@ -1181,15 +1181,15 @@ y'=
 \[
 \left.
 \begin{aligned}
-\int_{x_0}^{x}\varphi'(t)\,dt
-    &= \int_{x_0}^{x}f(t,\varphi(t))\,dt,\\
-\int_{x_0}^{x}\varphi'(t)\,dt
+\int_{x_0}^{x}\varphi'(t)\dd t
+    &= \int_{x_0}^{x}f(t,\varphi(t))\dd t,\\
+\int_{x_0}^{x}\varphi'(t)\dd t
     &= \varphi(x)-\varphi(x_0),\\
 \varphi(x_0) &= y_0
 \end{aligned}\
 \right|
 \quad\Longrightarrow\quad
-\varphi(x)=y_0+\int_{x_0}^{x}f(t,\varphi(t))\,dt
+\varphi(x)=y_0+\int_{x_0}^{x}f(t,\varphi(t))\dd t
 \]
 
 \begin{proof}
@@ -1201,7 +1201,7 @@ y'=
 \]
 Интегрируя от $x_0$ до $x$, получаем
 \[
-\varphi(x)-\varphi(x_0)=\int_{x_0}^{x}f(t,\varphi(t))\,dt,
+\varphi(x)-\varphi(x_0)=\int_{x_0}^{x}f(t,\varphi(t))\dd t,
 \]
 а так как $\varphi(x_0)=y_0$, получаем \eqref{eq:integral-cauchy}.
 
@@ -1221,10 +1221,10 @@ y'=
 Начинают с $y_0(x)\equiv y_0$ и строят
 \[
 \begin{array}{l@{\;}l}
-y_1(x)     &= y_0+\displaystyle\int_{x_0}^{x} f(t,y_0)\,dt,\\[12pt]
-y_2(x)     &= y_0+\displaystyle\int_{x_0}^{x} f\bigl(t,y_1(t)\bigr)\,dt,\\
+y_1(x)     &= y_0+\displaystyle\int_{x_0}^{x} f(t,y_0)\dd t,\\[12pt]
+y_2(x)     &= y_0+\displaystyle\int_{x_0}^{x} f\bigl(t,y_1(t)\bigr)\dd t,\\
 \vdots     &\\[-2pt]
-y_{n+1}(x) &= y_0+\displaystyle\int_{x_0}^{x} f\bigl(t,y_n(t)\bigr)\,dt.
+y_{n+1}(x) &= y_0+\displaystyle\int_{x_0}^{x} f\bigl(t,y_n(t)\bigr)\dd t.
 \end{array}
 \]
 \end{definitionHSE}
@@ -1306,13 +1306,13 @@ f\in C(a,b),\qquad g\in C(c,d),\qquad g(y)\neq0\quad \forall y\in(c,d).
 \begin{proof}
 Пусть $y=\varphi(x)$ --- решение. Так как $g(\varphi(x))\neq0$,
 \[
-\frac{d\varphi}{g(\varphi)}=f(x)\,dx.
+\frac{\dd\varphi}{g(\varphi)}=f(x)\dd x.
 \]
 Интегрируя от $x_0$ до $x$ и делая замену $u=\varphi(t)$, получаем
 \[
-\int_{y_0}^{\varphi(x)}\frac{du}{g(u)}
+\int_{y_0}^{\varphi(x)}\frac{\dd u}{g(u)}
 =
-\int_{x_0}^{x}f(t)\,dt.
+\int_{x_0}^{x}f(t)\dd t.
 \]
 Пусть $G'(y)=1/g(y)$ и $F'(x)=f(x)$. Тогда
 \[
@@ -1328,26 +1328,26 @@ G(\varphi(x))=F(x)+G(y_0)-F(x_0).
 \subsection{Частный случай: \texorpdfstring{$y'=f(x)$}{y'=f(x)}}
 Если $f\in C(a,b)$, то
 \[
-y(x)=y_0+\int_{x_0}^{x}f(t)\,dt.
+y(x)=y_0+\int_{x_0}^{x}f(t)\dd t.
 \]
 Все решения отличаются вертикальным сдвигом.
 
 Если $f(x)\to\infty$ при $x\to a_1$, то поведение определяется несобственным интегралом
 \[
-J_1=\int_{x_0}^{a_1-0}f(t)\,dt.
+J_1=\int_{x_0}^{a_1-0}f(t)\dd t.
 \]
 Если $J_1$ сходится, решения подходят к прямой $x=a_1$ в конечных точках и единственность в расширенном поле может нарушаться. Если $J_1$ расходится, $x=a_1$ становится вертикальной асимптотой.
 
 \subsection{Частный случай: \texorpdfstring{$y'=g(y)$}{y'=g(y)}}
 При $g(y)\neq0$
 \[
-x(y)=x_0+\int_{y_0}^{y}\frac{du}{g(u)}.
+x(y)=x_0+\int_{y_0}^{y}\frac{\dd u}{g(u)}.
 \]
 Все решения отличаются горизонтальным сдвигом.
 
 Если $g(c_1)=0$, то $y=c_1$ --- стационарное решение. Поведение соседних решений определяется интегралом
 \[
-J_2=\int_{y_0}^{c_1-0}\frac{du}{g(u)}.
+J_2=\int_{y_0}^{c_1-0}\frac{\dd u}{g(u)}.
 \]
 При сходимости возможен контакт с прямой $y=c_1$ за конечное время; при расходимости $y=c_1$ выступает горизонтальной асимптотой.
 
@@ -1399,14 +1399,14 @@ u'x+u=f(u),
 \]
 то есть
 \[
-\frac{du}{dx}=\frac{f(u)-u}{x}.
+\frac{\dd u}{\dd x}=\frac{f(u)-u}{x}.
 \]
 Получили уравнение с разделяющимися переменными. Условия теоремы обеспечивают непрерывность множителей и отсутствие нулей $f(u)-u$, поэтому к нему применима теорема предыдущего билета.
 \end{proof}
 
 Разделяя переменные,
 \[
-\frac{dx}{x}=\frac{du}{f(u)-u}.
+\frac{\dd x}{x}=\frac{\dd u}{f(u)-u}.
 \]
 После интегрирования
 \[
@@ -1687,7 +1687,7 @@ D'(t)=D_1(t)+\ldots+D_n(t),
 \begin{theoremHSE}[Формула Лиувилля--Остроградского]
 Пусть $W(t)$ --- вронскиан $n$ решений ЛОС \eqref{eq:los}, тогда
 \begin{equation}
-W(t)=W(t_0)\exp\left(\int_{t_0}^{t}\tr A(\tau)\,d\tau\right),
+W(t)=W(t_0)\exp\left(\int_{t_0}^{t}\tr A(\tau)\dd\tau\right),
 \label{eq:liouville-system}
 \end{equation}
 где \(\displaystyle\tr A(t)=\sum_{i=1}^{n}a_{ii}(t)\).
@@ -1717,8 +1717,8 @@ W'(t)=\tr A(t)\,W(t).
 \end{gather*}
 Далее можно решить диффур или пойти через интегрирующий множитель:
 \[
-\Bigl(W(t)\,e^{-\int_{t_0}^{t}\operatorname{tr}A(s)\,ds}\Bigr)'
-=\bigl(W'(t)-\operatorname{tr}A(t)\,W(t)\bigr)\,e^{-\int_{t_0}^{t}\operatorname{tr}A(s)\,ds}=0,
+\Bigl(W(t)\,e^{-\int_{t_0}^{t}\operatorname{tr}A(s)\dd s}\Bigr)'
+=\bigl(W'(t)-\operatorname{tr}A(t)\,W(t)\bigr)\,e^{-\int_{t_0}^{t}\operatorname{tr}A(s)\dd s}=0,
 \]
 поэтому выражение в скобках постоянно. При $t=t_0$ оно равно $W(t_0)$, что и даёт \eqref{eq:liouville-system}.
 \end{proof}
@@ -1785,13 +1785,13 @@ W'(t)=\tr A(t)\,W(t).
 Следовательно,
 \[
 \vect{c}(t)=\vect{c}_0+
-\int_{t_0}^{t}X^{-1}(\tau)\vect{f}(\tau)\,d\tau,
+\int_{t_0}^{t}X^{-1}(\tau)\vect{f}(\tau)\dd\tau,
 \]
 Подставляем найденный \(\vect{c}(t)\) обратно в наше самое первое предположение \(\vect{x}=X\vect{c}(t)\)
 \begin{equation}
 \vect{x}(t)=
 X(t)\,\vect{c}_0+
-X(t)\int_{t_0}^{t}X^{-1}(\tau)\vect{f}(\tau)\,d\tau.
+X(t)\int_{t_0}^{t}X^{-1}(\tau)\vect{f}(\tau)\dd\tau.
 \label{eq:variation-system}
 \end{equation}
 \end{theoremHSE}
@@ -2135,11 +2135,11 @@ u\cdot\bigl(y_1^{(n)}+a_{n-1}(t)y_1^{(n-1)}+\cdots+a_0(t)y_1\bigr)=0,
 
 Запишем ЛНУ \eqref{eq:linear-n} кратко: \(L y=f\), где
 \[
-L=D^n+a_{n-1}(t)D^{n-1}+\cdots+a_1(t)D+a_0(t),\quad D=\frac{d}{dt}.
+L=D^n+a_{n-1}(t)D^{n-1}+\cdots+a_1(t)D+a_0(t),\quad D=\frac{\dd}{\dd t}.
 \]
 Причём \(L\) --- линейный оператор: \(L(y_1+y_2)=Ly_1+Ly_2\), \(L(\alpha y)=\alpha Ly\).
 
-Для системы аналогично: ЛНС записывается как \(L\vect{x}=\vect{f}\) с линейным оператором \(L=\dfrac{d}{dt}-A(t)\).
+Для системы аналогично: ЛНС записывается как \(L\vect{x}=\vect{f}\) с линейным оператором \(L=\dfrac{\dd}{\dd t}-A(t)\).
 
 Как и для систем (см. теорему об общем решении ЛНС), из линейности \(L\) следует
 \[
@@ -2251,11 +2251,11 @@ y_{\text{о.о.}}=c_1\cos2t+c_2\sin2t,\quad c_1,c_2\in\R,
 \]
 Интегрируем:
 \[
-c_1(t)=-\int\sin^2t\,dt=-\int\frac{1-\cos2t}{2}\,dt=-\frac t2+\frac{\sin2t}{4}+\tilde c_1,
+c_1(t)=-\int\sin^2t\dd t=-\int\frac{1-\cos2t}{2}\dd t=-\frac t2+\frac{\sin2t}{4}+\tilde c_1,
 \]
 \[
-c_2(t)=\frac12\int\frac{(2\cos^2t-1)\sin t}{\cos t}\,dt
-=-\frac12\int\frac{2\cos^2t-1}{\cos t}\,d(\cos t)
+c_2(t)=\frac12\int\frac{(2\cos^2t-1)\sin t}{\cos t}\dd t
+=-\frac12\int\frac{2\cos^2t-1}{\cos t}\dd(\cos t)
 =-\frac{\cos^2t}{2}+\frac12\ln|\cos t|+\tilde c_2.
 \]
 Общее решение:
@@ -2272,47 +2272,6 @@ y=\tilde c_1\cos2t+\tilde c_2\sin2t-\frac t2\cos2t+\frac12\sin2t\,\ln|\cos t|,
 на любом промежутке \(\bigl(-\frac\pi2+\pi k;\frac\pi2+\pi k\bigr)\), \(k\in\Z\), где \(\operatorname{tg}t\) непрерывен.
 \end{exampleHSE}
 
-\section[Интегральная формула Коши]{Интегральная формула Коши для частного решения ЛНУ}
-
-Рассмотрим
-\[
-y^{(n)}+a_{n-1}(t)y^{(n-1)}+\cdots+a_0(t)y=f(t)
-\]
-и соответствующее ЛОУ. Пусть $y_1,\ldots,y_n$ --- его ФСР.
-
-\begin{definitionHSE}[Функция Коши]
-Функция $K(t,s)$ по переменной $t$ является решением ЛОУ и удовлетворяет условиям при $t=s$:
-\[
-K(s,s)=0,
-\quad
-\frac{\partial K}{\partial t}(s,s)=0,
-\quad\ldots\quad,
-\frac{\partial^{n-2}K}{\partial t^{n-2}}(s,s)=0,
-\quad
-\frac{\partial^{n-1}K}{\partial t^{n-1}}(s,s)=1.
-\]
-\end{definitionHSE}
-
-\begin{theoremHSE}[Интегральная формула Коши]
-Частное решение ЛНУ можно записать в виде
-\[
-Y(t)=\int_a^t K(t,s)f(s)\,ds,
-\qquad a\in M.
-\]
-\end{theoremHSE}
-
-\begin{proof}
-При последовательном дифференцировании интеграла граничные слагаемые исчезают до производной порядка $n$, поскольку
-\[
-K(s,s)=K_t'(s,s)=\cdots=K_t^{(n-2)}(s,s)=0.
-\]
-На $n$-м шаге появляется
-\[
-K_t^{(n-1)}(t,t)f(t)=f(t).
-\]
-Оставшаяся интегральная часть обращается в ноль, потому что при каждом фиксированном $s$ функция $K(t,s)$ решает соответствующее ЛОУ. Поэтому подстановка $Y$ в ЛНУ даёт правую часть $f(t)$.
-\end{proof}
-
 \section[ЛУ с постоянными коэффициентами]{Линейные уравнения с постоянными коэффициентами. Общая теория}
 
 Здесь неизвестная функция \(y=y(x)\). Рассмотрим уравнение
@@ -2327,7 +2286,7 @@ a_ny^{(n)}+a_{n-1}y^{(n-1)}+\cdots+a_1y'+a_0y=0,
 
 \subsection{Оператор дифференцирования и характеристический многочлен}
 
-Пусть \(D=\dfrac{d}{dx}\) --- оператор взятия производной:
+Пусть \(D=\dfrac{\dd}{\dd x}\) --- оператор взятия производной:
 \[
 Dy=y',\qquad D^2y=y'',\qquad\ldots,\qquad D^ky=y^{(k)}.
 \]
@@ -2352,6 +2311,7 @@ L(\lambda)=a_n\lambda^n+\cdots+a_1\lambda+a_0
 \end{definitionHSE}
 
 \subsection{Свойства многочленов от \texorpdfstring{$D$}{D}}
+\label{subsec:poly-D}
 
 Пусть \(L(D)\), \(M(D)\) --- многочлены степеней \(m\) и \(k\) с постоянными коэффициентами, \(y\), \(y_1(x)\), \(y_2(x)\) --- функции, \(\alpha=\mathrm{const}\). Тогда:
 
@@ -2401,8 +2361,8 @@ L(D)\bigl(\e^{\lambda x}f(x)\bigr)=\e^{\lambda x}L(D+\lambda)f(x).
 
 \(L(D)=D^2+4I=D^2+4\). Пусть \(\lambda=3\):
 \begin{gather*}
-L(D)\bigl(\e^{3x}f(x)\bigr)=(D^2+4I)\bigl(\e^{3x}f(x)\bigr)=\frac{d^2}{dx^2}\bigl(\e^{3x}f(x)\bigr)+4\e^{3x}f(x)=\\
-=\frac{d}{dx}\bigl(3\e^{3x}f(x)+\e^{3x}f'(x)\bigr)+4\e^{3x}f(x)=9\e^{3x}f+3\e^{3x}f'+3\e^{3x}f'+\e^{3x}f''+4\e^{3x}f=\\
+L(D)\bigl(\e^{3x}f(x)\bigr)=(D^2+4I)\bigl(\e^{3x}f(x)\bigr)=\frac{\dd^2}{\dd x^2}\bigl(\e^{3x}f(x)\bigr)+4\e^{3x}f(x)=\\
+=\frac{\dd}{\dd x}\bigl(3\e^{3x}f(x)+\e^{3x}f'(x)\bigr)+4\e^{3x}f(x)=9\e^{3x}f+3\e^{3x}f'+3\e^{3x}f'+\e^{3x}f''+4\e^{3x}f=\\
 =\e^{3x}\bigl(\underbrace{f''+6f'+9f}_{(D+3)^2f}+4f\bigr)=\e^{3x}\bigl((D+3)^2+4\bigr)f=\e^{3x}L(D+3)f(x).
 \end{gather*}
 \end{exampleHSE}
@@ -2508,90 +2468,341 @@ W_{\e^{\lambda_1x},\ldots,\e^{\lambda_nx}}(0)=
 Корни \(\lambda_k\) могут быть комплексными, тогда \eqref{eq:gen-simple} --- общее комплексное решение (\(C_k\in\mathbb C\)). Так как коэффициенты вещественны, комплексные корни идут парами \(\lambda=\alpha\pm i\beta\), и пару \(\e^{(\alpha\pm i\beta)x}\) в ФСР можно заменить вещественной парой \(\e^{\alpha x}\cos\beta x,\ \e^{\alpha x}\sin\beta x\) --- это их линейные комбинации \(\frac12(\cdot+\cdot)\) и \(\frac1{2i}(\cdot-\cdot)\). Например, в №\,578 корни \(\pm2i\) дают ФСР \(\{\cos2t,\sin2t\}\).
 \end{remarkHSE}
 
-\section[Кратные корни]{ЛОУ с постоянными коэф-ами: кратные корни}
+\section[Кратные корни]{Решение ЛОУ в случае кратных корней характеристического многочлена}
 
-Основной инструмент --- формула смещения \eqref{eq:shift}.
-
-\begin{theoremHSE}[Общее решение при кратных корнях]
-Пусть $\lambda_1,\ldots,\lambda_m$ --- различные корни характеристического многочлена кратностей $k_1,\ldots,k_m$, причём
+\begin{theoremHSE}[Об общем решении ЛОУ в случае кратных корней]
+Пусть \(\lambda_1,\ldots,\lambda_m\) --- корни характеристического уравнения ЛОУ \eqref{eq:lou-const} порядка \(n\) кратностей \(k_1,\ldots,k_m\) соответственно, \(\lambda_i\neq\lambda_j\) при \(i\neq j\) (\(k_1+\cdots+k_m=n\)). Тогда функции
+\begin{equation}
+\begin{aligned}
+\lambda_1&:\quad y_1=\e^{\lambda_1x},\quad y_2=x\e^{\lambda_1x},\quad\ldots,\quad y_{k_1}=x^{k_1-1}\e^{\lambda_1x},\\
+\lambda_2&:\quad y_{k_1+1}=\e^{\lambda_2x},\quad y_{k_1+2}=x\e^{\lambda_2x},\quad\ldots,\quad y_{k_1+k_2}=x^{k_2-1}\e^{\lambda_2x},\\
+&\quad\ \vdots\\
+\lambda_m&:\quad y_{k_1+\cdots+k_{m-1}+1}=\e^{\lambda_mx},\quad\ldots,\quad y_{k_1+\cdots+k_m}=y_n=x^{k_m-1}\e^{\lambda_mx}
+\end{aligned}
+\label{eq:fsr-multiple}
+\end{equation}
+(корню \(\lambda_j\) соответствуют \(k_j\) функций) образуют ФСР ЛОУ \eqref{eq:lou-const}; все они определены \(\forall x\in\R\). Общее решение имеет вид
 \[
-k_1+\cdots+k_m=n.
+y=C_1y_1+\cdots+C_ny_n,\quad x\in\R,
 \]
-Тогда ФСР составляют функции
-\[
-e^{\lambda_jx},\ xe^{\lambda_jx},\ldots,x^{k_j-1}e^{\lambda_jx},
-\qquad j=1,\ldots,m,
-\]
-а общее решение имеет вид
-\[
-y=
-P_{k_1-1}(x)e^{\lambda_1x}
-+\cdots+
-P_{k_m-1}(x)e^{\lambda_mx},
-\]
-где $P_{k_j-1}$ --- произвольный многочлен степени не выше $k_j-1$.
+где \(C_1,\ldots,C_n\) --- произвольные постоянные.
 \end{theoremHSE}
 
 \begin{proof}
-Если $\mu$ --- корень кратности $k$, то
+\begin{enumerate}[start=0]
+\item Функций ровно \(k_1+\cdots+k_m=n\).
+
+\item Докажем, что каждая функция \(y_l\) --- решение. Пусть \(\lambda\) --- корень многочлена \(L(\lambda)\) кратности \(k\). Покажем, что
 \[
-L(\lambda)=(\lambda-\mu)^kM(\lambda),
-\qquad M(\mu)\neq0.
+y(x)=x^r\e^{\lambda x},\quad r=0,1,\ldots,k-1,
 \]
-Для $r=0,\ldots,k-1$ по формуле смещения
+--- решения ЛОУ \eqref{eq:lou-const}, то есть \(L(D)y=0\). Раз \(\lambda\) --- корень кратности \(k\), то можно вынести соответствующий множитель из характеристического многочлена:
 \[
-L(D)\bigl(x^re^{\mu x}\bigr)
-=e^{\mu x}M(D+\mu)D^k(x^r)=0,
+L(D)=(D-\lambda)^kM(D),\quad M(\lambda)\neq0.
 \]
-так как $k>r$. Линейная независимость совокупности экспоненциально-полиномиальных решений в конспекте доказывается последовательным делением на экспоненты и дифференцированием до исчезновения полиномиальных блоков.
+По формуле смещения \eqref{eq:shift}
+\begin{gather*}
+L(D)\bigl(x^r\e^{\lambda x}\bigr)=\e^{\lambda x}L(D+\lambda)x^r
+=\e^{\lambda x}\Bigl((D-\lambda)^kM(D)\Bigr)\Big|_{D\mapsto D+\lambda}x^r=\\
+=\e^{\lambda x}\bigl(D^kM(D+\lambda)\bigr)x^r
+\underset{\text{комм.}}{=}\e^{\lambda x}M(D+\lambda)\bigl(\underbrace{D^kx^r}_{=0}\bigr)=0,
+\end{gather*}
+так как \(k>r\): \(k\)-я производная многочлена степени \(r<k\) равна нулю.
+
+\item Докажем, что \(y_1,\ldots,y_n\) линейно независимы на \(\R\). От противного: пусть найдётся набор постоянных \((C_1,\ldots,C_n)\neq\vect{0}\), для которого
+\[
+C_1y_1(x)+\cdots+C_ny_n(x)=0\quad\forall x\in\R,
+\]
+то есть
+\[
+C_1\e^{\lambda_1x}+C_2x\e^{\lambda_1x}+\cdots+C_nx^{k_m-1}\e^{\lambda_mx}=0.
+\]
+Сгруппируем слагаемые по экспонентам:
+\begin{equation}
+\e^{\lambda_1x}P_1(x)+\cdots+\e^{\lambda_mx}P_m(x)=0\quad\forall x\in\R,\qquad\text{где }\deg P_j(x)\le k_j-1.
+\label{eq:li-quasi}
+\end{equation}
+Например, при \(\lambda_1=1\) кратности \(3\) и \(\lambda_2=7\) кратности \(2\) равенство \eqref{eq:li-quasi} имеет вид
+\[
+(C_1x^2+C_2x+C_3)\e^{x}+(C_4x+C_5)\e^{7x}=0\quad\forall x\in\R,
+\]
+и нужно доказать, что \(C_1=C_2=\cdots=C_5=0\).
+
+Так как \((C_1,\ldots,C_n)\neq\vect{0}\), то хотя бы один из многочленов \(P_j\) ненулевой. Без ограничения общности это \(P_1\): \(P_1(x)\not\equiv0\).
+
+\begin{remarkHSE}[Как дифференцирование действует на \(\e^{\lambda x}P(x)\)]
+По формуле смещения для \(L(D)=D\)
+\[
+D\bigl(\e^{\lambda x}P(x)\bigr)=\e^{\lambda x}(D+\lambda)P(x)=\e^{\lambda x}\bigl(DP(x)+\lambda P(x)\bigr)=\e^{\lambda x}\tilde P(x),
+\]
+и при \(\lambda\neq0\) \(\deg\tilde P=\deg P\) (свойство 6). В частности, ненулевой многочлен остаётся ненулевым.
+\end{remarkHSE}
+
+Делим \eqref{eq:li-quasi} на \(\e^{\lambda_mx}\neq0\):
+\begin{equation}
+\e^{(\lambda_1-\lambda_m)x}P_1(x)+\cdots+\e^{(\lambda_{m-1}-\lambda_m)x}P_{m-1}(x)+P_m(x)=0.
+\label{eq:li-quasi-div}
+\end{equation}
+Дифференцируем \eqref{eq:li-quasi-div} \(k_m\) раз. Слагаемое \(P_m\) исчезнет, так как \(\deg P_m\le k_m-1\). В остальных слагаемых \(\lambda_j-\lambda_m\neq0\), поэтому степени многочленов сохраняются:
+\[
+\e^{(\lambda_1-\lambda_m)x}\tilde P_1(x)+\cdots+\e^{(\lambda_{m-1}-\lambda_m)x}\tilde P_{m-1}(x)=0\quad\forall x\in\R,
+\qquad\deg\tilde P_j=\deg P_j\le k_j-1.
+\]
+Делим на \(\e^{(\lambda_{m-1}-\lambda_m)x}\). Показатель в первом слагаемом станет \(\lambda_1-\lambda_m-\lambda_{m-1}+\lambda_m=\lambda_1-\lambda_{m-1}\):
+\[
+\e^{(\lambda_1-\lambda_{m-1})x}\tilde P_1(x)+\cdots+\tilde P_{m-1}(x)=0.
+\]
+Это равенство того же вида, но с \(m-1\) слагаемым. Дифференцируем его \(k_{m-1}\) раз, и так далее.
+
+Продифференцировав в сумме \(k_m+k_{m-1}+\cdots+k_3\) раз и сокращая каждый раз на экспоненту, получим
+\[
+\e^{(\lambda_1-\lambda_2)x}\hat P_1(x)+\hat P_2(x)=0.
+\]
+Дифференцируем \(k_2\) раз:
+\[
+\e^{(\lambda_1-\lambda_2)x}\check P_1(x)=0\quad\Longrightarrow\quad\check P_1(x)=0\quad\forall x\in\R.
+\]
+Это противоречит тому, что \(P_1(x)\not\equiv0\): на каждом шаге степень многочлена при первой экспоненте сохранялась, \(\deg\check P_1=\deg P_1\). (При \(m=1\) (одном корне \(\lambda_1\) определённой кратности) противоречие сразу: \(\e^{\lambda_1x}P_1(x)=0\Rightarrow P_1\equiv0\).)
+
+Значит, \(C_1=\cdots=C_n=0\), и функции \eqref{eq:fsr-multiple} линейно независимы на \(\R\).
+\end{enumerate}
+Итак, \eqref{eq:fsr-multiple} --- ФСР, и по теореме об общем решении ЛОУ получаем формулу общего решения.
 \end{proof}
+
+\begin{remarkHSE}[Сгруппированная запись и комплексные корни]
+Сгруппировав слагаемые по корням, общее решение можно записать как
+\[
+y=P_{k_1-1}(x)\e^{\lambda_1x}+\cdots+P_{k_m-1}(x)\e^{\lambda_mx},
+\]
+где \(P_{k_j-1}\) --- произвольный многочлен степени не выше \(k_j-1\).
+
+Если среди корней есть комплексные, то постоянные \(C_i\in\mathbb C\). Как и в случае некратных корней, паре корней \(\alpha\pm i\beta\) кратности \(k\) в вещественной ФСР соответствуют функции \(x^r\e^{\alpha x}\cos\beta x\), \(x^r\e^{\alpha x}\sin\beta x\), \(r=0,\ldots,k-1\).
+\end{remarkHSE}
 
 \section[Квазимногочлен]{ЛНУ с правой частью в виде квазимногочлена}
 
+Функцию вида \(\e^{\lambda x}P(x)\), где \(P(x)\) --- многочлен, \(\lambda=\mathrm{const}\in\mathbb C\), называют \textit{простейшим квазимногочленом}.
+
 \begin{definitionHSE}[Квазимногочлен]
-Квазимногочлен --- конечная сумма функций вида
-\[
-P(x)e^{\mu x},
-\]
-где $P(x)$ --- многочлен, $\mu\in\mathbb C$.
+Конечная сумма функций вида \(\e^{\lambda x}P(x)\), где \(P(x)\) --- многочлен, \(\lambda=\mathrm{const}\in\mathbb C\), называется \textit{квазимногочленом}.
 
 В вещественной записи это даёт комбинации функций вида
 \[
-P(x)e^{ax},\quad
-P(x)e^{ax}\cos bx,\quad
-P(x)e^{ax}\sin bx.
+P(x)\e^{ax},\quad
+P(x)\e^{ax}\cos bx,\quad
+P(x)\e^{ax}\sin bx.
 \]
 \end{definitionHSE}
 
-Для линейного неоднородного уравнения
-\[
-L(D)y=e^{\mu x}P_N(x)
-\]
-общее решение имеет структуру
-\[
-y_{\text{общ.\,неодн.}}=y_{\text{част.\,неодн.}}+y_{\text{общ.\,одн.}}.
-\]
+\begin{exampleHSE}
+\(\e^{2x}+\e^{12ix}x^2\) и \((x^2+1)\e^{x}+(x-1)\e^{2x}+(4x^3-1)\e^{7x}\) --- квазимногочлены.
+\end{exampleHSE}
 
-\begin{theoremHSE}[Метод неопределённых коэффициентов]
-Пусть $s=0$, если $L(\mu)\neq0$, и пусть $s$ --- кратность $\mu$ как корня $L(\lambda)$, если $L(\mu)=0$. Тогда существует частное решение вида
+Общее решение ЛНУ --- это сумма частного решения ЛНУ и общего решения ЛОУ, а общее решение ЛОУ с постоянными коэффициентами мы уже умеем находить. Остаётся найти частное решение.
+
+\begin{theoremHSE}[О частном решении ЛНУ с правой частью --- простейшим квазимногочленом]
+Рассмотрим ЛНУ \(n\)-го порядка с постоянными коэффициентами
+\begin{equation}
+L(D)y=\e^{\mu x}P_N(x),
+\label{eq:lnu-quasi}
+\end{equation}
+где \(P_N\) --- многочлен степени \(N\), \(\mu=\mathrm{const}\in\mathbb C\). Тогда уравнение \eqref{eq:lnu-quasi} имеет частное решение вида
 \[
-y_p=x^sQ_N(x)e^{\mu x},
+y=x^s\e^{\mu x}Q_N(x),
 \]
-где $Q_N(x)$ --- многочлен степени $N$. Его коэффициенты определяются подстановкой и сравнением коэффициентов.
+где \(Q_N\) --- многочлен степени \(N\), а
+\[
+s=\begin{cases}
+\text{кратность }\mu\text{ как корня }L(\lambda),&\text{если }\mu\text{ --- корень},\\
+0,&\text{иначе}.
+\end{cases}
+\]
+Здесь \(L(\lambda)\) --- характеристический многочлен. Удобно считать, что если \(\mu\) не является корнем \(L(\lambda)\), то его кратность равна нулю.
 \end{theoremHSE}
 
 \begin{proof}
-По формуле смещения
+Подставим \(y=x^s\e^{\mu x}Q_N(x)\) в ЛНУ \eqref{eq:lnu-quasi}. Запишем
 \[
-L(D)\bigl(x^sQ_N(x)e^{\mu x}\bigr)
-=e^{\mu x}L(D+\mu)\bigl(x^sQ_N(x)\bigr).
+P_N(x)=a_Nx^N+P_{N-1}(x),\quad
+Q_N(x)=b_Nx^N+Q_{N-1}(x),\qquad
+\deg P_{N-1},\ \deg Q_{N-1}\le N-1,
 \]
-Поскольку
+где \(a_N\neq0\) известен, а \(b_N\) и коэффициенты \(Q_{N-1}\) нужно найти.
+
+Так как \(\mu\) --- корень \(L(\lambda)\) кратности \(s\) (при \(s=0\) это значит, что \(L(\mu)\neq0\)),
 \[
-L(D)=(D-\mu)^sM(D),\qquad M(\mu)\neq0,
+L(D)=(D-\mu)^sM(D),\qquad M(\mu)\neq0.
 \]
-получаем оператор $M(D+\mu)D^s$. После $s$ дифференцирований старший член $x^{N+s}$ переходит в ненулевой кратный $x^N$. Коэффициент при $x^N$ можно подобрать однозначно, затем последовательно подбираются коэффициенты меньших степеней.
+По формуле смещения \eqref{eq:shift}
+\[
+L(D)\bigl(\e^{\mu x}x^sQ_N(x)\bigr)=\e^{\mu x}P_N(x)
+\iff
+\e^{\mu x}L(D+\mu)\bigl(x^sQ_N(x)\bigr)=\e^{\mu x}P_N(x)\quad\Big|:\e^{\mu x}\neq0,
+\]
+а
+\[
+L(D+\mu)=D^sM(D+\mu)=M(D+\mu)D^s.
+\]
+Получаем уравнение на многочлен \(Q_N\):
+\begin{equation}
+M(D+\mu)D^s\bigl(b_Nx^{N+s}+x^sQ_{N-1}(x)\bigr)=a_Nx^N+P_{N-1}(x).
+\label{eq:quasi-poly-eq}
+\end{equation}
+Левая часть --- многочлен степени не выше \(N\): \(D^s\) понижает степень \(N+s\) до \(N\), а \(M(D+\mu)=M(\mu)+c_1D+c_2D^2+\cdots\) степень не повышает.
+
+Приравняем коэффициенты при \(x^N\). Слева \(x^N\) даёт только слагаемое \(b_Nx^{N+s}\):
+\[
+D^s\bigl(b_Nx^{N+s}\bigr)=b_N(N+s)(N+s-1)\cdots(N+1)\,x^N=b_N\frac{(N+s)!}{N!}\,x^N,
+\]
+а из \(M(D+\mu)\) на старший член действует только \(M(\mu)\): остальные слагаемые содержат \(D\) и понижают степень. Справа коэффициент равен \(a_N\). Значит,
+\[
+b_N\frac{(N+s)!}{N!}M(\mu)=a_N
+\Longrightarrow
+b_N=\frac{a_N}{M(\mu)}\cdot\frac{N!}{(N+s)!}.
+\]
+Делить можно, так как \(M(\mu)\neq0\). Причём \(b_N\neq0\) (т.к. \(a_N\neq0\)), так что \(\deg Q_N=N\).
+
+Итак, нашли коэффициент \(b_N\) при \(x^N\). Подставив его в \eqref{eq:quasi-poly-eq}, получим
+\[
+M(D+\mu)D^s\bigl(x^sQ_{N-1}(x)\bigr)=a_Nx^N+P_{N-1}(x)-M(D+\mu)D^s\bigl(b_Nx^{N+s}\bigr)=:\hat P_{N-1}(x),
+\]
+где \(\deg\hat P_{N-1}\le N-1\): члены с \(x^N\) сократились. Это уравнение того же вида для многочлена \(Q_{N-1}\), то есть всё свелось к поиску старшего коэффициента \(Q_{N-1}\). Повторяя рассуждение (индукция по \(N\)), однозначно находим все коэффициенты \(Q_N\).
 \end{proof}
+
+\begin{remarkHSE}[Метод неопределённых коэффициентов]
+На практике \(Q_N\) записывают с неизвестными коэффициентами, подставляют \(y=x^s\e^{\mu x}Q_N(x)\) в уравнение и приравнивают коэффициенты при одинаковых степенях \(x\). Если правая часть --- сумма нескольких простейших квазимногочленов, частное решение ищут для каждого слагаемого отдельно и складывают (принцип суперпозиции).
+\end{remarkHSE}
+
+\section[Интегральная формула Коши]{Интегральная формула Коши для частного решения ЛНУ}
+
+В этом разделе независимая переменная обозначается \(x\). Рассмотрим ЛНУ
+\begin{equation}
+y^{(n)}+a_{n-1}(x)y^{(n-1)}+\ldots+a_1(x)y'+a_0(x)y=f(x),
+\label{eq:lnu-cauchy}
+\end{equation}
+где \(a_i(x)\), \(f(x)\) непрерывны на \((\alpha;\beta)\) (допускается \(\alpha=-\infty\), \(\beta=+\infty\)). Пусть \(y_1(x),\ldots,y_n(x)\) --- ФСР ЛОУ, соответствующего ЛНУ \eqref{eq:lnu-cauchy}.
+
+\begin{definitionHSE}[Ядро Коши]
+Функция
+\begin{equation}
+K(x,s)=c_1(s)y_1(x)+\cdots+c_n(s)y_n(x),\qquad x,s\in(\alpha;\beta),
+\label{eq:cauchy-kernel}
+\end{equation}
+коэффициенты которой выбраны так, что
+\begin{equation}
+\begin{cases}
+K(s,s)=0,\\
+K'_x(s,s)=0,\\
+\quad\vdots\\
+K^{(n-2)}_x(s,s)=0,\\
+K^{(n-1)}_x(s,s)=1,
+\end{cases}
+\label{eq:cauchy-kernel-cond}
+\end{equation}
+называется \textit{ядром Коши} ЛНУ \eqref{eq:lnu-cauchy}. Здесь \(K^{(k)}_x(s,s)\) --- производная \(\dfrac{\partial^kK}{\partial x^k}\), вычисленная при \(x=s\).
+\end{definitionHSE}
+
+\begin{remarkHSE}[Корректность определения]
+\begin{itemize}
+\item Условия \eqref{eq:cauchy-kernel-cond} --- линейная система относительно \(c_1(s),\ldots,c_n(s)\), матрица которой --- матрица Вронского ФСР в точке \(s\). Её определитель \(W_{y_1,\ldots,y_n}(s)\neq0\), поэтому \(c_i(s)\) находятся однозначно (по формулам Крамера) и непрерывны по \(s\).
+\item При каждом фиксированном \(s\in(\alpha;\beta)\) функция \(K(x,s)\) --- решение ЛОУ по переменной \(x\): это линейная комбинация решений \(y_1,\ldots,y_n\) с постоянными по \(x\) коэффициентами.
+\item Ядро задано на квадрате \((\alpha;\beta)\times(\alpha;\beta)\), а условия \eqref{eq:cauchy-kernel-cond} ставятся на его диагонали \(x=s\).
+\end{itemize}
+\end{remarkHSE}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8, >=Stealth]
+  \fill[HSElightblue!15] (1,1) rectangle (3.6,3.6);
+  \draw[thick, HSEdarkgray] (1,1) rectangle (3.6,3.6);
+  \draw[very thick, HSEblue] (1,1) -- (3.6,3.6);
+  \node[HSEblue, right] at (3.6,3.6) {$x=s$};
+  \draw[->] (-0.3,0) -- (4.6,0) node[below] {$s$};
+  \draw[->] (0,-0.3) -- (0,4.6) node[left] {$x$};
+  \draw[densely dashed, gray] (1,0) -- (1,1) (3.6,0) -- (3.6,1) (0,1) -- (1,1) (0,3.6) -- (1,3.6);
+  \node[below] at (1,0) {$\alpha$};
+  \node[below] at (3.6,0) {$\beta$};
+  \node[left] at (0,1) {$\alpha$};
+  \node[left] at (0,3.6) {$\beta$};
+\end{tikzpicture}
+\end{center}
+
+\begin{theoremHSE}[Интегральная формула Коши]
+Частное решение ЛНУ \eqref{eq:lnu-cauchy} имеет вид
+\begin{equation}
+Y(x)=\int_\gamma^x K(x,s)f(s)\dd s,
+\label{eq:cauchy-formula}
+\end{equation}
+где \(\gamma\in(\alpha;\beta)\), а \(K(x,s)\) --- ядро Коши.
+\end{theoremHSE}
+
+\begin{proof}
+Подставим \(Y(x)\) из \eqref{eq:cauchy-formula} в ЛНУ \eqref{eq:lnu-cauchy}. Интеграл с переменным верхним пределом дифференцируется по правилу
+\[
+\frac{\dd}{\dd x}\int_\gamma^x g(x,s)\dd s=\int_\gamma^x g'_x(x,s)\dd s+g(x,x)
+\qquad(g,\ g'_x\text{ непрерывны}).
+\]
+Внеинтегральные слагаемые обнуляются условиями \eqref{eq:cauchy-kernel-cond} при \(s=x\):
+\begin{gather*}
+Y'(x)=\int_\gamma^x K'_x(x,s)f(s)\dd s+\underbrace{K(x,x)}_{=0}f(x)=\int_\gamma^x K'_x(x,s)f(s)\dd s,\\
+Y''(x)=\int_\gamma^x K''_{xx}(x,s)f(s)\dd s+\underbrace{K'_x(x,x)}_{=0}f(x)=\int_\gamma^x K''_{xx}(x,s)f(s)\dd s,\\
+\cdots\\
+Y^{(n-1)}(x)=\int_\gamma^x K^{(n-1)}_x(x,s)f(s)\dd s,\\
+Y^{(n)}(x)=\int_\gamma^x K^{(n)}_x(x,s)f(s)\dd s+\underbrace{K^{(n-1)}_x(x,x)}_{=1}f(x)=\int_\gamma^x K^{(n)}_x(x,s)f(s)\dd s+f(x).
+\end{gather*}
+Подставим в левую часть \eqref{eq:lnu-cauchy}. Коэффициенты \(a_i(x)\) не зависят от \(s\), поэтому их можно внести под интеграл (аргументы \((x,s)\) у \(K\) опущены):
+\begin{gather*}
+Y^{(n)}+a_{n-1}(x)Y^{(n-1)}+\cdots+a_1(x)Y'+a_0(x)Y=\\
+=\int_\gamma^x\Bigl(K^{(n)}_x+a_{n-1}(x)K^{(n-1)}_x+\cdots+a_1(x)K'_x+a_0(x)K\Bigr)f(s)\dd s+f(x)=\\
+=\int_\gamma^x\underbrace{\bigl(L\,K(x,s)\bigr)}_{=0}f(s)\dd s+f(x)=f(x),
+\end{gather*}
+где \(L=D^n+a_{n-1}(x)D^{n-1}+\ldots+a_1(x)D+a_0(x)\), \(D={\dd}/{\dd x}\). Здесь \(L\,K(x,s)=0\), так как при каждом фиксированном \(s\) функция \(K(x,s)\) --- линейная комбинация решений однородного уравнения, значит, сама является его решением ЛОУ.
+\end{proof}
+
+\begin{remarkHSE}[Почему \(L\), а не \(L(D)\)]
+Коэффициенты \(a_i(x)\) здесь переменные, поэтому оператор обозначен просто \(L\). На лекции его записывают как \(L(D)\): это допустимо как обозначение оператора, составленного из \(D\), но свойства многочленов от \(D\) из п.~\ref{subsec:poly-D} при переменных коэффициентах неверны. Не работают перестановочность \(L(D)M(D)=M(D)L(D)\), формула смещения и подстановка \(D\mapsto\lambda\) (характеристический многочлен). Причина в том, что \(D\) не перестановочен с умножением на функцию:
+\[
+D\bigl(a(x)y\bigr)=a'(x)y+a(x)Dy,\quad\text{то есть}\quad D\,a(x)\neq a(x)\,D.
+\]
+\end{remarkHSE}
+
+\begin{exampleHSE}[№\,578: \(y''+4y=\operatorname{tg}x\)]
+ФСР \(=\{\cos2x,\ \sin2x\}\) (см. пример в методе вариации постоянных). Ищем ядро Коши:
+\[
+K(x,s)=c_1(s)\cos2x+c_2(s)\sin2x,\qquad
+K'_x(x,s)=-2c_1(s)\sin2x+2c_2(s)\cos2x.
+\]
+Условия \eqref{eq:cauchy-kernel-cond} при \(n=2\):
+\[
+\begin{cases}K(s,s)=0,\\K'_x(s,s)=1\end{cases}
+\iff
+\begin{cases}c_1(s)\cos2s+c_2(s)\sin2s=0,\\-2c_1(s)\sin2s+2c_2(s)\cos2s=1.\end{cases}
+\]
+Определители:
+\[
+\Delta=\begin{vmatrix}\cos2s&\sin2s\\-2\sin2s&2\cos2s\end{vmatrix}=2,
+\]
+\[
+\Delta_1=\begin{vmatrix}0&\sin2s\\1&2\cos2s\end{vmatrix}=-\sin2s,\qquad
+\Delta_2=\begin{vmatrix}\cos2s&0\\-2\sin2s&1\end{vmatrix}=\cos2s.
+\]
+Отсюда
+\[
+c_1(s)=\frac{\Delta_1}{\Delta}=-\frac{\sin2s}{2},\qquad
+c_2(s)=\frac{\Delta_2}{\Delta}=\frac{\cos2s}{2},
+\]
+\[
+K(x,s)=-\frac{\sin2s}{2}\cos2x+\frac{\cos2s}{2}\sin2x=\frac{\sin2(x-s)}{2}.
+\]
+Правая часть \(\operatorname{tg}x\) непрерывна на \(\bigl(-\frac\pi2;\frac\pi2\bigr)\); возьмём \(\gamma=0\):
+\[
+y_{\text{ч.н.}}=\int_0^x\frac{\sin2(x-s)}{2}\operatorname{tg}s\dd s,\quad x\in\Bigl(-\frac\pi2;\frac\pi2\Bigr).
+\]
+Интеграл берётся: раскрыв \(\sin2(x-s)=\sin2x\cos2s-\cos2x\sin2s\) и учитывая \(\sin2s\operatorname{tg}s=1-\cos2s\), \(\cos2s\operatorname{tg}s=\sin2s-\operatorname{tg}s\), получаем
+\[
+y_{\text{ч.н.}}=-\frac x2\cos2x+\frac12\sin2x\,\ln\cos x+\frac14\sin2x.
+\]
+Слагаемое \(\frac14\sin2x\) --- решение ЛОУ, так что с точностью до него это то же частное решение, что и найденное методом вариации постоянных.
+\end{exampleHSE}
 
 \section[ЛОС с постоянными коэффициентами]{ЛОС с постоянными коэффициентами}
 
@@ -2636,7 +2847,7 @@ A\vect{v}=\lambda\vect{v}.
 
 \begin{proof}
 \[
-\frac{d}{dt}\bigl(e^{\lambda t}\vect{v}\bigr)
+\frac{\dd}{\dd t}\bigl(e^{\lambda t}\vect{v}\bigr)
 =\lambda e^{\lambda t}\vect{v},
 \]
 а
@@ -2765,7 +2976,7 @@ e^{2t}
 
 Рассматривается уравнение
 \[
-\frac{dy}{dx}=\frac{cx+dy}{ax+by},
+\frac{\dd y}{\dd x}=\frac{cx+dy}{ax+by},
 \]
 которому соответствует линейная автономная система
 \[
@@ -2875,13 +3086,13 @@ Q(x,y)=cx+dy+q(x,y),
 \begin{theoremHSE}[Пуанкаре--Перрона]
 Пусть
 \[
-\frac{dy}{dx}
+\frac{\dd y}{\dd x}
 =
 \frac{cx+dy+q(x,y)}{ax+by+p(x,y)}
 \]
 --- полное уравнение, а
 \[
-\frac{dy}{dx}
+\frac{\dd y}{\dd x}
 =
 \frac{cx+dy}{ax+by}
 \]
@@ -3282,7 +3493,7 @@ z+2=\pm C_1\e^x\quad\xRightarrow[]{\text{стац. реш.}}\quad z=C_1\e^x-2
 Cтационарные решения по \(x\) (\(x=x_0=\text{const}\)) не являются решениями в классическом смысле, поэтому в дальнейшем мы ищем их только в следующих случаях:
 
 \begin{itemize}
-\item \(M(x,y)dx+N(x,y)dy=0\).
+\item \(M(x,y)\dd x+N(x,y)\dd y=0\).
 \item Когда ищем интегральные кривые.
 \item \(y'=f(x,y)\).
 \end{itemize}
@@ -3717,7 +3928,7 @@ $\boxed{y'=p}\Rightarrow y=x\varphi(p)+\psi(p)$. Дифференцируем п
 \begin{gather*}
 p=\varphi(p)+x\varphi'(p)p'+\psi'(p)p',\qquad p'\bigl(x\varphi'(p)+\psi'(p)\bigr)=p-\varphi(p),\\[0.6em]
 \bigl(x\varphi'(p)+\psi'(p)\bigr)\dd p=(p-\varphi(p))\dd x\\[0.6em]
-dp=0\Longrightarrow p-\varphi(p)=0
+\dd p=0\Longrightarrow p-\varphi(p)=0
 \end{gather*}
 Корни уравнения $p-\varphi(p)=0$ дают решения $y=x\varphi(p_i)+\psi(p_i)$. Если \(p-\varphi(p)\neq0\), получаем \hyperref[box:type6]{линейное} по $x$ уравнение:
 \[

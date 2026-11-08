@@ -38,6 +38,12 @@
 \usepackage{mdframed}
 \usepackage{fancyhdr}
 \usepackage{titlesec}
+% Заголовок не остаётся один внизу страницы: если места меньше 10 строк,
+% он переносится на следующую страницу вместе с первой коробочкой.
+\usepackage{needspace}
+\newcommand{\sectionbreak}{\Needspace{10\baselineskip}}
+\newcommand{\subsectionbreak}{\Needspace{10\baselineskip}}
+\newcommand{\subsubsectionbreak}{\Needspace{10\baselineskip}}
 \usepackage{hyperref}
 \usepackage[most]{tcolorbox}
 \usepackage{enumitem}
@@ -628,853 +634,6 @@ y\dd y=-x\dd x,
 
 % TODO: рисунок изоклин и интегральных прямых (страница 9 исходника).
 \end{exampleHSE}
-
-\section{Алгоритмы решения ОДУ}
-
-\begin{definitionHSE}[Семейство кривых]
-Семейство кривых --- все кривые, получаемые из уравнения
-\[\Phi(x,y,C_1,\ldots,C_n)=0\]
-при различных значениях произвольных постоянных \(C_1,\ldots,C_n\).
-\end{definitionHSE}
-
-Пусть дано семейство кривых
-\[\Phi(x, y, C_1,\ldots, C_n) = 0.\]
-
-Чтобы получить дифференциальное уравнение этого семейства, дифференцируем соотношение по \(x\) столько раз, сколько имеется независимых постоянных, а затем исключаем \(C_1,\ldots,C_n\).
-
-\subsection{Линейные и однородные уравнения}
-
-\phantomsection\label{box:type0}
-\begin{definitionHSE}[Уравнения типа 0]
-Если \(y' = f(x)\), то семейство решений имеет вид:
-\begin{gather*}
-y'=f(x),\quad\frac{\dd y}{\dd x}=f(x),\quad\int\dd y = \int f(x)\dd x,\\
-\boxed{\ y = \int f(x)\dd x + C, \quad C \in \mathbb{R}.\ }
-\end{gather*}
-\end{definitionHSE}
-
-\phantomsection\label{box:type1}
-\begin{definitionHSE}[Уравнения типа 1 (с разделяющимися переменными)]
-Рассмотрим уравнение
-\[
-y' = f(x)g(y).
-\]
-Отыщем стационарные решения. Стационарное решение должно обращать ОДУ в тождество:
-\begin{itemize}
-\item \(y=y_0-\text{const}: f(x)g(y_0)=0\);
-\item \(x=x_0-\text{const}: \dfrac{1}{f(x_0)g(y)}=0\).
-\end{itemize}
-Далее разделяем переменные:
-\[
-\frac{y'}{g(y)} = f(x),\quad\frac{\frac{\dd y}{\dd x}}{g(y)}=f(x)
-\]
-и после интегрирования
-\[
-\boxed{\ \int \frac{\dd y}{g(y)} = \int f(x)\dd x + C, \quad C \in \mathbb{R}.\ }
-\]
-То есть изначально мы фактически интегрируем по \(x\), но в левой части делаем замену переменной:
-\[
-\int \frac{y'(x)}{g(y(x))}\dd x = \int f(x)\dd x + C, \quad C \in \mathbb{R}.
-\]
-
-Получаем, что решение описывается однопараметрическим семейством и набором стационарных решений.
-
-\end{definitionHSE}
-
-\phantomsection\label{box:type2}
-\begin{definitionHSE}[Уравнения типа 2 (с линейной правой частю)]
-Пусть
-\[y'=f(ax+by+c)\]
-Вводим \(z=ax+by+c\). Тогда
-\[z'=a+by'=a+bf(z),\quad y=\frac{z-ax-c}{b}\]
-Получаем уравнение на \(z\) с разделяющимися переменными (\hyperref[box:type1]{тип 1}):
-\[\boxed{\ z'=a+bf(z) \ }\]
-\end{definitionHSE}
-
-\begin{exampleHSE}[\(y'-y=2x-3\)]
-\begin{gather*}
-y'-y=2x-3,\quad y'=\underbrace{2x+y-3}_{=z}\quad\Longrightarrow\quad z'=(2x+y-3)'=2+y'=2+z
-\end{gather*}
-Стационарное решение перед делением:
-\[z'=0\Rightarrow z+2=0\Rightarrow z=-2-\text{решение}\]
-Делим:
-\begin{gather*}
-\frac{\dd z}{z+2}=\dd x,\quad\int\frac{\dd z}{z+2}=x+C,\ C\in\R\\
-\ln|z+2|=x+C,\quad z+2=\pm\e^{x+C}\\
-z+2=\pm C_1\e^x\quad\xRightarrow[]{\text{стац. реш.}}\quad z=C_1\e^x-2
-\end{gather*}
-\end{exampleHSE}
-
-\begin{remarkHSE}
-Часто произвольную постоянную при интегрировании удобнее записать как \(\ln C, C > 0\). Тогда можно чуть сократить количество переобозначений произвольных постоянных.
-\end{remarkHSE}
-
-Cтационарные решения по \(x\) (\(x=x_0=\text{const}\)) не являются решениями в классическом смысле, поэтому в дальнейшем мы ищем их только в следующих случаях:
-
-\begin{itemize}
-\item \(M(x,y)dx+N(x,y)dy=0\).
-\item Когда ищем интегральные кривые.
-\item \(y'=f(x,y)\).
-\end{itemize}
-
-\phantomsection\label{box:type3}
-\begin{definitionHSE}[Уравнения типа 3 (с однородной правой частью)]
-Рассмотрим уравнение
-\[y'=f\left(\frac{y}{x}\right)\]
-\begin{definitionHSE}[Определение однородной функции]
-Функция \(f(x,y)\) называется \textit{однородной} порядка \(k\), если
-\[\forall\lambda\neq0\quad f(\lambda x,\lambda y)=\lambda^kf(x,y)\]
-\end{definitionHSE}
-Сделаем замену:
-\vspace{-\baselineskip}
-\begin{gather*}
-y=u(x)\cdot x,\quad y'=\boxed{u'x+u=f(u)}=f\left(\frac{y}{x}\right)\\
-u'=\frac{f(u)-u}{x},\quad\frac{\dd u}{f(u)-u}=\frac{\dd x}{x}
-\end{gather*}
-Далее решаем уравнение с \hyperref[box:type1]{разделяющимися перменными}.
-\end{definitionHSE}
-Уравнение
-\[M(x,y)\dd x+N(x,y)\dd y=0\]
-называется однородным, если \(M(x,y)\) и \(N(x,y)\) --- однородные функции одного и того же порядка. Оно решается таким же способом.
-
-\begin{exampleHSE}[\(y'=\dfrac{y}{x}\cos\ln\left(\dfrac{y}{x}\right)\)]
-\[y'=\frac{y}{x}\cos\ln\left(\frac{y}{x}\right),\quad y=ux,\quad\frac{y}{x}>0\]
-\[
-\begin{aligned}
-y'&=(ux)'=u'x+u,\\
-y'&=u\cos\ln u
-\end{aligned}\quad\Longrightarrow\quad u'x+u=u\cos\ln u,\quad u'=\frac{u\cos\ln u-u}{x}\]
-
-Отыщем стационарные решения:
-\[u\cos\ln u-u=0,\quad\cos\ln u=1,\quad \ln u=2\pi k,\ k\in\Z,\quad u=\e^{2\pi k}\]
-Продолжим решать:
-\begin{gather*}
-\frac{\dd u}{\dd x}=\frac{u\cos\ln u-u}{x},\quad\frac{\dd u}{u\cos\ln u-u}=\frac{\dd x}{x}\\
-\int\frac{\dd u}{u\cos\ln u-u}=|\ln u=t|=\int\frac{\dd t}{\cos t-1}=\int\frac{\dd t}{\cos t-1}=\int\frac{\dd t}{-2\sin^2(t/2)}=\\=-\frac{1}{2}\cdot\left(-2\ctg\left(\frac{t}{2}\right)\right)+C=\ctg\left(\frac{t}{2}\right)+C=\ctg\left(\frac{\ln u}{2}\right)+C,\ C\in\R\\
-\ctg\left(\frac{\ln u}{2}\right)=\ln|x|+C_1,\quad\boxed{\ctg\left(\frac{\ln (x/y)}{2}\right)=\ln|C_2x|\ (C_2\neq0)}
-\end{gather*}
-Сделаем обратную замену в стационарном решении:
-\[\boxed{y=e^{2\pi k}x,\ k\in\Z}\]
-\end{exampleHSE}
-
-\begin{exampleHSE}[\((x+2y)\dd x-x\dd y=0\)]
-$M=x+2y$ и $N=-x$ --- однородные функции первого порядка, значит, уравнение однородное.
-
-$x=0$ --- решение ($\dd x=0$, и уравнение обращается в тождество). Делаем замену $y=ux$, $\dd y=x\dd u+u\dd x$:
-\begin{gather*}
-(x+2ux)\dd x-x(x\dd u+u\dd x)=0,\quad (x+ux)\dd x-x^2\dd u=0,\\
-x(1+u)\dd x=x^2\dd u\quad\bigl|\,:(1+u)x^2
-\end{gather*}
-Когда делим, смотрим, не потеряли ли стационарные решения: $1+u=0$ --- решение.
-\begin{gather*}
-\frac{\dd x}{x}=\frac{\dd u}{1+u},\qquad
-\ln|x|=\ln|1+u|+\ln C_1,\ C_1>0,\\
-|x|=|1+u|\cdot C_1,\qquad x=\pm(1+u)\,C_1.
-\end{gather*}
-\[
-\left[\begin{aligned}
-&x=(1+u)\,C,\ C\in\R,\\
-&u=-1
-\end{aligned}\right.
-\ \longrightarrow\
-\left[\begin{aligned}
-&x=\Bigl(1+\frac yx\Bigr)C,\ C\in\R,\\
-&\frac yx=-1
-\end{aligned}\right.
-\ \longrightarrow\
-\boxed{\left[\begin{aligned}
-&x^2=Cx+Cy,\ C\in\R,\\
-&y=-x
-\end{aligned}\right.}
-\]
-Решение $x=0$ входит в семейство при $C=0$.
-\end{exampleHSE}
-
-\phantomsection\label{box:type4}
-\begin{definitionHSE}[Уравнения типа 4 (уравнением с дробно-линейной правой частью)]
-Рассмотрим уравнение
-\[y'=f\left(\frac{ax+by+c}{a_1x+b_1y+c_1}\right),\quad\begin{vmatrix}a&b\\a_1&b_1\end{vmatrix}\neq0\]
-Идея --- убрать свободные члены, чтобы уравнение стало однородным. Сделаем замену
-\[
-\begin{aligned}
-x&=x_0+t,\\y&=y_0+w,
-\end{aligned}
-\text{ где }x_0,y_0\text{ находим из }\begin{cases}
-ax_0+by_0+c=0\\a_1x_0+b_1y_0+c_1=0
-\end{cases}
-\]
-Тогда
-\[ax+by+c=a(x_0+t)+b(y_0+w)+c=(ax_0+by_0+c)+at+bw=at+bw,\]
-Аналогично
-\[a_1x+b_1y+c_1=a_1t+b_1w\]
-Таким образом
-\[w'=f\left(\frac{at+bw}{a_1t+b_1w}\right)=\left(\frac{a+b(w/t)}{a_1+b_1(w/t)}\right)\]
-\end{definitionHSE}
-
-\begin{exampleHSE}[\((x+4y)y'=2x+3y-5\)]
-\[
-y'=\frac{2x+3y-5}{x+4y},\qquad y=-\frac{x}{4}\ \text{--- не решение.}
-\]
-Определитель $\begin{vmatrix}2&3\\1&4\end{vmatrix}=5\neq0$. Центр сдвига:
-\[
-\left( \begin{array}{cc|c} 
-2 & 3 & 5 \\ 
-1 & 4 & 0 
-\end{array} \right) 
-\rightarrow 
-\left( \begin{array}{cc|c} 
-0 & 1 & -1 \\ 
-1 & 0 & 4 
-\end{array} \right) 
-\rightarrow 
-\begin{array}{l} 
-y_0 = -1 \\ 
-x_0 = 4 
-\end{array}
-\]
-\[
-\begin{cases}2x_0+3y_0-5=0\\x_0+4y_0=0\end{cases}\quad\Longrightarrow\quad x_0=4,\ y_0=-1.
-\]
-Замена $x=4+t$, $y=-1+w$, затем $w=u(t)\cdot t$:
-\begin{gather*}
-w'=\frac{2t+3w}{t+4w}=\frac{2+3\frac{w}{t}}{1+4\frac{w}{t}},\qquad
-u't+u=\frac{2+3u}{1+4u},\\
-\frac{\dd u}{\dd t}=\frac{-4u^2+2u+2}{(1+4u)\,t}=\frac{-2(u-1)(2u+1)}{(1+4u)\,t}.
-\end{gather*}
-Стационарные решения: $u=1$, $u=-1/2$. Разделяем переменные:
-\begin{gather*}
-\frac{(1+4u)\dd u}{-4(u-1)\left(u+\frac12\right)}=\frac{\dd t}{t},\qquad
-\frac{1+4u}{-4(u-1)\left(u+\frac12\right)}=-\frac{5/6}{u-1}-\frac{1/6}{u+\frac12},\\
-\frac56\ln|u-1|+\frac16\ln\Bigl|u+\frac12\Bigr|=-\ln|t|+\ln C_1\ (C_1>0),\\
-|u-1|^5\Bigl|u+\frac12\Bigr|\,|t|^6=C_2\ (C_2>0)
-\ \xRightarrow[]{\text{стац. реш.}}\
-(u-1)^5\Bigl(u+\frac12\Bigr)t^6=C_3,\ (C_3\in\R).
-\end{gather*}
-Обратная замена $u=w/t=(y+1)/(x-4)$:
-\[
-\boxed{\ (y-x+5)^5\Bigl(y+\frac{x}{2}-1\Bigr)=C\ (C\in\R)\ }
-\]
-\end{exampleHSE}
-
-\phantomsection\label{box:type5}
-\begin{definitionHSE}[Уравнения типа 5 (сводящиеся к однородным степенной заменой)]
-Если уравнение не однородно, но становится однородным после замены
-\[
-y=z^m\Longrightarrow y'=m\,z^{m-1}z',
-\]
-то показатель $m$ подбираем так, чтобы все слагаемые получили одинаковую степень, и уравнение стало \hyperref[box:type3]{однородным}.
-\end{definitionHSE}
-\begin{remarkHSE}[Как распознать применение метода?]
-Что-то должно «мешать» быть уравнению однородным. Пример:
-\begin{gather*}
-y'=\frac{y^3+xy}{2x^2}=\frac{y}{2x}\left(1+\frac{y^2}{x}\right)\Longrightarrow z=y^2\\
-z'=2yy'=2y\cdot\frac{y}{2x}\left(1+\frac{y^2}{x}\right)=\frac{z}{x}\left(1+\frac{z}{x}\right)
-\end{gather*}
-\end{remarkHSE}
-\begin{exampleHSE}[\(y'=\dfrac{y^3+xy}{2x^2}\)]
-$y=0$ --- решение. Замена $y=z^m$:
-\[
-m\,z^{m-1}z'=\frac{z^{3m}+x\,z^m}{2x^2}\ \Longrightarrow\
-z'=\frac{z^{2m+1}+x\,z}{2m\,x^2},\qquad 2m+1=2\ \Longrightarrow\ m=\frac12.
-\]
-Итак, $y^2=z$ и
-\[
-z'=\frac{z^2+xz}{x^2}\ \text{--- однородное.}
-\]
-Замена $z=ux$:
-\begin{gather*}
-u'x+u=u^2+u,\quad x\,\frac{\dd u}{\dd x}=u^2,\quad u=0\ \text{--- решение},\\
-\frac{\dd u}{u^2}=\frac{\dd x}{x},\quad -\frac1u=\ln|x|+C,\quad u=-\frac{1}{\ln|x|+C}.
-\end{gather*}
-Обратная замена $z=ux$, $y^2=z$:
-\[
-\boxed{\ y^2=-\frac{x}{\ln|x|+C},\ C\in\R;\quad y=0\ }
-\]
-\end{exampleHSE}
-
-\phantomsection\label{box:type6}
-\begin{definitionHSE}[Уравнения типа 6 (линейные)]
-\textit{Лниейнное однородное} уравнение:
-\[y'+a(x)y=0.\]
-Всегда есть стационарное решение $y=0$; при $y\neq0$
-\begin{gather*}
-\frac{\dd y}{y}=-a(x)\dd x,\qquad \ln|y|=-\int a(x)\dd x+\ln C_0,\ C_0>0,\\
-|y|=C_0\,\e^{-\int a(x)\dd x},\quad y=\pm C_0\,\e^{-\int a(x)\dd x}
-\end{gather*}
-Объединяем со стационарным решением:
-\[\boxed{\ y=C\,\e^{-\int a(x)\dd x},\quad C\in\R\ }\]
-Представим \(y\) в следующем виде: \(y=C\cdot u(x)\), где \(u(x)\) --- функция, удовлетворяющая однородному уравнению
-
-\textit{Лниейнное неоднородное} уравнение:
-\[y'+a(x)y=b(x).\]
-\textcircled{1} Сначала решаем соответствующее однородное уравнение. Выражаем \(y=C\cdot u(x)\).
-
-\textcircled{2} Используем \textit{метод вариации постоянной} $C=C(x)$, $y=C(x)u(x)$:
-\begin{gather*}
-C'u+Cu'+a(x)Cu=b(x),\quad C'u+C\underbrace{\bigl(u'+a(x)u\bigr)}_{=0}=b(x),\\
-\underline{C'(x)=\frac{b(x)}{u(x)}},\quad C(x)=\int\frac{b(x)}{u(x)}\dd x+\widetilde C,
-\end{gather*}
-Подставим \(C(x)\) в \(y=C(x)u(x)\) из первого пункта:
-\[
-\boxed{\ y=\left(\int\frac{b(x)}{u(x)}\dd x+\widetilde C\right)u(x),\quad\widetilde C\in\R\ }
-\]
-\end{definitionHSE}
-
-\begin{exampleHSE}[\((2x+1)y'=4x+2y\)]
-\begin{gather*}
-y'=\frac{4x+2y}{2x+1}=\frac{2}{2x+1}\,y+\frac{4x}{2x+1},\qquad
-y'-\frac{2}{2x+1}\,y=\frac{4x}{2x+1}.
-\end{gather*}
-\textcircled{1} Однородное уравнение: $y=0$ --- решение;
-\[
-\frac{\dd y}{y}=\frac{2\dd x}{2x+1},\qquad \ln|y|=\ln|2x+1|+\ln C_0,\qquad y=C(2x+1),\ C\in\R.
-\]
-\textcircled{2} Вариация постоянной, $y=C(x)(2x+1)$:
-\begin{gather*}
-C'(2x+1)=\frac{4x}{2x+1},\qquad C'=\frac{4x}{(2x+1)^2}=\frac{2}{2x+1}-\frac{2}{(2x+1)^2},\\
-C=\ln|2x+1|+\frac{1}{2x+1}+\widetilde C.
-\end{gather*}
-\[
-\boxed{\ y=(2x+1)\ln|2x+1|+1+\widetilde C(2x+1),\quad \widetilde C\in\R\ }
-\]
-\end{exampleHSE}
-
-\phantomsection\label{box:type6-1}
-\begin{definitionHSE}[Уравнения типа 6.1 (линейные относительно \(x\))]
-Если уравнение линейно относительно функции $x(y)$, переходим к ней, используя
-\[
-y'=\frac{1}{x'_y},
-\]
-и решаем как \hyperref[box:type6]{уравнение типа 6} с независимой переменной $y$.
-\end{definitionHSE}
-\begin{remarkHSE}[Как распознать подобное уравнение?]
-\(y'\) умножается на выражение, линейное по \(x\), а в другой части стоит функция от \(y\).
-
-Практический признак для таких примеров:
-\[\bigl(a(y)x+b(y)\bigr)y'=c(y)\]
-\end{remarkHSE}
-
-\begin{exampleHSE}[\((\sin^2y+x\ctg y)\,y'=1\)]
-\[
-(\sin^2y+x\ctg y)\,\frac{1}{x'_y}=1\quad\Longrightarrow\quad x'_y-x\ctg y=\sin^2y.
-\]
-\textcircled{1} Однородное: $x=0$ --- решение;
-\[
-\frac{\dd x}{x}=\ctg y\dd y,\quad \ln|x|=\ln|\sin y|+\ln C_1,\quad x=C\sin y,\ C\in\R.
-\]
-\textcircled{2} $C=C(y)$, $x=C(y)\sin y$:
-\[
-C'\sin y+C\cos y-\underbrace{x\ctg y}_{=C\cos y}=\sin^2y,\quad C'=\sin y,\quad C=-\cos y+\widetilde C.
-\]
-\[
-\boxed{\ x=(\widetilde C-\cos y)\sin y,\quad\widetilde C\in\R\ }
-\]
-\end{exampleHSE}
-
-\phantomsection\label{box:type8}
-\begin{definitionHSE}[Уравнения типа 8 (уравнение Бернулли)]
-Это линейное неоднородное уравнение, свободный член которого домножили на \(y^n\):
-\[
-y'+a(x)y=b(x)\,y^n,\qquad n\neq0,1.
-\]
-При $n>0$ будет решение $y=0$. Делим на $y^n$ и делаем замену $z=y^{1-n}\Rightarrow z'=(1-n)y^{-n}y'$:
-\begin{gather*}
-y'y^{-n}+a(x)\,\underbrace{y^{1-n}}_{=z}=b(x)\quad\Longrightarrow\quad\frac{z'}{1-n}+a(x)z=b(x)\\
-\boxed{\ z'+(1-n)\,a(x)\,z=(1-n)\,b(x)\ }
-\end{gather*}
---- линейное уравнение (\hyperref[box:type6]{тип 6}).
-\end{definitionHSE}
-
-\begin{exampleHSE}[\(y'=y^4\cos x+y\tg x\)]
-\[
-y'-y\tg x=y^4\cos x,\quad y=0\ \text{--- решение},\quad \frac{y'}{y^4}-\frac{\tg x}{y^3}=\cos x.
-\]
-Замена $z=y^{-3}$, $z'=-3y^{-4}y'$:
-\[
-z'+3\tg x\cdot z=-3\cos x.
-\]
-\textcircled{1} Однородное: $\dfrac{\dd z}{z}=-3\tg x\dd x$, $\ln|z|=3\ln|\cos x|+\ln C_1$, $z=C\cos^3x$.
-
-\textcircled{2} Вариация, $C=C(x)$:
-\[
-C'\cos^3x-\cancel{3C\cos^2x\sin x}+\cancel{3C\cos^3x\tg x}=-3\cos x,
-\]
-\[
-C'=-\frac{3}{\cos^2x},\qquad C=-3\tg x+\widetilde C.
-\]
-\[
-\boxed{\ y^{-3}=(\widetilde C-3\tg x)\cos^3x,\ \widetilde C\in\R;\quad y=0\ }
-\]
-\end{exampleHSE}
-
-\phantomsection\label{box:type9}
-\begin{definitionHSE}[Уравнения типа 9 (в полных дифференциалах)]
-Мы предполагаем, что левая часть этого уравнения — это полный дифференциал \(\dd u\) некоторой функции \(u(x,y)\) (которую мы называем потеницалом).
-\[
-\begin{array}{r@{}c@{}l@{}c@{}l}
-          & M(x,y)                         & \,\dd x+{} & N(x,y)                         & \,\dd y=0\\
-          & \Updownarrow                   &            & \Updownarrow                   &          \\
-\dd u={}  & \dfrac{\partial u}{\partial x} & \,\dd x+{} & \dfrac{\partial u}{\partial y} & \,\dd y=0
-\end{array}
-\]
-то есть $\dfrac{\partial u}{\partial x}=M$, $\dfrac{\partial u}{\partial y}=N$. Тогда $\dd u=0$ и
-\[
-\boxed{\ u(x,y)=C,\quad C\in\R\ }
-\]
---- интегральные кривые.
-
-\textbf{Необходимое условие:} $M_y=N_x$.
-
-\textbf{Достаточные условия:} $M,N,M_y,N_x$ непрерывны в \emph{односвязной} области («без дыр») и $M_y=N_x$.
-
-Восстановим $u$. При интегрировании по \(x\) считаем \(y\) постоянной:
-\[u=\int M(x,y)\dd x+C(y).\]
-
-Мы знаем, что \(\dfrac{\partial u}{\partial y}=N\), воспользуемся этим, для того чтобы найти \(C'(y)\) и затем \(C(y)\):
-\begin{gather*}
-\bigl(u\bigr)'_y=\left(\int M(x,y)\dd x\right)'_y+C'(y)=N(x,y)\ \Longrightarrow\\ \Longrightarrow C'(y)\ \Longrightarrow\ C(y).
-\end{gather*}
-Подставим \(C(y)\) в восстановленный \(u\).
-\end{definitionHSE}
-
-\begin{remarkHSE}
-Неодносвязную область можно покрыть односвязными. Например, $\R^2\setminus\{(0,0)\}=G_1\cup G_2$, где $G_1$ --- плоскость с разрезом по лучу $\{y=0,\ x\le0\}$, а $G_2$ --- с разрезом по лучу $\{y=0,\ x\ge0\}$.
-\end{remarkHSE}
-
-\begin{remarkHSE}
-Любое уравнение с разделяющимися переменными представимо как уравнение в полных дифференциалах, но не наоборот.
-\end{remarkHSE}
-
-\begin{exampleHSE}[\(\dfrac{y}{x}\dd x+(y^3+\ln x)\dd y=0\)]
-\[
-M=\frac yx,\quad N=y^3+\ln x,\quad M_y=\frac1x=N_x.
-\]
-$M,N,M_y,N_x$ непрерывны в односвязной области $G=\{(x,y):x>0\}$.
-\begin{gather*}
-u=\int\frac yx\dd x=y\ln x+C(y),\qquad
-u'_y=\underline{\ln x+C'(y)=y^3+\ln x}=N,\\
-C'(y)=y^3,\quad C(y)=\frac{y^4}{4}\quad(\text{можем не писать константу, она поглотится}).
-\end{gather*}
-\[
-\boxed{\ y\ln x+\frac{y^4}{4}=C,\quad C\in\R\ }
-\]
-\end{exampleHSE}
-
-\phantomsection\label{box:type10}
-\begin{definitionHSE}[Уравнения типа 10 (введение под знак дифференциала)]
-Группируем слагаемые так, чтобы выделить полные дифференциалы, и делаем замену. Полезные формулы:
-\[
-\dd(uv)=u\dd v+v\dd u,\qquad
-\dd\Bigl(\frac uv\Bigr)=\frac{v\dd u-u\dd v}{v^2},\qquad
-\dd y^2=2y\dd y,\qquad
-\dd\ln y=\frac{\dd y}{y}.
-\]
-\end{definitionHSE}
-
-\begin{exampleHSE}[\((x^2+y^2+x)\dd x+y\dd y=0\)]
-\[
-(x^2+y^2)\dd x+\frac{\dd(x^2)}{2}+\frac{\dd(y^2)}{2}=0,\qquad u=x^2+y^2:\quad u\dd x+\frac{\dd u}{2}=0.
-\]
-$u=0$, то есть $x^2+y^2=0$, --- не решение: это точка, а не дифференцируемая функция. При $u\neq0$:
-\[
-\frac{\dd u}{u}=-2\dd x,\qquad 2x=-\ln|u|-\ln C,\ C>0,\qquad \e^{2x}=\frac{1}{C(x^2+y^2)}.
-\]
-\[
-\boxed{\ \e^{2x}(x^2+y^2)=C,\quad C>0\ }
-\]
-\end{exampleHSE}
-
-\subsection{Уравнения, не разрешённые относительно производной}
-
-\[
-F(x,y,p)=0,\qquad p=y'=\frac{\dd y}{\dd x}.
-\]
-Если удаётся разрешить относительно $p$, получаем совокупность уравнений
-\[
-p=f_1(x,y),\quad\ldots,\quad p=f_n(x,y).
-\]
-Например, $y'^2-x^2=0\ \Longrightarrow\ y'=x$ или $y'=-x$.
-
-Иначе используем параметр $p$: из уравнения выражаем $y$ (или $x$), берём дифференциал и подставляем $\dd y=p\dd x$.
-
-Подобным методом решается 4 типа уравнений:
-\begin{itemize}
-\item уравнение Клеро;
-\item уравнение Лагранжа;
-\item \(y=f(y')\);
-\item \(x=f(y')\).
-\end{itemize}
-
-\subsubsection{Уравнения на замену \(y'=p\)}
-
-\phantomsection\label{box:type11}
-\begin{definitionHSE}[Уравнения типа 11 (уравнение Клеро)]
-\[
-y=xy'+\varphi(y').
-\]
-$\boxed{y'=p}\Rightarrow y=xp+\varphi(p)$. Дифференцируем по $x$:
-\[
-p=p+xp'+\varphi'(p)p'\quad\Longrightarrow\quad p'\bigl(x+\varphi'(p)\bigr)=0.
-\]
-\textcircled{\small I} $p'=0$, $p=C$ --- общее решение (семейство прямых):
-\[
-\boxed{\ y=Cx+\varphi(C),\quad C\in\R\ }
-\]
-\textcircled{\small II} $x+\varphi'(p)=0$ --- особое решение (огибающая семейства прямых):
-\[
-\boxed{\ \begin{cases}x=-\varphi'(p),\\ y=-p\,\varphi'(p)+\varphi(p).\end{cases}}
-\]
-\end{definitionHSE}
-
-\begin{exampleHSE}[\(y=xy'-y'^2\)]
-\[
-y'=p,\quad y=xp-p^2,\quad p=p+xp'-2pp',\quad p'(x-2p)=0.
-\]
-\textcircled{\small I} $p'=0\Rightarrow p=C\Rightarrow$ Подставляем в исходное уравнение: $y=Cx-C^2$.
-
-\textcircled{\small II} $x=2p\Rightarrow p=\dfrac x2\Rightarrow$ Подставляем в исходное уравнение: \(y=\dfrac{x^2}{2}-\dfrac{x^2}{4}=\dfrac{x^2}{4}\).
-\[
-\boxed{\ y=Cx-C^2,\ C\in\R;\quad y=\frac{x^2}{4}\ }
-\]
-\end{exampleHSE}
-
-\phantomsection\label{box:type12}
-\begin{definitionHSE}[Уравнения типа 12 (уравнение Лагранжа)]
-\[
-y=x\,\varphi(y')+\psi(y').
-\]
-$\boxed{y'=p}\Rightarrow y=x\varphi(p)+\psi(p)$. Дифференцируем по $x$:
-\begin{gather*}
-p=\varphi(p)+x\varphi'(p)p'+\psi'(p)p',\qquad p'\bigl(x\varphi'(p)+\psi'(p)\bigr)=p-\varphi(p),\\[0.6em]
-\bigl(x\varphi'(p)+\psi'(p)\bigr)\dd p=(p-\varphi(p))\dd x\\[0.6em]
-dp=0\Longrightarrow p-\varphi(p)=0
-\end{gather*}
-Корни уравнения $p-\varphi(p)=0$ дают решения $y=x\varphi(p_i)+\psi(p_i)$. Если \(p-\varphi(p)\neq0\), получаем \hyperref[box:type6]{линейное} по $x$ уравнение:
-\[
-\boxed{\ x'_p-\frac{\varphi'(p)}{p-\varphi(p)}\,x=\frac{\psi'(p)}{p-\varphi(p)}\ }
-\]
-Ответ в параметрической форме: $\begin{cases}x=x(p),\\ y=x(p)\,\varphi(p)+\psi(p).\end{cases}$
-\end{definitionHSE}
-
-\begin{exampleHSE}[\(y+xy'=4\sqrt{y'}\)]
-$y'=p\ge0$, $y=-xp+4\sqrt p$. Дифференцируем:
-\[
-p=-p-xp'+\frac{2p'}{\sqrt p}\quad\Longrightarrow\quad 2p=p'\Bigl(\frac{2}{\sqrt p}-x\Bigr).
-\]
-$p=0\ \Longrightarrow\ y=0$ --- решение. При $p\neq0$, $p'=\frac{1}{x'_p}$:
-\[
-2p\,x'_p=\frac{2}{\sqrt p}-x\quad\Longrightarrow\quad x'_p+\frac{x}{2p}=\frac{1}{p\sqrt p}.
-\]
-Однородное:
-\[\frac{\dd x}{x}=-\frac{\dd p}{2p},\quad x=\frac{C}{\sqrt p}.\]
-Вариация $C=C(p)$:
-\[
-\frac{C'}{\sqrt p}=\frac{1}{p\sqrt p},\quad C'=\frac1p,\quad C=\ln p+\widetilde C.
-\]
-\[
-\boxed{\ \begin{cases}x=\dfrac{\ln p+C}{\sqrt p},\\[1.5ex] y=(4-\ln p-C)\sqrt p,\end{cases}\ C\in\R;\qquad y=0\ }
-\]
-\end{exampleHSE}
-
-\phantomsection\label{box:type13}
-\begin{definitionHSE}[Уравнения типа 13: \(y=f(y')\)]
-$\boxed{y'=p}\Rightarrow y=f(p)$, $\dd y=p\dd x$:
-\[
-p\dd x=f'(p)\dd p,\quad \frac{\dd x}{\dd p}=\frac{f'(p)}{p},\ p\neq0\quad\Longrightarrow\quad x=\int\frac{f'(p)}{p}\dd p+C.
-\]
-\[
-\boxed{\ \begin{cases}x=\displaystyle\int\frac{f'(p)}{p}\dd p+C,\\ y=f(p);\end{cases}\quad y=f(0)\ \text{--- тоже решение.}}
-\]
-\end{definitionHSE}
-
-\begin{exampleHSE}[\(3y'^4=y'+y\)]
-\[
-y=3y'^4-y',\qquad y=0\ \text{--- решение}\ (p=0).
-\]
-$y'=p\Rightarrow y=3p^4-p$, $p\dd x=\dd y=(12p^3-1)\dd p$:
-\[
-\frac{\dd x}{\dd p}=12p^2-\frac1p\quad\Longrightarrow\quad x=4p^3-\ln|p|+C.
-\]
-\[
-\boxed{\ \begin{cases}x=4p^3-\ln|p|+C,\\ y=3p^4-p,\end{cases}\ C\in\R;\qquad y=0\ }
-\]
-\end{exampleHSE}
-
-\phantomsection\label{box:type14}
-\begin{definitionHSE}[Уравнения типа 14: \(x=f(y')\)]
-$\boxed{y'=p}\Rightarrow x=f(p)$, $\dd x=f'(p)\dd p$; из $\dd y=p\dd x$:
-\[
-\dd y=p\,f'(p)\dd p\quad\Longrightarrow\quad
-\boxed{\ \begin{cases}y=\displaystyle\int p\,f'(p)\dd p+C,\ C\in\R,\\ x=f(p).\end{cases}}
-\]
-\end{definitionHSE}
-
-\begin{exampleHSE}[\(2y'=x+\ln y'\) (№360)]
-$x=2y'-\ln y'$; $y'=p>0$, $x=2p-\ln p$:
-\[
-\dd y=p\dd x=p\Bigl(2-\frac1p\Bigr)\dd p=(2p-1)\dd p,\quad y=p^2-p+C.
-\]
-\[
-\boxed{\ \begin{cases}x=2p-\ln p,\\ y=p^2-p+C,\end{cases}\quad C\in\R\ }
-\]
-\end{exampleHSE}
-
-\subsubsection{Уравнения старшего порядка}
-\phantomsection\label{box:type15}
-\begin{definitionHSE}[Уравнения типа 15 (понижение порядка: нет младших производных)]
-\[
-F\bigl(y^{(n)},y^{(n-1)},\ldots,y^{(n-k)},x\bigr)=0.
-\]
-Замена \textbf{младшей} из существующих производных $z=y^{(n-k)}$ понижает порядок уравнения на её порядок $n-k$:
-\[
-F\bigl(z^{(k)},z^{(k-1)},\ldots,z,x\bigr)=0,\quad z=\varphi(x),\quad y^{(n-k)}=\varphi(x).
-\]
-\end{definitionHSE}
-
-\begin{exampleHSE}[\(y'''=y''^2\)]
-Замена $z=y''$: $z'=z^2$.
-
-$z=0$: $y''=0$, $y=C_1x+C_2$.
-
-$z\neq0$:
-\[\frac{\dd z}{\dd x}=z^2,\quad\frac{\dd z}{z^2}=\dd x,\quad-\frac1z=x+C,\]
-то есть $y''=-\dfrac{1}{x+C}$.
-
-Интегрируем дважды:
-\[
-y'=-\ln|x+C|+C_1,\qquad y=-(x+C)\ln|x+C|+(x+C)+C_1x+C_2.
-\]
-\[
-\boxed{\ y=-(x+C)\ln|x+C|+C_1x+C_2;\qquad y=C_1x+C_2,\qquad C,C_1,C_2\in\R\ }
-\]
-\end{exampleHSE}
-
-\phantomsection\label{box:type16}
-\begin{definitionHSE}[Уравнения типа 16 (не содержащие явно \(x\))]
-\[
-F\bigl(y^{(n)},y^{(n-1)},\ldots,y',y\bigr)=0.
-\]
-Замена $y'=p(y)$ понижает порядок на единицу:
-\[
-y''=\frac{\dd}{\dd x}\,p=\frac{\dd p}{\dd y}\cdot\underbrace{\frac{\dd y}{\dd x}}_{=p}=p'_y\,p.
-\]
-\end{definitionHSE}
-
-\begin{exampleHSE}[\(y^3y''=1\)]
-$y'=p(y)$, $y''=p'_yp$:
-\[
-y^3p\,p'_y=1,\quad p\dd p=\frac{\dd y}{y^3},\quad p^2=-\frac{1}{y^2}+C_1,\quad
-y'=\pm\sqrt{\frac{C_1y^2-1}{y^2}}.
-\]
-Стационарных решений нет, иначе левая часть бы обращалась в нуль.
-\[
-\frac{y\dd y}{\sqrt{C_1y^2-1}}=\pm\dd x,\quad \frac{\sqrt{C_1y^2-1}}{C_1}=\pm(x+C_2).
-\]
-\[
-\boxed{\ C_1^2(x+C_2)^2=C_1y^2-1,\quad C_1>0,\ C_2\in\R\ }
-\]
-\end{exampleHSE}
-
-\phantomsection\label{box:thm-n}
-\begin{theoremHSE}[Существование и единственность для уравнения \(n\)-го порядка]
-Рассмотрим задачу Коши
-\[
-\begin{cases}
-y^{(n)}=F\bigl(x,y,y',\ldots,y^{(n-1)}\bigr),\\
-y(x_0)=y_0,\\
-y'(x_0)=y_1,\\
-\ldots,\\
-y^{(n-1)}(x_0)=y_{n-1}.
-\end{cases}
-\]
-\textcircled{\small 1} \(F,\ F'_y,\ F'_{y'},\ \ldots,\ F'_{y^{(n-1)}}\in C(\Omega),\ \Omega-\text{область}\subset\R^{n+1}.\)
-
-\textcircled{\small 2} \((x_0,y_0,y_1,\ldots,y_{n-1})\in\Omega.\)
-
-Если существует подобная область $\Omega$, и выполнены указанные условия, то задача Коши имеет, причём единственное решение, определённое на \([x_0-h,x_0+h]\).
-\end{theoremHSE}
-
-\begin{exampleHSE}[\(y''\cos y+y'^2\sin y=y',\ y(-1)=\dfrac\pi6,\ y'(-1)=2\)]
-\textbf{Существование и единственность.} Необходимо разрешить уравнение относительно старшей производной. При $\cos y\neq0$
-\[
-y''=F=\frac{y'-y'^2\sin y}{\cos y},\qquad
-F'_y=\frac{y'\sin y-y'^2}{\cos^2y},\qquad
-F'_{y'}=\frac{1-2y'\sin y}{\cos y}.
-\]ы
-В области $\Omega=\bigl\{(x,y,y')\mid 0<y<\frac\pi2\bigr\}$, содержащей $\bigl(-1,\frac\pi6,2\bigr)$, функции $F,F'_y,F'_{y'}$ непрерывны $\Longrightarrow$ решение существует и единственно.
-
-\textbf{Решение.} Так как $\Bigl(\dfrac{y'}{\cos y}\Bigr)'=\dfrac{y''\cos y+y'^2\sin y}{\cos^2y}$, после деления на $\cos^2y$:
-\[
-\Bigl(\frac{y'}{\cos y}\Bigr)'=\frac{y'}{\cos^2y}=(\tg y)'\quad\Longrightarrow\quad\frac{y'}{\cos y}=\tg y+C.
-\]
-Из начальных условий $C=\sqrt3$, поэтому $y'=\sin y+\sqrt3\cos y=2\sin\bigl(y+\frac\pi3\bigr)$ и
-\[
-\boxed{\ y=2\arctg\e^{2(x+1)}-\frac\pi3\ }
-\]
-\end{exampleHSE}
-
-\phantomsection\label{box:type17}
-\begin{definitionHSE}[Уравнения типа 17 (однородные относительно \(y\) и её производных)]
-Если уравнение не меняется при замене $y\to ky,\ y'\to ky',\ \ldots,\ y^{(n)}\to ky^{(n)}$, то порядок понижается подстановкой
-\[
-y'=y\cdot z(x)\Longrightarrow y''=y'z+yz'=y\,(z^2+z').
-\]
-\end{definitionHSE}
-
-\begin{exampleHSE}[\(y'^2+2yy''=0\)]
-$y=0$ --- решение. Замена $y'=yz$:
-\[
-y^2z^2+2y^2(z^2+z')=0\quad\Longrightarrow\quad 3z^2+2z'=0.
-\]
-$z=0$: $y'=0$, $y=C$. При $z\neq0$:
-\[
-3\dd x=-\frac{2\dd z}{z^2},\quad 3x=\frac2z-C_1,\quad \frac{y'}{y}=z=\frac{2}{3x+C_1},\quad \ln|y|=\frac23\ln|3x+C_1|+\widetilde C.
-\]
-\[
-\boxed{\ y=C_2\,(3x+C_1)^{2/3},\ C_1,C_2\in\R;\qquad y=C,\ C\in\R\ }
-\]
-\end{exampleHSE}
-
-\phantomsection\label{box:type18}
-\begin{definitionHSE}[Уравнения типа 18 (выделение полной производной)]
-Левую часть приводим к виду $\bigl(\Phi(x,y,y',\ldots)\bigr)'=0$, откуда $\Phi=C$, и порядок понижается на единицу. Например,
-\[
-y'y''+yy'''=(yy'')',\qquad 2y'y''=(y'^2)'.
-\]
-\end{definitionHSE}
-
-\begin{exampleHSE}[\(yy'''+3y'y''=0\)]
-\[(yy'')'=y'y''+yy''',\quad yy'''=(yy'')'-y'y''\]
-\begin{gather*}
-(yy'')'+2y'y''=0,\quad (yy'')'+(y'^2)'=0,\quad (yy''+y'^2)'=0,\\
-yy''+y'^2=C,\quad (yy')'=C,\quad yy'=Cx+C_1,\quad \frac12(y^2)'=Cx+C_1.
-\end{gather*}
-\[
-\boxed{\ y^2=C_1x^2+C_2x+C_3,\quad C_1,C_2,C_3\in\R\ }
-\]
-\end{exampleHSE}
-
-\phantomsection\label{box:type19}
-\begin{definitionHSE}[Уравнения типа 19 (обобщённо-однородные)]
-Пусть уравнение не меняется при
-\[
-x\to kx,\quad y\to k^my,\quad y'\to k^{m-1}y',\quad \ldots,\quad y^{(l)}\to k^{m-l}y^{(l)}.
-\]
-Тогда делаем замену
-\[
-\begin{cases}x=\e^t,\\ y=z\,\e^{mt},\end{cases}\quad z=z(t).
-\]
-Например, при $m=2$:
-\[
-y'=\e^t(z'_t+2z),\qquad y''=z''_{tt}+3z'_t+2z.
-\]
-После замены уравнение не содержит $t$ явно (\hyperref[box:type16]{тип 16}).
-\end{definitionHSE}
-
-\begin{exampleHSE}[\(x^2y''-3xy'=\dfrac{6y^2}{x^2}-4y,\ y(1)=1,\ y'(1)=4\)]
-Подбираем $m$: $x^2y''\sim k^m$, $xy'\sim k^m$, $y\sim k^m$, $\frac{y^2}{x^2}\sim k^{2m-2}$, откуда $2m-2=m$, $m=2$.
-
-Замена $x=\e^t$, $y=z\e^{2t}$:
-\[
-\e^{2t}(z''+3z'+2z)-3\e^{2t}(z'+2z)=6z^2\e^{2t}-4z\e^{2t}\quad\Longrightarrow\quad z''=6z^2.
-\]
-Начальные условия: $t=0$, $z(0)=1$, $z'(0)=y'(1)-2z(0)=2$. Умножаем на $z'$:
-\[
-(z'^2)'=(4z^3)',\qquad z'^2=4z^3+C,\quad C=0,\qquad z'=2z^{3/2},\qquad z^{-1/2}=1-t.
-\]
-\[
-z=\frac{1}{(1-t)^2}\quad\Longrightarrow\quad
-\boxed{\ y=\frac{x^2}{(1-\ln x)^2}\ }
-\]
-\end{exampleHSE}
-
-\clearpage
-\phantomsection
-\subsection{Схема решения произвольного ОДУ}
-\label{sec:ode-scheme}
-
-\begin{center}
-\begin{tikzpicture}[
-    font=\small,
-    >={Stealth[length=2.2mm]},
-    odestep/.style={draw=HSEblue, thick, rounded corners=4pt, fill=HSEblue!6,
-                 align=center, inner sep=5pt},
-    odeask/.style={draw=HSEorange!85!black, thick, rounded corners=10pt, fill=HSEorange!10,
-                align=center, inner sep=5pt},
-    odeleaf/.style={draw=HSEgreen!70!black, thick, rounded corners=4pt, fill=HSEgreen!6,
-                 align=flush left, inner sep=5pt, text width=4.95cm, anchor=north},
-    odefin/.style={draw=HSEred!80!black, thick, rounded corners=4pt, fill=HSEred!5,
-                align=flush left, inner sep=6pt, text width=16.2cm},
-    odelab/.style={font=\footnotesize\itshape, fill=white, inner sep=1.5pt}
-  ]
-  % --- шаг 0 ---
-  \node[odestep, text width=15cm] (start) at (0,0)
-    {\textbf{Шаг 0.} Привести уравнение к удобному виду, определить порядок $n$.\\
-     Сразу выписать всё, на что придётся делить, и проверить, не решения ли это
-     (стац. решения $y=\text{const}$, а для $M\dd x+N\dd y=0$ также $x=\text{const}$).};
-
-  % --- вопросы ---
-  \node[odeask] (q1) at (0,-1.75) {Порядок $n=1$?};
-  \node[odeask, text width=5.4cm] (q2) at (-2.95,-3.35)
-    {Разрешено относительно $y'$\\ (или вид $M\dd x+N\dd y=0$)?};
-
-  % --- листья ---
-  \node[odeleaf] (A) at (-5.6,-4.75) {%
-    \textbf{Первый порядок, $y'=f(x,y)$}\\[2pt]
-    1) $y'=f(x)$ --- \hyperref[box:type0]{тип~0};\\
-    2) $y'=f(x)g(y)$ --- \hyperref[box:type1]{тип~1};\\
-    3) $y'=f(ax+by+c)$ --- \hyperref[box:type2]{тип~2};\\
-    4) $y'=f\bigl(\frac yx\bigr)$ или $M,N$ однородны одного порядка --- \hyperref[box:type3]{тип~3};\\
-    5) $y'=f\Bigl(\frac{ax+by+c}{a_1x+b_1y+c_1}\Bigr)$: при $\Delta\neq0$ --- \hyperref[box:type4]{тип~4}, при $\Delta=0$ --- \hyperref[box:type2]{тип~2};\\
-    6) «почти» однородно: однородно после $y=z^m$ --- \hyperref[box:type5]{тип~5};\\
-    7) линейно по $y$ --- \hyperref[box:type6]{тип~6}; линейно по $x(y)$ --- \hyperref[box:type6-1]{тип~6.1};\\
-    8) $y'+a(x)y=b(x)y^n$ --- \hyperref[box:type8]{тип~8};\\
-    9) $M_y=N_x$ --- \hyperref[box:type9]{тип~9};\\
-    10) видны $\dd(x^2+y^2)$, $\dd\bigl(\frac xy\bigr)$, \ldots\ --- \hyperref[box:type10]{тип~10}.};
-
-  \node[odeleaf] (B) at (0,-4.75) {%
-    \textbf{Первый порядок, $F(x,y,y')=0$}\\[2pt]
-    0) Разрешить относительно $y'$: получится совокупность \(y'=f(x,y)\);\\
-    1) $y=xy'+\varphi(y')$ --- \hyperref[box:type11]{тип~11} (Клеро);\\
-    2) $y=x\varphi(y')+\psi(y')$ --- \hyperref[box:type12]{тип~12} (Лагранж);\\
-    3) $y=f(y')$ --- \hyperref[box:type13]{тип~13};\\
-    4) $x=f(y')$ --- \hyperref[box:type14]{тип~14}.\\[3pt]
-    \textit{В общем случае:} $y'=p$, выразить $y$ или $x$, взять дифференциал и подставить $\dd y=p\dd x$.};
-
-  \node[odeleaf] (C) at (5.6,-4.75) {%
-    \textbf{Высший порядок, $n\ge2$}\\[2pt]
-    0) Задача Коши --- проверить \hyperref[box:thm-n]{теорему $\exists!$};\\
-    1) нет мл. производных --- $z=y^{(k)},k=\min\{i:y^{(i)}\}$, \hyperref[box:type15]{тип~15};\\
-    2) нет $x$: $y'=p(y)$, \hyperref[box:type16]{тип~16};\\
-    3) однородно по $y,y',\ldots$ --- $y'=yz(x)$, \hyperref[box:type17]{тип~17};\\
-    4) обобщённо-однородно --- $x=\e^t$, $y=z\e^{mt}$, \hyperref[box:type19]{тип~19};\\
-    5) левая часть --- полная производная --- \hyperref[box:type18]{тип~18}.\\[3pt]
-    \textit{После понижения порядка --- снова по схеме.}};
-
-  % --- стрелки ---
-  \draw[->, thick, HSEgray] (start) -- (q1);
-  \draw[->, thick, HSEgray] (q1.west) -| node[odelab, pos=0.25] {да} (q2.north);
-  \draw[->, thick, HSEgray] (q1.east) -| node[odelab, pos=0.25] {нет} (C.north);
-  \draw[thick, HSEgray] (q2.south) -- ++(0,-0.3) coordinate (br);
-  \draw[->, thick, HSEgray] (br) -| node[odelab, pos=0.3] {да} (A.north);
-  \draw[->, thick, HSEgray] (br) -| node[odelab, pos=0.3] {нет} (B.north);
-
-  % --- итог ---
-  \path let \p1 = (A.south), \p2 = (B.south), \p3 = (C.south)
-        in coordinate (low) at (0, {min(\y1,\y2,\y3)});
-  \node[odefin, anchor=north] (F) at ($(low)+(0,-0.8)$) {%
-    \textbf{Итог.} 1) Сделать обратную замену. 2) Добавить стационарные и особые решения; проверить, что ничего не потеряли при делении. 3) Где можно, объединить семейства (часто стац. решение получается при $C=0$). 4) Для задачи Коши найти константы из начальных условий.};
-  \foreach \n in {A,B,C} \draw[->, thick, HSEgray] (\n.south) -- (\n.south |- F.north);
-\end{tikzpicture}
-\end{center}
-
-\begin{remarkHSE}[Если ни один тип не подошёл]
-\begin{itemize}
-  \item Поменять ролями $x$ и $y$: уравнение для $x(y)$ может оказаться линейным, Бернулли и т.\,д.
-  \item Попробовать замену, подсказанную видом уравнения: $u=\frac yx$, $z=ax+by$, $z=y^m$, $z=\varphi(y)$.
-  \item Для $M\dd x+N\dd y=0$ при $M_y\neq N_x$ искать интегрирующий множитель $\mu(x)$ или $\mu(y)$.
-\end{itemize}
-\end{remarkHSE}
 
 \section{Задача Коши. Теорема Коши--Липшица}
 
@@ -2976,9 +2135,11 @@ u\cdot\bigl(y_1^{(n)}+a_{n-1}(t)y_1^{(n-1)}+\cdots+a_0(t)y_1\bigr)=0,
 
 Запишем ЛНУ \eqref{eq:linear-n} кратко: \(L y=f\), где
 \[
-L=D^n+a_{n-1}(t)D^{n-1}+\cdots+a_1(t)D+a_0(t),\qquad D=\frac{d}{dt},
+L=D^n+a_{n-1}(t)D^{n-1}+\cdots+a_1(t)D+a_0(t),\quad D=\frac{d}{dt}.
 \]
---- линейный оператор: \(L(y_1+y_2)=Ly_1+Ly_2\), \(L(\alpha y)=\alpha Ly\). Для системы аналогично: ЛНС записывается как \(L\vect{x}=\vect{f}\) с линейным оператором \(L=\dfrac{d}{dt}-A(t)\).
+Причём \(L\) --- линейный оператор: \(L(y_1+y_2)=Ly_1+Ly_2\), \(L(\alpha y)=\alpha Ly\).
+
+Для системы аналогично: ЛНС записывается как \(L\vect{x}=\vect{f}\) с линейным оператором \(L=\dfrac{d}{dt}-A(t)\).
 
 Как и для систем (см. теорему об общем решении ЛНС), из линейности \(L\) следует
 \[
@@ -3024,7 +2185,7 @@ y_1^{(n-1)}&\cdots&y_n^{(n-1)}
 \vect{F}(t)=
 \begin{pmatrix}0\\\vdots\\0\\f(t)\end{pmatrix}.
 \]
-Метод вариации постоянных для системы \(\dot{\vect{x}}=A(t)\vect{x}+\vect{F}(t)\) даёт \(X(t)\dot{\vect{c}}(t)=\vect{F}(t)\). Первая строка вектора \(\vect{x}=X\vect{c}\) --- это \(y\), поэтому получаем следующий алгоритм.
+Метод вариации постоянных для системы \(\dot{\vect{x}}=A(t)\vect{x}+\vect{F}(t)\) даёт \(X(t)\dot{\vect{c}}(t)=\vect{F}(t)\) (где \(X\)(t) --- ФМ ЛОС \(\dot{\vect{x}}=A(t)\vect{x}\)). Первая строка вектора \(\vect{x}=X\vect{c}\) --- это \(y\), поэтому получаем следующий алгоритм.
 
 \begin{theoremHSE}[Вариация постоянных для ЛНУ]
 Решение ЛНУ ищем в виде
@@ -3059,8 +2220,9 @@ y(t)=c_1(t)y_1(t)+\cdots+c_n(t)y_n(t).
 \textbf{I. ЛОУ.} \(\ddot y+4y=0\), характеристическое уравнение \(\lambda^2+4=0\), \(\lambda_{1,2}=\pm2i\), кратности \(k_{1,2}=1\). Значит,
 \[
 \text{ФСР}=\{\cos2t,\ \sin2t\},\qquad
-y_{\text{о.о.}}=c_1\cos2t+c_2\sin2t,\quad c_1,c_2\in\R.
+y_{\text{о.о.}}=c_1\cos2t+c_2\sin2t,\quad c_1,c_2\in\R,
 \]
+где \(c_1,c_2\) --- произвольные постоянные.
 
 \textbf{II. ЛНУ, вариация постоянных.} Ищем решение в виде \(y=c_1(t)\cos2t+c_2(t)\sin2t\). Тогда
 \[
@@ -3098,10 +2260,10 @@ c_2(t)=\frac12\int\frac{(2\cos^2t-1)\sin t}{\cos t}\,dt
 \]
 Общее решение:
 \begin{gather*}
-y_{\text{о.н.}}=
-\underbrace{\tilde c_1\cos2t+\tilde c_2\sin2t}_{y_{\text{о.о.}}}
--\frac t2\cos2t+\frac{\sin2t\cos2t}{4}-\frac{\cos^2t}{2}\sin2t+\frac12\ln|\cos t|\sin2t,
-\\\tilde c_1,\tilde c_2\in\R.
+y_{\text{о.н.}}=c_1(t)\cos 2t+c_2(t)\sin 2t=\\
+=\underbrace{\tilde c_1\cos2t+\tilde c_2\sin2t}_{y_{\text{о.о.}}}
+-\frac t2\cos2t+\frac{\sin2t\cos2t}{4}-\frac{\cos^2t}{2}\sin2t+\frac12\ln|\cos t|\sin2t,\\
+\tilde c_1,\tilde c_2\in\R-\text{произвольные постоянные}.
 \end{gather*}
 Ответ можно упростить: \(\dfrac{\sin2t}{4}\bigl(\cos2t-2\cos^2t\bigr)=-\dfrac{\sin2t}{4}\) пропорционально \(\sin2t\) и поглощается слагаемым \(\tilde c_2\sin2t\). Итак,
 \[
@@ -3159,7 +2321,9 @@ a_ny^{(n)}+a_{n-1}y^{(n-1)}+\cdots+a_1y'+a_0y=0,
 \qquad a_n\neq0,\quad a_i=\mathrm{const}\in\R,
 \label{eq:lou-const}
 \end{equation}
---- ЛОУ \(n\)-го порядка с постоянными коэффициентами. Поделив на \(a_n\), получаем уравнение вида \eqref{eq:lou-n} с коэффициентами, непрерывными на всём \(\R\), так что вся общая теория ЛОУ применима на \(M=\R\).
+--- это ЛОУ \(n\)-го порядка с постоянными коэффициентами.
+
+Поделив на \(a_n\), получаем уравнение вида \eqref{eq:lou-n} с коэффициентами, непрерывными на всём \(\R\), так что вся общая теория ЛОУ применима на \(M=\R\).
 
 \subsection{Оператор дифференцирования и характеристический многочлен}
 
@@ -3184,7 +2348,7 @@ L(D)=a_nD^n+a_{n-1}D^{n-1}+\cdots+a_1D+a_0
 \[
 L(\lambda)=a_n\lambda^n+\cdots+a_1\lambda+a_0
 \]
-называется \textbf{характеристическим многочленом} ЛОУ \eqref{eq:lou-const}, а уравнение \(L(\lambda)=0\) --- его \textbf{характеристическим уравнением} (\(\deg L(\lambda)=n\)).
+называется \textit{характеристическим многочленом} ЛОУ \eqref{eq:lou-const}, а уравнение \(L(\lambda)=0\) --- его \textit{характеристическим уравнением} (\(\deg L(\lambda)=n\)).
 \end{definitionHSE}
 
 \subsection{Свойства многочленов от \texorpdfstring{$D$}{D}}
@@ -3194,12 +2358,12 @@ L(\lambda)=a_n\lambda^n+\cdots+a_1\lambda+a_0
 \begin{enumerate}
 \item \(L(D)\) --- линейный оператор: для \(y_1,y_2\in D^m(M)\)
 \[
-L(D)(y_1+y_2)=L(D)y_1+L(D)y_2,\qquad
+L(D)(y_1+y_2)=L(D)y_1+L(D)y_2,\quad
 L(D)(\alpha y_1)=\alpha L(D)y_1.
 \]
 \item Сумма и умножение на число: для \(y\in D^{\max(m,k)}(M)\)
 \[
-\bigl(L(D)+M(D)\bigr)y=L(D)y+M(D)y,\qquad
+\bigl(L(D)+M(D)\bigr)y=L(D)y+M(D)y,\quad
 \bigl(\alpha M(D)\bigr)y=\alpha M(D)y.
 \]
 \item Произведение: для \(y\in D^{m+k}(M)\)
@@ -3211,7 +2375,7 @@ L(D)(\alpha y_1)=\alpha L(D)y_1.
 Свойства 1--3 проверяются непосредственно: \(D^k\) линеен и \(D^iD^j=D^{i+j}\). Именно из-за постоянства коэффициентов многочлены от \(D\) можно складывать, перемножать и раскладывать на множители как обычные многочлены; в частности, \(L(D)M(D)=M(D)L(D)\).
 
 \begin{theoremHSE}[Свойство 4: экспонента как решение]
-Пусть \(L(D)\) --- многочлен с постоянными коэффициентами. Функция \(y=\e^{\lambda x}\) является решением ЛОУ \eqref{eq:lou-const} \(\iff\) \(\lambda\) --- корень характеристического уравнения.
+Пусть \(L(D)\) --- многочлен с постоянными коэффициентами. Функция \(y=\e^{\lambda x}\) --- решение ЛОУ \eqref{eq:lou-const} \(\iff\) \(\lambda\) --- корень характеристического уравнения.
 \end{theoremHSE}
 
 \begin{proof}
@@ -3233,25 +2397,20 @@ L(D)\bigl(\e^{\lambda x}f(x)\bigr)=\e^{\lambda x}L(D+\lambda)f(x).
 \end{theoremHSE}
 
 \begin{exampleHSE}
-Для \(y''+4y=L(D)y\), \(L(D)=D^2+4I=D^2+4\), и \(\lambda=3\):
-\[
-L(D)\bigl(\e^{3x}f(x)\bigr)=(D^2+4I)\bigl(\e^{3x}f(x)\bigr)
-=\frac{d^2}{dx^2}\bigl(\e^{3x}f(x)\bigr)+4\e^{3x}f(x)
-=\frac{d}{dx}\bigl(3\e^{3x}f(x)+\e^{3x}f'(x)\bigr)+4\e^{3x}f(x)=
-\]
-\[
-=9\e^{3x}f+3\e^{3x}f'+3\e^{3x}f'+\e^{3x}f''+4\e^{3x}f=
-\]
-\[
-=\e^{3x}\bigl(\underbrace{f''+6f'+9f}_{(D+3)^2f}+4f\bigr)
-=\e^{3x}\bigl((D+3)^2+4\bigr)f=\e^{3x}L(D+3)f(x).
-\]
+Для \(y''+4y=L(D)y\): \(L(D)\) --- это просто формальная запись левой части уравнения.
+
+\(L(D)=D^2+4I=D^2+4\). Пусть \(\lambda=3\):
+\begin{gather*}
+L(D)\bigl(\e^{3x}f(x)\bigr)=(D^2+4I)\bigl(\e^{3x}f(x)\bigr)=\frac{d^2}{dx^2}\bigl(\e^{3x}f(x)\bigr)+4\e^{3x}f(x)=\\
+=\frac{d}{dx}\bigl(3\e^{3x}f(x)+\e^{3x}f'(x)\bigr)+4\e^{3x}f(x)=9\e^{3x}f+3\e^{3x}f'+3\e^{3x}f'+\e^{3x}f''+4\e^{3x}f=\\
+=\e^{3x}\bigl(\underbrace{f''+6f'+9f}_{(D+3)^2f}+4f\bigr)=\e^{3x}\bigl((D+3)^2+4\bigr)f=\e^{3x}L(D+3)f(x).
+\end{gather*}
 \end{exampleHSE}
 
 \begin{proof}
 Индукция по \(n\).
 
-\textbf{База} \(n=1\): \(L(D)=aD+b\).
+\textbf{База} \(n=1\): \(L(D)=aD+b\), многочлен первой степени.
 \[
 L(D)\bigl(\e^{\lambda x}f(x)\bigr)=(aD+b)\bigl(\e^{\lambda x}f(x)\bigr)
 =a\lambda\e^{\lambda x}f(x)+a\e^{\lambda x}f'(x)+b\e^{\lambda x}f(x)=
@@ -3269,31 +2428,35 @@ L(D)=L_1(D)\,L_2(D),\qquad \deg L_1=1,\quad \deg L_2=n-1.
 По свойству 3 и предположению индукции
 \[
 L(D)\bigl(\e^{\lambda x}f(x)\bigr)
-=L_1(D)\Bigl(L_2(D)\bigl(\e^{\lambda x}f(x)\bigr)\Bigr)
-=L_1(D)\Bigl(\e^{\lambda x}\underbrace{L_2(D+\lambda)f(x)}_{g(x)}\Bigr)=
+=(L_1(D)L_2)\bigl(\e^{\lambda x}f(x)\bigr)
+\underset{3}{=}L_1(D)\Bigl(L_2(D)\bigl(\e^{\lambda x}f(x)\bigr)\Bigr)
 \]
 \[
-=\e^{\lambda x}L_1(D+\lambda)\bigl(L_2(D+\lambda)f(x)\bigr).
+\underset{\text{пр.инд.}}{=}L_1(D)\Bigl(\e^{\lambda x}\underbrace{L_2(D+\lambda)f(x)}_{g(x)}\Bigr)
+\underset{\text{пр.инд.}}{=}\e^{\lambda x}L_1(D+\lambda)\bigl(L_2(D+\lambda)f(x)\bigr).
 \]
-(в последнем переходе база применена к функции \(g\)). Тогда
+Тогда
 \[
 L(D)\bigl(\e^{\lambda x}f(x)\bigr)=\e^{\lambda x}L_1(D+\lambda)L_2(D+\lambda)f(x)=\e^{\lambda x}L(D+\lambda)f(x).
 \]
 \end{proof}
 
 \begin{theoremHSE}[Свойство 6: действие на квазимногочлен]
-Пусть \(L(D)\) --- многочлен степени \(n\) с постоянными коэффициентами, \(P=P(x)\) --- многочлен степени \(k\) от \(x\), и \(\lambda\) --- не корень \(L\), то есть \(L(\lambda)\neq0\). Тогда
+Пусть \(L(D)\) --- многочлен степени \(n\) с постоянными коэффициентами, \(\deg P(x)=k\), и \(\lambda\) --- не корень \(L\), то есть \(L(\lambda)\neq0\). Тогда
 \[
-L(D)\bigl(\e^{\lambda x}P(x)\bigr)=\e^{\lambda x}\tilde P(x),\qquad \deg\tilde P=k.
+L(D)\bigl(\e^{\lambda x}P(x)\bigr)=\e^{\lambda x}\tilde P(x),\quad\deg\tilde P=k.
 \]
 \end{theoremHSE}
+То есть после применения оператора степень нового многочлена не изменяется, если \(L(\lambda)\neq0\).
 
 \begin{proof}
 По формуле смещения \(L(D)\bigl(\e^{\lambda x}P(x)\bigr)=\e^{\lambda x}L(D+\lambda)P(x)\). Разложим \(L(D+\lambda)\) по степеням \(D\):
 \[
-L(D+\lambda)=b_nD^n+\cdots+b_1D+b_0,\qquad b_0=L(\lambda).
+L(D+\lambda)=b_nD^n+\cdots+b_1D+b_0\Rightarrow b_0=L(\lambda).
 \]
-Каждое \(D^j\), \(j\ge1\), понижает степень многочлена, поэтому старший член \(\tilde P=L(D+\lambda)P\) получается только из \(b_0P\). Если \(L(\lambda)\neq0\), то \(\deg\bigl(L(D+\lambda)P(x)\bigr)=\deg P(x)=k\).
+Лямбда никуда не исчезает --- она «прячется» внутри коэффициентов.
+
+Каждое \(D^j\), \(j\ge1\), понижает степень многочлена, поэтому старший член \(\tilde P=L(D+\lambda)P\) получается только из \(b_0P\). Если \(L(\lambda)\neq0\), то \(b_0\neq0\) \(\Rightarrow\) \(\deg\bigl(L(D+\lambda)P(x)\bigr)=\deg P(x)=k\).
 \end{proof}
 
 \section[Различные корни]{Решение ЛОУ в случае некратных корней характеристического многочлена}
@@ -4035,5 +3198,852 @@ A=\begin{pmatrix}1&0\\0&-1\end{pmatrix},
 \]
 Поскольку есть собственное значение с положительной вещественной частью, положение равновесия неустойчиво. Линейная часть имеет тип седла.
 \end{exampleHSE}
+
+\section{Алгоритмы решения ОДУ}
+
+\begin{definitionHSE}[Семейство кривых]
+Семейство кривых --- все кривые, получаемые из уравнения
+\[\Phi(x,y,C_1,\ldots,C_n)=0\]
+при различных значениях произвольных постоянных \(C_1,\ldots,C_n\).
+\end{definitionHSE}
+
+Пусть дано семейство кривых
+\[\Phi(x, y, C_1,\ldots, C_n) = 0.\]
+
+Чтобы получить дифференциальное уравнение этого семейства, дифференцируем соотношение по \(x\) столько раз, сколько имеется независимых постоянных, а затем исключаем \(C_1,\ldots,C_n\).
+
+\subsection{Линейные и однородные уравнения}
+
+\phantomsection\label{box:type0}
+\begin{definitionHSE}[Уравнения типа 0]
+Если \(y' = f(x)\), то семейство решений имеет вид:
+\begin{gather*}
+y'=f(x),\quad\frac{\dd y}{\dd x}=f(x),\quad\int\dd y = \int f(x)\dd x,\\
+\boxed{\ y = \int f(x)\dd x + C, \quad C \in \mathbb{R}.\ }
+\end{gather*}
+\end{definitionHSE}
+
+\phantomsection\label{box:type1}
+\begin{definitionHSE}[Уравнения типа 1 (с разделяющимися переменными)]
+Рассмотрим уравнение
+\[
+y' = f(x)g(y).
+\]
+Отыщем стационарные решения. Стационарное решение должно обращать ОДУ в тождество:
+\begin{itemize}
+\item \(y=y_0-\text{const}: f(x)g(y_0)=0\);
+\item \(x=x_0-\text{const}: \dfrac{1}{f(x_0)g(y)}=0\).
+\end{itemize}
+Далее разделяем переменные:
+\[
+\frac{y'}{g(y)} = f(x),\quad\frac{\frac{\dd y}{\dd x}}{g(y)}=f(x)
+\]
+и после интегрирования
+\[
+\boxed{\ \int \frac{\dd y}{g(y)} = \int f(x)\dd x + C, \quad C \in \mathbb{R}.\ }
+\]
+То есть изначально мы фактически интегрируем по \(x\), но в левой части делаем замену переменной:
+\[
+\int \frac{y'(x)}{g(y(x))}\dd x = \int f(x)\dd x + C, \quad C \in \mathbb{R}.
+\]
+
+Получаем, что решение описывается однопараметрическим семейством и набором стационарных решений.
+
+\end{definitionHSE}
+
+\phantomsection\label{box:type2}
+\begin{definitionHSE}[Уравнения типа 2 (с линейной правой частю)]
+Пусть
+\[y'=f(ax+by+c)\]
+Вводим \(z=ax+by+c\). Тогда
+\[z'=a+by'=a+bf(z),\quad y=\frac{z-ax-c}{b}\]
+Получаем уравнение на \(z\) с разделяющимися переменными (\hyperref[box:type1]{тип 1}):
+\[\boxed{\ z'=a+bf(z) \ }\]
+\end{definitionHSE}
+
+\begin{exampleHSE}[\(y'-y=2x-3\)]
+\begin{gather*}
+y'-y=2x-3,\quad y'=\underbrace{2x+y-3}_{=z}\quad\Longrightarrow\quad z'=(2x+y-3)'=2+y'=2+z
+\end{gather*}
+Стационарное решение перед делением:
+\[z'=0\Rightarrow z+2=0\Rightarrow z=-2-\text{решение}\]
+Делим:
+\begin{gather*}
+\frac{\dd z}{z+2}=\dd x,\quad\int\frac{\dd z}{z+2}=x+C,\ C\in\R\\
+\ln|z+2|=x+C,\quad z+2=\pm\e^{x+C}\\
+z+2=\pm C_1\e^x\quad\xRightarrow[]{\text{стац. реш.}}\quad z=C_1\e^x-2
+\end{gather*}
+\end{exampleHSE}
+
+\begin{remarkHSE}
+Часто произвольную постоянную при интегрировании удобнее записать как \(\ln C, C > 0\). Тогда можно чуть сократить количество переобозначений произвольных постоянных.
+\end{remarkHSE}
+
+Cтационарные решения по \(x\) (\(x=x_0=\text{const}\)) не являются решениями в классическом смысле, поэтому в дальнейшем мы ищем их только в следующих случаях:
+
+\begin{itemize}
+\item \(M(x,y)dx+N(x,y)dy=0\).
+\item Когда ищем интегральные кривые.
+\item \(y'=f(x,y)\).
+\end{itemize}
+
+\phantomsection\label{box:type3}
+\begin{definitionHSE}[Уравнения типа 3 (с однородной правой частью)]
+Рассмотрим уравнение
+\[y'=f\left(\frac{y}{x}\right)\]
+\begin{definitionHSE}[Определение однородной функции]
+Функция \(f(x,y)\) называется \textit{однородной} порядка \(k\), если
+\[\forall\lambda\neq0\quad f(\lambda x,\lambda y)=\lambda^kf(x,y)\]
+\end{definitionHSE}
+Сделаем замену:
+\vspace{-\baselineskip}
+\begin{gather*}
+y=u(x)\cdot x,\quad y'=\boxed{u'x+u=f(u)}=f\left(\frac{y}{x}\right)\\
+u'=\frac{f(u)-u}{x},\quad\frac{\dd u}{f(u)-u}=\frac{\dd x}{x}
+\end{gather*}
+Далее решаем уравнение с \hyperref[box:type1]{разделяющимися перменными}.
+\end{definitionHSE}
+Уравнение
+\[M(x,y)\dd x+N(x,y)\dd y=0\]
+называется однородным, если \(M(x,y)\) и \(N(x,y)\) --- однородные функции одного и того же порядка. Оно решается таким же способом.
+
+\begin{exampleHSE}[\(y'=\dfrac{y}{x}\cos\ln\left(\dfrac{y}{x}\right)\)]
+\[y'=\frac{y}{x}\cos\ln\left(\frac{y}{x}\right),\quad y=ux,\quad\frac{y}{x}>0\]
+\[
+\begin{aligned}
+y'&=(ux)'=u'x+u,\\
+y'&=u\cos\ln u
+\end{aligned}\quad\Longrightarrow\quad u'x+u=u\cos\ln u,\quad u'=\frac{u\cos\ln u-u}{x}\]
+
+Отыщем стационарные решения:
+\[u\cos\ln u-u=0,\quad\cos\ln u=1,\quad \ln u=2\pi k,\ k\in\Z,\quad u=\e^{2\pi k}\]
+Продолжим решать:
+\begin{gather*}
+\frac{\dd u}{\dd x}=\frac{u\cos\ln u-u}{x},\quad\frac{\dd u}{u\cos\ln u-u}=\frac{\dd x}{x}\\
+\int\frac{\dd u}{u\cos\ln u-u}=|\ln u=t|=\int\frac{\dd t}{\cos t-1}=\int\frac{\dd t}{\cos t-1}=\int\frac{\dd t}{-2\sin^2(t/2)}=\\=-\frac{1}{2}\cdot\left(-2\ctg\left(\frac{t}{2}\right)\right)+C=\ctg\left(\frac{t}{2}\right)+C=\ctg\left(\frac{\ln u}{2}\right)+C,\ C\in\R\\
+\ctg\left(\frac{\ln u}{2}\right)=\ln|x|+C_1,\quad\boxed{\ctg\left(\frac{\ln (x/y)}{2}\right)=\ln|C_2x|\ (C_2\neq0)}
+\end{gather*}
+Сделаем обратную замену в стационарном решении:
+\[\boxed{y=e^{2\pi k}x,\ k\in\Z}\]
+\end{exampleHSE}
+
+\begin{exampleHSE}[\((x+2y)\dd x-x\dd y=0\)]
+$M=x+2y$ и $N=-x$ --- однородные функции первого порядка, значит, уравнение однородное.
+
+$x=0$ --- решение ($\dd x=0$, и уравнение обращается в тождество). Делаем замену $y=ux$, $\dd y=x\dd u+u\dd x$:
+\begin{gather*}
+(x+2ux)\dd x-x(x\dd u+u\dd x)=0,\quad (x+ux)\dd x-x^2\dd u=0,\\
+x(1+u)\dd x=x^2\dd u\quad\bigl|\,:(1+u)x^2
+\end{gather*}
+Когда делим, смотрим, не потеряли ли стационарные решения: $1+u=0$ --- решение.
+\begin{gather*}
+\frac{\dd x}{x}=\frac{\dd u}{1+u},\qquad
+\ln|x|=\ln|1+u|+\ln C_1,\ C_1>0,\\
+|x|=|1+u|\cdot C_1,\qquad x=\pm(1+u)\,C_1.
+\end{gather*}
+\[
+\left[\begin{aligned}
+&x=(1+u)\,C,\ C\in\R,\\
+&u=-1
+\end{aligned}\right.
+\ \longrightarrow\
+\left[\begin{aligned}
+&x=\Bigl(1+\frac yx\Bigr)C,\ C\in\R,\\
+&\frac yx=-1
+\end{aligned}\right.
+\ \longrightarrow\
+\boxed{\left[\begin{aligned}
+&x^2=Cx+Cy,\ C\in\R,\\
+&y=-x
+\end{aligned}\right.}
+\]
+Решение $x=0$ входит в семейство при $C=0$.
+\end{exampleHSE}
+
+\phantomsection\label{box:type4}
+\begin{definitionHSE}[Уравнения типа 4 (уравнением с дробно-линейной правой частью)]
+Рассмотрим уравнение
+\[y'=f\left(\frac{ax+by+c}{a_1x+b_1y+c_1}\right),\quad\begin{vmatrix}a&b\\a_1&b_1\end{vmatrix}\neq0\]
+Идея --- убрать свободные члены, чтобы уравнение стало однородным. Сделаем замену
+\[
+\begin{aligned}
+x&=x_0+t,\\y&=y_0+w,
+\end{aligned}
+\text{ где }x_0,y_0\text{ находим из }\begin{cases}
+ax_0+by_0+c=0\\a_1x_0+b_1y_0+c_1=0
+\end{cases}
+\]
+Тогда
+\[ax+by+c=a(x_0+t)+b(y_0+w)+c=(ax_0+by_0+c)+at+bw=at+bw,\]
+Аналогично
+\[a_1x+b_1y+c_1=a_1t+b_1w\]
+Таким образом
+\[w'=f\left(\frac{at+bw}{a_1t+b_1w}\right)=\left(\frac{a+b(w/t)}{a_1+b_1(w/t)}\right)\]
+\end{definitionHSE}
+
+\begin{exampleHSE}[\((x+4y)y'=2x+3y-5\)]
+\[
+y'=\frac{2x+3y-5}{x+4y},\qquad y=-\frac{x}{4}\ \text{--- не решение.}
+\]
+Определитель $\begin{vmatrix}2&3\\1&4\end{vmatrix}=5\neq0$. Центр сдвига:
+\[
+\left( \begin{array}{cc|c} 
+2 & 3 & 5 \\ 
+1 & 4 & 0 
+\end{array} \right) 
+\rightarrow 
+\left( \begin{array}{cc|c} 
+0 & 1 & -1 \\ 
+1 & 0 & 4 
+\end{array} \right) 
+\rightarrow 
+\begin{array}{l} 
+y_0 = -1 \\ 
+x_0 = 4 
+\end{array}
+\]
+\[
+\begin{cases}2x_0+3y_0-5=0\\x_0+4y_0=0\end{cases}\quad\Longrightarrow\quad x_0=4,\ y_0=-1.
+\]
+Замена $x=4+t$, $y=-1+w$, затем $w=u(t)\cdot t$:
+\begin{gather*}
+w'=\frac{2t+3w}{t+4w}=\frac{2+3\frac{w}{t}}{1+4\frac{w}{t}},\qquad
+u't+u=\frac{2+3u}{1+4u},\\
+\frac{\dd u}{\dd t}=\frac{-4u^2+2u+2}{(1+4u)\,t}=\frac{-2(u-1)(2u+1)}{(1+4u)\,t}.
+\end{gather*}
+Стационарные решения: $u=1$, $u=-1/2$. Разделяем переменные:
+\begin{gather*}
+\frac{(1+4u)\dd u}{-4(u-1)\left(u+\frac12\right)}=\frac{\dd t}{t},\qquad
+\frac{1+4u}{-4(u-1)\left(u+\frac12\right)}=-\frac{5/6}{u-1}-\frac{1/6}{u+\frac12},\\
+\frac56\ln|u-1|+\frac16\ln\Bigl|u+\frac12\Bigr|=-\ln|t|+\ln C_1\ (C_1>0),\\
+|u-1|^5\Bigl|u+\frac12\Bigr|\,|t|^6=C_2\ (C_2>0)
+\ \xRightarrow[]{\text{стац. реш.}}\
+(u-1)^5\Bigl(u+\frac12\Bigr)t^6=C_3,\ (C_3\in\R).
+\end{gather*}
+Обратная замена $u=w/t=(y+1)/(x-4)$:
+\[
+\boxed{\ (y-x+5)^5\Bigl(y+\frac{x}{2}-1\Bigr)=C\ (C\in\R)\ }
+\]
+\end{exampleHSE}
+
+\phantomsection\label{box:type5}
+\begin{definitionHSE}[Уравнения типа 5 (сводящиеся к однородным степенной заменой)]
+Если уравнение не однородно, но становится однородным после замены
+\[
+y=z^m\Longrightarrow y'=m\,z^{m-1}z',
+\]
+то показатель $m$ подбираем так, чтобы все слагаемые получили одинаковую степень, и уравнение стало \hyperref[box:type3]{однородным}.
+\end{definitionHSE}
+\begin{remarkHSE}[Как распознать применение метода?]
+Что-то должно «мешать» быть уравнению однородным. Пример:
+\begin{gather*}
+y'=\frac{y^3+xy}{2x^2}=\frac{y}{2x}\left(1+\frac{y^2}{x}\right)\Longrightarrow z=y^2\\
+z'=2yy'=2y\cdot\frac{y}{2x}\left(1+\frac{y^2}{x}\right)=\frac{z}{x}\left(1+\frac{z}{x}\right)
+\end{gather*}
+\end{remarkHSE}
+\begin{exampleHSE}[\(y'=\dfrac{y^3+xy}{2x^2}\)]
+$y=0$ --- решение. Замена $y=z^m$:
+\[
+m\,z^{m-1}z'=\frac{z^{3m}+x\,z^m}{2x^2}\ \Longrightarrow\
+z'=\frac{z^{2m+1}+x\,z}{2m\,x^2},\qquad 2m+1=2\ \Longrightarrow\ m=\frac12.
+\]
+Итак, $y^2=z$ и
+\[
+z'=\frac{z^2+xz}{x^2}\ \text{--- однородное.}
+\]
+Замена $z=ux$:
+\begin{gather*}
+u'x+u=u^2+u,\quad x\,\frac{\dd u}{\dd x}=u^2,\quad u=0\ \text{--- решение},\\
+\frac{\dd u}{u^2}=\frac{\dd x}{x},\quad -\frac1u=\ln|x|+C,\quad u=-\frac{1}{\ln|x|+C}.
+\end{gather*}
+Обратная замена $z=ux$, $y^2=z$:
+\[
+\boxed{\ y^2=-\frac{x}{\ln|x|+C},\ C\in\R;\quad y=0\ }
+\]
+\end{exampleHSE}
+
+\phantomsection\label{box:type6}
+\begin{definitionHSE}[Уравнения типа 6 (линейные)]
+\textit{Лниейнное однородное} уравнение:
+\[y'+a(x)y=0.\]
+Всегда есть стационарное решение $y=0$; при $y\neq0$
+\begin{gather*}
+\frac{\dd y}{y}=-a(x)\dd x,\qquad \ln|y|=-\int a(x)\dd x+\ln C_0,\ C_0>0,\\
+|y|=C_0\,\e^{-\int a(x)\dd x},\quad y=\pm C_0\,\e^{-\int a(x)\dd x}
+\end{gather*}
+Объединяем со стационарным решением:
+\[\boxed{\ y=C\,\e^{-\int a(x)\dd x},\quad C\in\R\ }\]
+Представим \(y\) в следующем виде: \(y=C\cdot u(x)\), где \(u(x)\) --- функция, удовлетворяющая однородному уравнению
+
+\textit{Лниейнное неоднородное} уравнение:
+\[y'+a(x)y=b(x).\]
+\textcircled{1} Сначала решаем соответствующее однородное уравнение. Выражаем \(y=C\cdot u(x)\).
+
+\textcircled{2} Используем \textit{метод вариации постоянной} $C=C(x)$, $y=C(x)u(x)$:
+\begin{gather*}
+C'u+Cu'+a(x)Cu=b(x),\quad C'u+C\underbrace{\bigl(u'+a(x)u\bigr)}_{=0}=b(x),\\
+\underline{C'(x)=\frac{b(x)}{u(x)}},\quad C(x)=\int\frac{b(x)}{u(x)}\dd x+\widetilde C,
+\end{gather*}
+Подставим \(C(x)\) в \(y=C(x)u(x)\) из первого пункта:
+\[
+\boxed{\ y=\left(\int\frac{b(x)}{u(x)}\dd x+\widetilde C\right)u(x),\quad\widetilde C\in\R\ }
+\]
+\end{definitionHSE}
+
+\begin{exampleHSE}[\((2x+1)y'=4x+2y\)]
+\begin{gather*}
+y'=\frac{4x+2y}{2x+1}=\frac{2}{2x+1}\,y+\frac{4x}{2x+1},\qquad
+y'-\frac{2}{2x+1}\,y=\frac{4x}{2x+1}.
+\end{gather*}
+\textcircled{1} Однородное уравнение: $y=0$ --- решение;
+\[
+\frac{\dd y}{y}=\frac{2\dd x}{2x+1},\qquad \ln|y|=\ln|2x+1|+\ln C_0,\qquad y=C(2x+1),\ C\in\R.
+\]
+\textcircled{2} Вариация постоянной, $y=C(x)(2x+1)$:
+\begin{gather*}
+C'(2x+1)=\frac{4x}{2x+1},\qquad C'=\frac{4x}{(2x+1)^2}=\frac{2}{2x+1}-\frac{2}{(2x+1)^2},\\
+C=\ln|2x+1|+\frac{1}{2x+1}+\widetilde C.
+\end{gather*}
+\[
+\boxed{\ y=(2x+1)\ln|2x+1|+1+\widetilde C(2x+1),\quad \widetilde C\in\R\ }
+\]
+\end{exampleHSE}
+
+\phantomsection\label{box:type6-1}
+\begin{definitionHSE}[Уравнения типа 6.1 (линейные относительно \(x\))]
+Если уравнение линейно относительно функции $x(y)$, переходим к ней, используя
+\[
+y'=\frac{1}{x'_y},
+\]
+и решаем как \hyperref[box:type6]{уравнение типа 6} с независимой переменной $y$.
+\end{definitionHSE}
+\begin{remarkHSE}[Как распознать подобное уравнение?]
+\(y'\) умножается на выражение, линейное по \(x\), а в другой части стоит функция от \(y\).
+
+Практический признак для таких примеров:
+\[\bigl(a(y)x+b(y)\bigr)y'=c(y)\]
+\end{remarkHSE}
+
+\begin{exampleHSE}[\((\sin^2y+x\ctg y)\,y'=1\)]
+\[
+(\sin^2y+x\ctg y)\,\frac{1}{x'_y}=1\quad\Longrightarrow\quad x'_y-x\ctg y=\sin^2y.
+\]
+\textcircled{1} Однородное: $x=0$ --- решение;
+\[
+\frac{\dd x}{x}=\ctg y\dd y,\quad \ln|x|=\ln|\sin y|+\ln C_1,\quad x=C\sin y,\ C\in\R.
+\]
+\textcircled{2} $C=C(y)$, $x=C(y)\sin y$:
+\[
+C'\sin y+C\cos y-\underbrace{x\ctg y}_{=C\cos y}=\sin^2y,\quad C'=\sin y,\quad C=-\cos y+\widetilde C.
+\]
+\[
+\boxed{\ x=(\widetilde C-\cos y)\sin y,\quad\widetilde C\in\R\ }
+\]
+\end{exampleHSE}
+
+\phantomsection\label{box:type8}
+\begin{definitionHSE}[Уравнения типа 8 (уравнение Бернулли)]
+Это линейное неоднородное уравнение, свободный член которого домножили на \(y^n\):
+\[
+y'+a(x)y=b(x)\,y^n,\qquad n\neq0,1.
+\]
+При $n>0$ будет решение $y=0$. Делим на $y^n$ и делаем замену $z=y^{1-n}\Rightarrow z'=(1-n)y^{-n}y'$:
+\begin{gather*}
+y'y^{-n}+a(x)\,\underbrace{y^{1-n}}_{=z}=b(x)\quad\Longrightarrow\quad\frac{z'}{1-n}+a(x)z=b(x)\\
+\boxed{\ z'+(1-n)\,a(x)\,z=(1-n)\,b(x)\ }
+\end{gather*}
+--- линейное уравнение (\hyperref[box:type6]{тип 6}).
+\end{definitionHSE}
+
+\begin{exampleHSE}[\(y'=y^4\cos x+y\tg x\)]
+\[
+y'-y\tg x=y^4\cos x,\quad y=0\ \text{--- решение},\quad \frac{y'}{y^4}-\frac{\tg x}{y^3}=\cos x.
+\]
+Замена $z=y^{-3}$, $z'=-3y^{-4}y'$:
+\[
+z'+3\tg x\cdot z=-3\cos x.
+\]
+\textcircled{1} Однородное: $\dfrac{\dd z}{z}=-3\tg x\dd x$, $\ln|z|=3\ln|\cos x|+\ln C_1$, $z=C\cos^3x$.
+
+\textcircled{2} Вариация, $C=C(x)$:
+\[
+C'\cos^3x-\cancel{3C\cos^2x\sin x}+\cancel{3C\cos^3x\tg x}=-3\cos x,
+\]
+\[
+C'=-\frac{3}{\cos^2x},\qquad C=-3\tg x+\widetilde C.
+\]
+\[
+\boxed{\ y^{-3}=(\widetilde C-3\tg x)\cos^3x,\ \widetilde C\in\R;\quad y=0\ }
+\]
+\end{exampleHSE}
+
+\phantomsection\label{box:type9}
+\begin{definitionHSE}[Уравнения типа 9 (в полных дифференциалах)]
+Мы предполагаем, что левая часть этого уравнения — это полный дифференциал \(\dd u\) некоторой функции \(u(x,y)\) (которую мы называем потеницалом).
+\[
+\begin{array}{r@{}c@{}l@{}c@{}l}
+          & M(x,y)                         & \,\dd x+{} & N(x,y)                         & \,\dd y=0\\
+          & \Updownarrow                   &            & \Updownarrow                   &          \\
+\dd u={}  & \dfrac{\partial u}{\partial x} & \,\dd x+{} & \dfrac{\partial u}{\partial y} & \,\dd y=0
+\end{array}
+\]
+то есть $\dfrac{\partial u}{\partial x}=M$, $\dfrac{\partial u}{\partial y}=N$. Тогда $\dd u=0$ и
+\[
+\boxed{\ u(x,y)=C,\quad C\in\R\ }
+\]
+--- интегральные кривые.
+
+\textbf{Необходимое условие:} $M_y=N_x$.
+
+\textbf{Достаточные условия:} $M,N,M_y,N_x$ непрерывны в \emph{односвязной} области («без дыр») и $M_y=N_x$.
+
+Восстановим $u$. При интегрировании по \(x\) считаем \(y\) постоянной:
+\[u=\int M(x,y)\dd x+C(y).\]
+
+Мы знаем, что \(\dfrac{\partial u}{\partial y}=N\), воспользуемся этим, для того чтобы найти \(C'(y)\) и затем \(C(y)\):
+\begin{gather*}
+\bigl(u\bigr)'_y=\left(\int M(x,y)\dd x\right)'_y+C'(y)=N(x,y)\ \Longrightarrow\\ \Longrightarrow C'(y)\ \Longrightarrow\ C(y).
+\end{gather*}
+Подставим \(C(y)\) в восстановленный \(u\).
+\end{definitionHSE}
+
+\begin{remarkHSE}
+Неодносвязную область можно покрыть односвязными. Например, $\R^2\setminus\{(0,0)\}=G_1\cup G_2$, где $G_1$ --- плоскость с разрезом по лучу $\{y=0,\ x\le0\}$, а $G_2$ --- с разрезом по лучу $\{y=0,\ x\ge0\}$.
+\end{remarkHSE}
+
+\begin{remarkHSE}
+Любое уравнение с разделяющимися переменными представимо как уравнение в полных дифференциалах, но не наоборот.
+\end{remarkHSE}
+
+\begin{exampleHSE}[\(\dfrac{y}{x}\dd x+(y^3+\ln x)\dd y=0\)]
+\[
+M=\frac yx,\quad N=y^3+\ln x,\quad M_y=\frac1x=N_x.
+\]
+$M,N,M_y,N_x$ непрерывны в односвязной области $G=\{(x,y):x>0\}$.
+\begin{gather*}
+u=\int\frac yx\dd x=y\ln x+C(y),\qquad
+u'_y=\underline{\ln x+C'(y)=y^3+\ln x}=N,\\
+C'(y)=y^3,\quad C(y)=\frac{y^4}{4}\quad(\text{можем не писать константу, она поглотится}).
+\end{gather*}
+\[
+\boxed{\ y\ln x+\frac{y^4}{4}=C,\quad C\in\R\ }
+\]
+\end{exampleHSE}
+
+\phantomsection\label{box:type10}
+\begin{definitionHSE}[Уравнения типа 10 (введение под знак дифференциала)]
+Группируем слагаемые так, чтобы выделить полные дифференциалы, и делаем замену. Полезные формулы:
+\[
+\dd(uv)=u\dd v+v\dd u,\qquad
+\dd\Bigl(\frac uv\Bigr)=\frac{v\dd u-u\dd v}{v^2},\qquad
+\dd y^2=2y\dd y,\qquad
+\dd\ln y=\frac{\dd y}{y}.
+\]
+\end{definitionHSE}
+
+\begin{exampleHSE}[\((x^2+y^2+x)\dd x+y\dd y=0\)]
+\[
+(x^2+y^2)\dd x+\frac{\dd(x^2)}{2}+\frac{\dd(y^2)}{2}=0,\qquad u=x^2+y^2:\quad u\dd x+\frac{\dd u}{2}=0.
+\]
+$u=0$, то есть $x^2+y^2=0$, --- не решение: это точка, а не дифференцируемая функция. При $u\neq0$:
+\[
+\frac{\dd u}{u}=-2\dd x,\qquad 2x=-\ln|u|-\ln C,\ C>0,\qquad \e^{2x}=\frac{1}{C(x^2+y^2)}.
+\]
+\[
+\boxed{\ \e^{2x}(x^2+y^2)=C,\quad C>0\ }
+\]
+\end{exampleHSE}
+
+\subsection{Уравнения, не разрешённые относительно производной}
+
+\[
+F(x,y,p)=0,\qquad p=y'=\frac{\dd y}{\dd x}.
+\]
+Если удаётся разрешить относительно $p$, получаем совокупность уравнений
+\[
+p=f_1(x,y),\quad\ldots,\quad p=f_n(x,y).
+\]
+Например, $y'^2-x^2=0\ \Longrightarrow\ y'=x$ или $y'=-x$.
+
+Иначе используем параметр $p$: из уравнения выражаем $y$ (или $x$), берём дифференциал и подставляем $\dd y=p\dd x$.
+
+Подобным методом решается 4 типа уравнений:
+\begin{itemize}
+\item уравнение Клеро;
+\item уравнение Лагранжа;
+\item \(y=f(y')\);
+\item \(x=f(y')\).
+\end{itemize}
+
+\subsubsection{Уравнения на замену \texorpdfstring{\(y'=p\)}{y'=p}}
+
+\phantomsection\label{box:type11}
+\begin{definitionHSE}[Уравнения типа 11 (уравнение Клеро)]
+\[
+y=xy'+\varphi(y').
+\]
+$\boxed{y'=p}\Rightarrow y=xp+\varphi(p)$. Дифференцируем по $x$:
+\[
+p=p+xp'+\varphi'(p)p'\quad\Longrightarrow\quad p'\bigl(x+\varphi'(p)\bigr)=0.
+\]
+\textcircled{\small I} $p'=0$, $p=C$ --- общее решение (семейство прямых):
+\[
+\boxed{\ y=Cx+\varphi(C),\quad C\in\R\ }
+\]
+\textcircled{\small II} $x+\varphi'(p)=0$ --- особое решение (огибающая семейства прямых):
+\[
+\boxed{\ \begin{cases}x=-\varphi'(p),\\ y=-p\,\varphi'(p)+\varphi(p).\end{cases}}
+\]
+\end{definitionHSE}
+
+\begin{exampleHSE}[\(y=xy'-y'^2\)]
+\[
+y'=p,\quad y=xp-p^2,\quad p=p+xp'-2pp',\quad p'(x-2p)=0.
+\]
+\textcircled{\small I} $p'=0\Rightarrow p=C\Rightarrow$ Подставляем в исходное уравнение: $y=Cx-C^2$.
+
+\textcircled{\small II} $x=2p\Rightarrow p=\dfrac x2\Rightarrow$ Подставляем в исходное уравнение: \(y=\dfrac{x^2}{2}-\dfrac{x^2}{4}=\dfrac{x^2}{4}\).
+\[
+\boxed{\ y=Cx-C^2,\ C\in\R;\quad y=\frac{x^2}{4}\ }
+\]
+\end{exampleHSE}
+
+\phantomsection\label{box:type12}
+\begin{definitionHSE}[Уравнения типа 12 (уравнение Лагранжа)]
+\[
+y=x\,\varphi(y')+\psi(y').
+\]
+$\boxed{y'=p}\Rightarrow y=x\varphi(p)+\psi(p)$. Дифференцируем по $x$:
+\begin{gather*}
+p=\varphi(p)+x\varphi'(p)p'+\psi'(p)p',\qquad p'\bigl(x\varphi'(p)+\psi'(p)\bigr)=p-\varphi(p),\\[0.6em]
+\bigl(x\varphi'(p)+\psi'(p)\bigr)\dd p=(p-\varphi(p))\dd x\\[0.6em]
+dp=0\Longrightarrow p-\varphi(p)=0
+\end{gather*}
+Корни уравнения $p-\varphi(p)=0$ дают решения $y=x\varphi(p_i)+\psi(p_i)$. Если \(p-\varphi(p)\neq0\), получаем \hyperref[box:type6]{линейное} по $x$ уравнение:
+\[
+\boxed{\ x'_p-\frac{\varphi'(p)}{p-\varphi(p)}\,x=\frac{\psi'(p)}{p-\varphi(p)}\ }
+\]
+Ответ в параметрической форме: $\begin{cases}x=x(p),\\ y=x(p)\,\varphi(p)+\psi(p).\end{cases}$
+\end{definitionHSE}
+
+\begin{exampleHSE}[\(y+xy'=4\sqrt{y'}\)]
+$y'=p\ge0$, $y=-xp+4\sqrt p$. Дифференцируем:
+\[
+p=-p-xp'+\frac{2p'}{\sqrt p}\quad\Longrightarrow\quad 2p=p'\Bigl(\frac{2}{\sqrt p}-x\Bigr).
+\]
+$p=0\ \Longrightarrow\ y=0$ --- решение. При $p\neq0$, $p'=\frac{1}{x'_p}$:
+\[
+2p\,x'_p=\frac{2}{\sqrt p}-x\quad\Longrightarrow\quad x'_p+\frac{x}{2p}=\frac{1}{p\sqrt p}.
+\]
+Однородное:
+\[\frac{\dd x}{x}=-\frac{\dd p}{2p},\quad x=\frac{C}{\sqrt p}.\]
+Вариация $C=C(p)$:
+\[
+\frac{C'}{\sqrt p}=\frac{1}{p\sqrt p},\quad C'=\frac1p,\quad C=\ln p+\widetilde C.
+\]
+\[
+\boxed{\ \begin{cases}x=\dfrac{\ln p+C}{\sqrt p},\\[1.5ex] y=(4-\ln p-C)\sqrt p,\end{cases}\ C\in\R;\qquad y=0\ }
+\]
+\end{exampleHSE}
+
+\phantomsection\label{box:type13}
+\begin{definitionHSE}[Уравнения типа 13: \(y=f(y')\)]
+$\boxed{y'=p}\Rightarrow y=f(p)$, $\dd y=p\dd x$:
+\[
+p\dd x=f'(p)\dd p,\quad \frac{\dd x}{\dd p}=\frac{f'(p)}{p},\ p\neq0\quad\Longrightarrow\quad x=\int\frac{f'(p)}{p}\dd p+C.
+\]
+\[
+\boxed{\ \begin{cases}x=\displaystyle\int\frac{f'(p)}{p}\dd p+C,\\ y=f(p);\end{cases}\quad y=f(0)\ \text{--- тоже решение.}}
+\]
+\end{definitionHSE}
+
+\begin{exampleHSE}[\(3y'^4=y'+y\)]
+\[
+y=3y'^4-y',\qquad y=0\ \text{--- решение}\ (p=0).
+\]
+$y'=p\Rightarrow y=3p^4-p$, $p\dd x=\dd y=(12p^3-1)\dd p$:
+\[
+\frac{\dd x}{\dd p}=12p^2-\frac1p\quad\Longrightarrow\quad x=4p^3-\ln|p|+C.
+\]
+\[
+\boxed{\ \begin{cases}x=4p^3-\ln|p|+C,\\ y=3p^4-p,\end{cases}\ C\in\R;\qquad y=0\ }
+\]
+\end{exampleHSE}
+
+\phantomsection\label{box:type14}
+\begin{definitionHSE}[Уравнения типа 14: \(x=f(y')\)]
+$\boxed{y'=p}\Rightarrow x=f(p)$, $\dd x=f'(p)\dd p$; из $\dd y=p\dd x$:
+\[
+\dd y=p\,f'(p)\dd p\quad\Longrightarrow\quad
+\boxed{\ \begin{cases}y=\displaystyle\int p\,f'(p)\dd p+C,\ C\in\R,\\ x=f(p).\end{cases}}
+\]
+\end{definitionHSE}
+
+\begin{exampleHSE}[\(2y'=x+\ln y'\) (№360)]
+$x=2y'-\ln y'$; $y'=p>0$, $x=2p-\ln p$:
+\[
+\dd y=p\dd x=p\Bigl(2-\frac1p\Bigr)\dd p=(2p-1)\dd p,\quad y=p^2-p+C.
+\]
+\[
+\boxed{\ \begin{cases}x=2p-\ln p,\\ y=p^2-p+C,\end{cases}\quad C\in\R\ }
+\]
+\end{exampleHSE}
+
+\subsubsection{Уравнения старшего порядка}
+\phantomsection\label{box:type15}
+\begin{definitionHSE}[Уравнения типа 15 (понижение порядка: нет младших производных)]
+\[
+F\bigl(y^{(n)},y^{(n-1)},\ldots,y^{(n-k)},x\bigr)=0.
+\]
+Замена \textbf{младшей} из существующих производных $z=y^{(n-k)}$ понижает порядок уравнения на её порядок $n-k$:
+\[
+F\bigl(z^{(k)},z^{(k-1)},\ldots,z,x\bigr)=0,\quad z=\varphi(x),\quad y^{(n-k)}=\varphi(x).
+\]
+\end{definitionHSE}
+
+\begin{exampleHSE}[\(y'''=y''^2\)]
+Замена $z=y''$: $z'=z^2$.
+
+$z=0$: $y''=0$, $y=C_1x+C_2$.
+
+$z\neq0$:
+\[\frac{\dd z}{\dd x}=z^2,\quad\frac{\dd z}{z^2}=\dd x,\quad-\frac1z=x+C,\]
+то есть $y''=-\dfrac{1}{x+C}$.
+
+Интегрируем дважды:
+\[
+y'=-\ln|x+C|+C_1,\qquad y=-(x+C)\ln|x+C|+(x+C)+C_1x+C_2.
+\]
+\[
+\boxed{\ y=-(x+C)\ln|x+C|+C_1x+C_2;\qquad y=C_1x+C_2,\qquad C,C_1,C_2\in\R\ }
+\]
+\end{exampleHSE}
+
+\phantomsection\label{box:type16}
+\begin{definitionHSE}[Уравнения типа 16 (не содержащие явно \(x\))]
+\[
+F\bigl(y^{(n)},y^{(n-1)},\ldots,y',y\bigr)=0.
+\]
+Замена $y'=p(y)$ понижает порядок на единицу:
+\[
+y''=\frac{\dd}{\dd x}\,p=\frac{\dd p}{\dd y}\cdot\underbrace{\frac{\dd y}{\dd x}}_{=p}=p'_y\,p.
+\]
+\end{definitionHSE}
+
+\begin{exampleHSE}[\(y^3y''=1\)]
+$y'=p(y)$, $y''=p'_yp$:
+\[
+y^3p\,p'_y=1,\quad p\dd p=\frac{\dd y}{y^3},\quad p^2=-\frac{1}{y^2}+C_1,\quad
+y'=\pm\sqrt{\frac{C_1y^2-1}{y^2}}.
+\]
+Стационарных решений нет, иначе левая часть бы обращалась в нуль.
+\[
+\frac{y\dd y}{\sqrt{C_1y^2-1}}=\pm\dd x,\quad \frac{\sqrt{C_1y^2-1}}{C_1}=\pm(x+C_2).
+\]
+\[
+\boxed{\ C_1^2(x+C_2)^2=C_1y^2-1,\quad C_1>0,\ C_2\in\R\ }
+\]
+\end{exampleHSE}
+
+\phantomsection\label{box:thm-n}
+\begin{theoremHSE}[Существование и единственность для уравнения \(n\)-го порядка]
+Рассмотрим задачу Коши
+\[
+\begin{cases}
+y^{(n)}=F\bigl(x,y,y',\ldots,y^{(n-1)}\bigr),\\
+y(x_0)=y_0,\\
+y'(x_0)=y_1,\\
+\ldots,\\
+y^{(n-1)}(x_0)=y_{n-1}.
+\end{cases}
+\]
+\textcircled{\small 1} \(F,\ F'_y,\ F'_{y'},\ \ldots,\ F'_{y^{(n-1)}}\in C(\Omega),\ \Omega-\text{область}\subset\R^{n+1}.\)
+
+\textcircled{\small 2} \((x_0,y_0,y_1,\ldots,y_{n-1})\in\Omega.\)
+
+Если существует подобная область $\Omega$, и выполнены указанные условия, то задача Коши имеет, причём единственное решение, определённое на \([x_0-h,x_0+h]\).
+\end{theoremHSE}
+
+\begin{exampleHSE}[\(y''\cos y+y'^2\sin y=y',\ y(-1)=\dfrac\pi6,\ y'(-1)=2\)]
+\textbf{Существование и единственность.} Необходимо разрешить уравнение относительно старшей производной. При $\cos y\neq0$
+\[
+y''=F=\frac{y'-y'^2\sin y}{\cos y},\qquad
+F'_y=\frac{y'\sin y-y'^2}{\cos^2y},\qquad
+F'_{y'}=\frac{1-2y'\sin y}{\cos y}.
+\]ы
+В области $\Omega=\bigl\{(x,y,y')\mid 0<y<\frac\pi2\bigr\}$, содержащей $\bigl(-1,\frac\pi6,2\bigr)$, функции $F,F'_y,F'_{y'}$ непрерывны $\Longrightarrow$ решение существует и единственно.
+
+\textbf{Решение.} Так как $\Bigl(\dfrac{y'}{\cos y}\Bigr)'=\dfrac{y''\cos y+y'^2\sin y}{\cos^2y}$, после деления на $\cos^2y$:
+\[
+\Bigl(\frac{y'}{\cos y}\Bigr)'=\frac{y'}{\cos^2y}=(\tg y)'\quad\Longrightarrow\quad\frac{y'}{\cos y}=\tg y+C.
+\]
+Из начальных условий $C=\sqrt3$, поэтому $y'=\sin y+\sqrt3\cos y=2\sin\bigl(y+\frac\pi3\bigr)$ и
+\[
+\boxed{\ y=2\arctg\e^{2(x+1)}-\frac\pi3\ }
+\]
+\end{exampleHSE}
+
+\phantomsection\label{box:type17}
+\begin{definitionHSE}[Уравнения типа 17 (однородные относительно \(y\) и её производных)]
+Если уравнение не меняется при замене $y\to ky,\ y'\to ky',\ \ldots,\ y^{(n)}\to ky^{(n)}$, то порядок понижается подстановкой
+\[
+y'=y\cdot z(x)\Longrightarrow y''=y'z+yz'=y\,(z^2+z').
+\]
+\end{definitionHSE}
+
+\begin{exampleHSE}[\(y'^2+2yy''=0\)]
+$y=0$ --- решение. Замена $y'=yz$:
+\[
+y^2z^2+2y^2(z^2+z')=0\quad\Longrightarrow\quad 3z^2+2z'=0.
+\]
+$z=0$: $y'=0$, $y=C$. При $z\neq0$:
+\[
+3\dd x=-\frac{2\dd z}{z^2},\quad 3x=\frac2z-C_1,\quad \frac{y'}{y}=z=\frac{2}{3x+C_1},\quad \ln|y|=\frac23\ln|3x+C_1|+\widetilde C.
+\]
+\[
+\boxed{\ y=C_2\,(3x+C_1)^{2/3},\ C_1,C_2\in\R;\qquad y=C,\ C\in\R\ }
+\]
+\end{exampleHSE}
+
+\phantomsection\label{box:type18}
+\begin{definitionHSE}[Уравнения типа 18 (выделение полной производной)]
+Левую часть приводим к виду $\bigl(\Phi(x,y,y',\ldots)\bigr)'=0$, откуда $\Phi=C$, и порядок понижается на единицу. Например,
+\[
+y'y''+yy'''=(yy'')',\qquad 2y'y''=(y'^2)'.
+\]
+\end{definitionHSE}
+
+\begin{exampleHSE}[\(yy'''+3y'y''=0\)]
+\[(yy'')'=y'y''+yy''',\quad yy'''=(yy'')'-y'y''\]
+\begin{gather*}
+(yy'')'+2y'y''=0,\quad (yy'')'+(y'^2)'=0,\quad (yy''+y'^2)'=0,\\
+yy''+y'^2=C,\quad (yy')'=C,\quad yy'=Cx+C_1,\quad \frac12(y^2)'=Cx+C_1.
+\end{gather*}
+\[
+\boxed{\ y^2=C_1x^2+C_2x+C_3,\quad C_1,C_2,C_3\in\R\ }
+\]
+\end{exampleHSE}
+
+\phantomsection\label{box:type19}
+\begin{definitionHSE}[Уравнения типа 19 (обобщённо-однородные)]
+Пусть уравнение не меняется при
+\[
+x\to kx,\quad y\to k^my,\quad y'\to k^{m-1}y',\quad \ldots,\quad y^{(l)}\to k^{m-l}y^{(l)}.
+\]
+Тогда делаем замену
+\[
+\begin{cases}x=\e^t,\\ y=z\,\e^{mt},\end{cases}\quad z=z(t).
+\]
+Например, при $m=2$:
+\[
+y'=\e^t(z'_t+2z),\qquad y''=z''_{tt}+3z'_t+2z.
+\]
+После замены уравнение не содержит $t$ явно (\hyperref[box:type16]{тип 16}).
+\end{definitionHSE}
+
+\begin{exampleHSE}[\(x^2y''-3xy'=\dfrac{6y^2}{x^2}-4y,\ y(1)=1,\ y'(1)=4\)]
+Подбираем $m$: $x^2y''\sim k^m$, $xy'\sim k^m$, $y\sim k^m$, $\frac{y^2}{x^2}\sim k^{2m-2}$, откуда $2m-2=m$, $m=2$.
+
+Замена $x=\e^t$, $y=z\e^{2t}$:
+\[
+\e^{2t}(z''+3z'+2z)-3\e^{2t}(z'+2z)=6z^2\e^{2t}-4z\e^{2t}\quad\Longrightarrow\quad z''=6z^2.
+\]
+Начальные условия: $t=0$, $z(0)=1$, $z'(0)=y'(1)-2z(0)=2$. Умножаем на $z'$:
+\[
+(z'^2)'=(4z^3)',\qquad z'^2=4z^3+C,\quad C=0,\qquad z'=2z^{3/2},\qquad z^{-1/2}=1-t.
+\]
+\[
+z=\frac{1}{(1-t)^2}\quad\Longrightarrow\quad
+\boxed{\ y=\frac{x^2}{(1-\ln x)^2}\ }
+\]
+\end{exampleHSE}
+
+\clearpage
+\phantomsection
+\subsection{Схема решения произвольного ОДУ}
+\label{sec:ode-scheme}
+
+\begin{center}
+\begin{tikzpicture}[
+    font=\small,
+    >={Stealth[length=2.2mm]},
+    odestep/.style={draw=HSEblue, thick, rounded corners=4pt, fill=HSEblue!6,
+                 align=center, inner sep=5pt},
+    odeask/.style={draw=HSEorange!85!black, thick, rounded corners=10pt, fill=HSEorange!10,
+                align=center, inner sep=5pt},
+    odeleaf/.style={draw=HSEgreen!70!black, thick, rounded corners=4pt, fill=HSEgreen!6,
+                 align=flush left, inner sep=5pt, text width=4.95cm, anchor=north},
+    odefin/.style={draw=HSEred!80!black, thick, rounded corners=4pt, fill=HSEred!5,
+                align=flush left, inner sep=6pt, text width=16.2cm},
+    odelab/.style={font=\footnotesize\itshape, fill=white, inner sep=1.5pt}
+  ]
+  % --- шаг 0 ---
+  \node[odestep, text width=15cm] (start) at (0,0)
+    {\textbf{Шаг 0.} Привести уравнение к удобному виду, определить порядок $n$.\\
+     Сразу выписать всё, на что придётся делить, и проверить, не решения ли это
+     (стац. решения $y=\text{const}$, а для $M\dd x+N\dd y=0$ также $x=\text{const}$).};
+
+  % --- вопросы ---
+  \node[odeask] (q1) at (0,-1.75) {Порядок $n=1$?};
+  \node[odeask, text width=5.4cm] (q2) at (-2.95,-3.35)
+    {Разрешено относительно $y'$\\ (или вид $M\dd x+N\dd y=0$)?};
+
+  % --- листья ---
+  \node[odeleaf] (A) at (-5.6,-4.75) {%
+    \textbf{Первый порядок, $y'=f(x,y)$}\\[2pt]
+    1) $y'=f(x)$ --- \hyperref[box:type0]{тип~0};\\
+    2) $y'=f(x)g(y)$ --- \hyperref[box:type1]{тип~1};\\
+    3) $y'=f(ax+by+c)$ --- \hyperref[box:type2]{тип~2};\\
+    4) $y'=f\bigl(\frac yx\bigr)$ или $M,N$ однородны одного порядка --- \hyperref[box:type3]{тип~3};\\
+    5) $y'=f\Bigl(\frac{ax+by+c}{a_1x+b_1y+c_1}\Bigr)$: при $\Delta\neq0$ --- \hyperref[box:type4]{тип~4}, при $\Delta=0$ --- \hyperref[box:type2]{тип~2};\\
+    6) «почти» однородно: однородно после $y=z^m$ --- \hyperref[box:type5]{тип~5};\\
+    7) линейно по $y$ --- \hyperref[box:type6]{тип~6}; линейно по $x(y)$ --- \hyperref[box:type6-1]{тип~6.1};\\
+    8) $y'+a(x)y=b(x)y^n$ --- \hyperref[box:type8]{тип~8};\\
+    9) $M_y=N_x$ --- \hyperref[box:type9]{тип~9};\\
+    10) видны $\dd(x^2+y^2)$, $\dd\bigl(\frac xy\bigr)$, \ldots\ --- \hyperref[box:type10]{тип~10}.};
+
+  \node[odeleaf] (B) at (0,-4.75) {%
+    \textbf{Первый порядок, $F(x,y,y')=0$}\\[2pt]
+    0) Разрешить относительно $y'$: получится совокупность \(y'=f(x,y)\);\\
+    1) $y=xy'+\varphi(y')$ --- \hyperref[box:type11]{тип~11} (Клеро);\\
+    2) $y=x\varphi(y')+\psi(y')$ --- \hyperref[box:type12]{тип~12} (Лагранж);\\
+    3) $y=f(y')$ --- \hyperref[box:type13]{тип~13};\\
+    4) $x=f(y')$ --- \hyperref[box:type14]{тип~14}.\\[3pt]
+    \textit{В общем случае:} $y'=p$, выразить $y$ или $x$, взять дифференциал и подставить $\dd y=p\dd x$.};
+
+  \node[odeleaf] (C) at (5.6,-4.75) {%
+    \textbf{Высший порядок, $n\ge2$}\\[2pt]
+    0) Задача Коши --- проверить \hyperref[box:thm-n]{теорему $\exists!$};\\
+    1) нет мл. производных --- $z=y^{(k)},k=\min\{i:y^{(i)}\}$, \hyperref[box:type15]{тип~15};\\
+    2) нет $x$: $y'=p(y)$, \hyperref[box:type16]{тип~16};\\
+    3) однородно по $y,y',\ldots$ --- $y'=yz(x)$, \hyperref[box:type17]{тип~17};\\
+    4) обобщённо-однородно --- $x=\e^t$, $y=z\e^{mt}$, \hyperref[box:type19]{тип~19};\\
+    5) левая часть --- полная производная --- \hyperref[box:type18]{тип~18}.\\[3pt]
+    \textit{После понижения порядка --- снова по схеме.}};
+
+  % --- стрелки ---
+  \draw[->, thick, HSEgray] (start) -- (q1);
+  \draw[->, thick, HSEgray] (q1.west) -| node[odelab, pos=0.25] {да} (q2.north);
+  \draw[->, thick, HSEgray] (q1.east) -| node[odelab, pos=0.25] {нет} (C.north);
+  \draw[thick, HSEgray] (q2.south) -- ++(0,-0.3) coordinate (br);
+  \draw[->, thick, HSEgray] (br) -| node[odelab, pos=0.3] {да} (A.north);
+  \draw[->, thick, HSEgray] (br) -| node[odelab, pos=0.3] {нет} (B.north);
+
+  % --- итог ---
+  \path let \p1 = (A.south), \p2 = (B.south), \p3 = (C.south)
+        in coordinate (low) at (0, {min(\y1,\y2,\y3)});
+  \node[odefin, anchor=north] (F) at ($(low)+(0,-0.8)$) {%
+    \textbf{Итог.} 1) Сделать обратную замену. 2) Добавить стационарные и особые решения; проверить, что ничего не потеряли при делении. 3) Где можно, объединить семейства (часто стац. решение получается при $C=0$). 4) Для задачи Коши найти константы из начальных условий.};
+  \foreach \n in {A,B,C} \draw[->, thick, HSEgray] (\n.south) -- (\n.south |- F.north);
+\end{tikzpicture}
+\end{center}
+
+\begin{remarkHSE}[Если ни один тип не подошёл]
+\begin{itemize}
+  \item Поменять ролями $x$ и $y$: уравнение для $x(y)$ может оказаться линейным, Бернулли и т.\,д.
+  \item Попробовать замену, подсказанную видом уравнения: $u=\frac yx$, $z=ax+by$, $z=y^m$, $z=\varphi(y)$.
+  \item Для $M\dd x+N\dd y=0$ при $M_y\neq N_x$ искать интегрирующий множитель $\mu(x)$ или $\mu(y)$.
+\end{itemize}
+\end{remarkHSE}
 
 \end{document}

@@ -4299,15 +4299,31 @@ z=\frac{1}{(1-t)^2}\quad\Longrightarrow\quad
 
 \section{Алгоритмы решения ЛУ с пост. коэф-ами}
 \label{sec:lu-const-scheme}
-
+Решаем задачи где правая часть --- вещественная функция и коэффициенты уравнения тоже вещественные. Это позволит нам сделать небольшой трюк:
+\[\boxed{L(D)\Re Y=\Re(L(D)Y),}\qquad L(D)\Im Y=\Im(L(D)Y)\]
 По формуле Эйлера:
-\[e^{ix}=\cos x+i\sin x\]
-Можем представить квазиодночлен в следующем виде:
+\[e^{ibx}=\cos bx+i\sin bx\]
+Разрешим многочлену в \(\e^{\mu x}P_N(x)\) иметь комплексные коэффициенты и запишем его как \(P(x)-iR(x)\). Тогда квазиодночлен в правой части принимает следующий вид:
 \begin{gather*}
-\e^{\mu x}P_N(x)=\e^{(a+bi)x}P_N(x)=\e^{ax}(\cos bx+i\sin bx)P_N(x)=\e^{ax}(P_N(x)\cos bx+iP_N(x)\sin bx)
+\e^{\mu x}P_N(x)=\e^{(a+ib)x}P_N(x)=\e^{(a+ib)x}(P(x)-iR(x))\\
+\Re\bigl[\e^{(a+bi)x}(P(x)-iR(x)\bigr]=\e^{ax}(P(x)\cos bx+R(x)\sin bx)
+\end{gather*}
+Комплексное частное решение имеет вид:
+\begin{gather*}
+Y=x^s\e^{\mu x}Q_N(x)=x^se^{(a+ib)x}(Q_N(x)-iS_N(x))\\
+y=\Re Y=x^se^{ax}(Q_N(x)\cos bx+S_N(x)\sin bx)
 \end{gather*}
 
-Схема покрывает задачи Филиппова №\,540--548, 569, 573 (ЛНУ с постоянными коэффициентами и правой частью --- квазимногочленом) и №\,596, 598 (уравнения Эйлера, которые сводятся к ним).
+Временно решаем вспомогательное уравнение
+\[L(D) Y=f(x)+ig(x)\]
+\(\Re Y\) и \(\Im Y\) --- действительные функции. Подставим в уравнение:
+\begin{gather*}
+L(D)Y=L(D)(\Re Y+i\Im Y)=L(D)\Re Y+iL(D)\Im Y\\[1em]
+L(D)Y=f(x)+ig(x)\Rightarrow L(D)\Re Y+iL(D)\Im Y=f(x)+ig(x)\Rightarrow\\[1em]
+\Rightarrow\begin{cases}\boxed{L(D)\Re Y=f(x)}\\ L(D)\Im Y=g(x)\end{cases}
+\end{gather*}
+
+Схема покрывает ЛНУ с постоянными коэффициентами и правой частью --- квазимногочленом и уравнения Эйлера, которые сводятся к ним.
 
 \begin{center}
 \begin{tikzpicture}[
@@ -4351,10 +4367,10 @@ z=\frac{1}{(1-t)^2}\quad\Longrightarrow\quad
 
   % --- листья ---
   \node[odeleaf, text width=9.3cm] (A) at ($(-3.2,0 |- q.south)+(0,-0.9)$) {%
-    \textbf{Квазимногочлен} (раздел~\ref{sec:quasi}). Для каждого слагаемого:
+    \textbf{Квазимногочлен} (раздел~\ref{sec:quasi}). Для каждого слагаемого знаем \(a,b,P(x),R(x)\):
     \begin{enumerate}[nosep, leftmargin=1.6em, label=\arabic*)]
-    \item $\mu=a+ib$, \ $N=\max(\deg P,\deg R)$;
-    \item $s$ --- кратность $\mu$ как корня $L(\lambda)$; \ $s=0$, если $L(\mu)\neq0$;
+    \item \ $N=\max(\deg P,\deg R)$;
+    \item $s$ = кратность $\mu=a+ib$ как корня $L(\lambda)$;
     \item вид частного решения:\\
       $y_j=x^s\e^{ax}\bigl(Q_N(x)\cos bx+S_N(x)\sin bx\bigr)$,\\
       при $b=0$: \ $y_j=x^s\e^{ax}Q_N(x)$.\\

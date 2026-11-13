@@ -2469,7 +2469,7 @@ L(D+\lambda)=b_nD^n+\cdots+b_1D+b_0\Rightarrow b_0=L(\lambda).
 \end{equation}
 а общее решение ЛОУ \eqref{eq:lou-const}
 \begin{equation}
-y=C_1\e^{\lambda_1x}+\cdots+C_n\e^{\lambda_nx},\qquad x\in\R.
+y=c_1\e^{\lambda_1x}+\cdots+c_n\e^{\lambda_nx},\qquad x\in\R.
 \label{eq:gen-simple}
 \end{equation}
 \end{theoremHSE}
@@ -2505,7 +2505,7 @@ W_{\e^{\lambda_1x},\ldots,\e^{\lambda_nx}}(0)=
 \end{proof}
 
 \begin{remarkHSE}
-Корни \(\lambda_k\) могут быть комплексными, тогда \eqref{eq:gen-simple} --- общее комплексное решение (\(C_k\in\mathbb C\)). Так как коэффициенты вещественны, комплексные корни идут парами \(\lambda=\alpha\pm i\beta\), и пару \(\e^{(\alpha\pm i\beta)x}\) в ФСР можно заменить вещественной парой \(\e^{\alpha x}\cos\beta x,\ \e^{\alpha x}\sin\beta x\) --- это их линейные комбинации \(\frac12(\cdot+\cdot)\) и \(\frac1{2i}(\cdot-\cdot)\). Например, в №\,578 корни \(\pm2i\) дают ФСР \(\{\cos2t,\sin2t\}\).
+Корни \(\lambda_k\) могут быть комплексными, тогда \eqref{eq:gen-simple} --- общее комплексное решение (\(c_k\in\mathbb C\)). Так как коэффициенты вещественны, комплексные корни идут парами \(\lambda=\alpha\pm i\beta\), и пару \(\e^{(\alpha\pm i\beta)x}\) в ФСР можно заменить вещественной парой \(\e^{\alpha x}\cos\beta x,\ \e^{\alpha x}\sin\beta x\) --- это их линейные комбинации \(\frac12(\cdot+\cdot)\) и \(\frac1{2i}(\cdot-\cdot)\). Например, в №\,578 корни \(\pm2i\) дают ФСР \(\{\cos2t,\sin2t\}\).
 \end{remarkHSE}
 
 \section[Кратные корни]{Решение ЛОУ в случае кратных корней характеристического многочлена}
@@ -2524,9 +2524,9 @@ W_{\e^{\lambda_1x},\ldots,\e^{\lambda_nx}}(0)=
 \end{equation}
 (корню \(\lambda_j\) соответствуют \(k_j\) функций) образуют ФСР ЛОУ \eqref{eq:lou-const}; все они определены \(\forall x\in\R\). Общее решение имеет вид
 \[
-y=C_1y_1+\cdots+C_ny_n,\quad x\in\R,
+y=c_1y_1+\cdots+c_ny_n,\quad x\in\R,
 \]
-где \(C_1,\ldots,C_n\) --- произвольные постоянные.
+где \(c_1,\ldots,c_n\) --- произвольные постоянные.
 \end{theoremHSE}
 
 \begin{proof}
@@ -2550,13 +2550,13 @@ L(D)\bigl(x^r\e^{\lambda x}\bigr)=\e^{\lambda x}L(D+\lambda)x^r
 \end{gather*}
 так как \(k>r\): \(k\)-я производная многочлена степени \(r<k\) равна нулю.
 
-\item Докажем, что \(y_1,\ldots,y_n\) линейно независимы на \(\R\). От противного: пусть найдётся набор постоянных \((C_1,\ldots,C_n)\neq\vect{0}\), для которого
+\item Докажем, что \(y_1,\ldots,y_n\) линейно независимы на \(\R\). От противного: пусть найдётся набор постоянных \((c_1,\ldots,c_n)\neq\vect{0}\), для которого
 \[
-C_1y_1(x)+\cdots+C_ny_n(x)=0\quad\forall x\in\R,
+c_1y_1(x)+\cdots+c_ny_n(x)=0\quad\forall x\in\R,
 \]
 то есть
 \[
-C_1\e^{\lambda_1x}+C_2x\e^{\lambda_1x}+\cdots+C_nx^{k_m-1}\e^{\lambda_mx}=0.
+c_1\e^{\lambda_1x}+c_2x\e^{\lambda_1x}+\cdots+c_nx^{k_m-1}\e^{\lambda_mx}=0.
 \]
 Сгруппируем слагаемые по экспонентам:
 \begin{equation}
@@ -2565,11 +2565,11 @@ C_1\e^{\lambda_1x}+C_2x\e^{\lambda_1x}+\cdots+C_nx^{k_m-1}\e^{\lambda_mx}=0.
 \end{equation}
 Например, при \(\lambda_1=1\) кратности \(3\) и \(\lambda_2=7\) кратности \(2\) равенство \eqref{eq:li-quasi} имеет вид
 \[
-(C_1x^2+C_2x+C_3)\e^{x}+(C_4x+C_5)\e^{7x}=0\quad\forall x\in\R,
+(c_1x^2+c_2x+c_3)\e^{x}+(c_4x+c_5)\e^{7x}=0\quad\forall x\in\R,
 \]
-и нужно доказать, что \(C_1=C_2=\cdots=C_5=0\).
+и нужно доказать, что \(c_1=c_2=\cdots=c_5=0\).
 
-Так как \((C_1,\ldots,C_n)\neq\vect{0}\), то хотя бы один из многочленов \(P_j\) ненулевой. Без ограничения общности это \(P_1\): \(P_1(x)\not\equiv0\).
+Так как \((c_1,\ldots,c_n)\neq\vect{0}\), то хотя бы один из многочленов \(P_j\) ненулевой. Без ограничения общности это \(P_1\): \(P_1(x)\not\equiv0\).
 
 \begin{remarkHSE}[Как дифференцирование действует на \(\e^{\lambda x}P(x)\)]
 По формуле смещения для \(L(D)=D\)
@@ -2605,7 +2605,7 @@ D\bigl(\e^{\lambda x}P(x)\bigr)=\e^{\lambda x}(D+\lambda)P(x)=\e^{\lambda x}\big
 \]
 Это противоречит тому, что \(P_1(x)\not\equiv0\): на каждом шаге степень многочлена при первой экспоненте сохранялась, \(\deg\check P_1=\deg P_1\). (При \(m=1\) (одном корне \(\lambda_1\) определённой кратности) противоречие сразу: \(\e^{\lambda_1x}P_1(x)=0\Rightarrow P_1\equiv0\).)
 
-Значит, \(C_1=\cdots=C_n=0\), и функции \eqref{eq:fsr-multiple} линейно независимы на \(\R\).
+Значит, \(c_1=\cdots=c_n=0\), и функции \eqref{eq:fsr-multiple} линейно независимы на \(\R\).
 \end{enumerate}
 Итак, \eqref{eq:fsr-multiple} --- ФСР, и по теореме об общем решении ЛОУ получаем формулу общего решения.
 \end{proof}
@@ -2617,7 +2617,7 @@ y=P_{k_1-1}(x)\e^{\lambda_1x}+\cdots+P_{k_m-1}(x)\e^{\lambda_mx},
 \]
 где \(P_{k_j-1}\) --- произвольный многочлен степени не выше \(k_j-1\).
 
-Если среди корней есть комплексные, то постоянные \(C_i\in\mathbb C\). Как и в случае некратных корней, паре корней \(\alpha\pm i\beta\) кратности \(k\) в вещественной ФСР соответствуют функции \(x^r\e^{\alpha x}\cos\beta x\), \(x^r\e^{\alpha x}\sin\beta x\), \(r=0,\ldots,k-1\).
+Если среди корней есть комплексные, то постоянные \(c_i\in\mathbb C\). Как и в случае некратных корней, паре корней \(\alpha\pm i\beta\) кратности \(k\) в вещественной ФСР соответствуют функции \(x^r\e^{\alpha x}\cos\beta x\), \(x^r\e^{\alpha x}\sin\beta x\), \(r=0,\ldots,k-1\).
 \end{remarkHSE}
 
 \section[Квазимногочлен]{ЛНУ с правой частью в виде квазимногочлена}
@@ -4346,10 +4346,11 @@ L(D)Y=f(x)+ig(x)\Rightarrow L(D)\Re Y+iL(D)\Im Y=f(x)+ig(x)\Rightarrow\\[1em]
 
   % --- шаг 1 ---
   \node[odestep, anchor=north] (s1) at ($(s0.south)+(0,-0.55)$) {%
-    \textbf{Шаг 1. ЛОУ $L(D)y=0$} (разделы~\ref{sec:roots-simple}--\ref{sec:roots-multiple}). Характеристический многочлен $L(\lambda)$ $\to$ корни и кратности $\to$ ФСР $\to$ $y_{\text{о.о.}}=C_1y_1+\cdots+C_ny_n$:
+    \textbf{Шаг 1. ЛОУ $L(D)y=0$} (разделы~\ref{sec:roots-simple}--\ref{sec:roots-multiple}). Характеристический многочлен $L(\lambda)$ $\to$ корни и кратности $\to$ ФСР $\to$ $y_{\text{о.о.}}=c_1y_1+\cdots+c_ny_n$:
+    \[e^{\lambda x}=e^{(\alpha+i\beta)x}=e^{\alpha x}\cdot e^{i\beta x}=e^{\alpha x}(\cos \beta x+i\sin\beta x)\]
     \begin{itemize}[nosep, leftmargin=1.6em, label=$\bullet$]
     \item вещественный корень $\lambda$ кратности $k$: \ $\e^{\lambda x},\ x\e^{\lambda x},\ \ldots,\ x^{k-1}\e^{\lambda x}$;
-    \item пара $\alpha\pm i\beta$ кратности $k$: \ $x^r\e^{\alpha x}\cos\beta x,\ x^r\e^{\alpha x}\sin\beta x$, \ $r=0,\ldots,k-1$.
+    \item так как \(L(\lambda)\in\mathbb{R}[\lambda]\), комплексные корни идут сопряжёнными парами: для $\alpha\pm i\beta$ кратности $k$: \ $x^r\e^{\alpha x}\cos\beta x,\ x^r\e^{\alpha x}\sin\beta x$, \ $r=0,\ldots,k-1$.
     \end{itemize}};
 
   % --- шаг 2 ---
@@ -4363,16 +4364,16 @@ L(D)Y=f(x)+ig(x)\Rightarrow L(D)\Re Y+iL(D)\Im Y=f(x)+ig(x)\Rightarrow\\[1em]
 
   % --- вопрос ---
   \node[odeask, anchor=north] (q) at ($(s2.south)+(0,-0.6)$)
-    {Каждое слагаемое имеет вид\\ $\e^{ax}\bigl(P(x)\cos bx+R(x)\sin bx\bigr)$?};
+    {Каждое слагаемое имеет вид\\ $\e^{ax}\bigl(P_m(x)\cos bx+Q_n(x)\sin bx\bigr)$?};
 
   % --- листья ---
   \node[odeleaf, text width=9.3cm] (A) at ($(-3.2,0 |- q.south)+(0,-0.9)$) {%
     \textbf{Квазимногочлен} (раздел~\ref{sec:quasi}). Для каждого слагаемого знаем \(a,b,P(x),R(x)\):
     \begin{enumerate}[nosep, leftmargin=1.6em, label=\arabic*)]
-    \item \ $N=\max(\deg P,\deg R)$;
+    \item $N=\max(m, n)$;
     \item $s$ = кратность $\mu=a+ib$ как корня $L(\lambda)$;
     \item вид частного решения:\\
-      $y_j=x^s\e^{ax}\bigl(Q_N(x)\cos bx+S_N(x)\sin bx\bigr)$,\\
+      $y_j=x^s\e^{ax}\bigl(\tilde{P}_N(x)\cos bx+\tilde{Q}_N(x)\sin bx\bigr)$,\\
       при $b=0$: \ $y_j=x^s\e^{ax}Q_N(x)$.\\
       Если в слагаемом только $\cos bx$ (только $\sin bx$), можно решить $L(D)Y=\e^{\mu x}P(x)$ и взять $y_j=\Re Y$ ($y_j=\Im Y$);
     \item подставить и приравнять коэффициенты; удобно через формулу смещения $L(D)\bigl(\e^{\mu x}u\bigr)=\e^{\mu x}L(D+\mu)u$.

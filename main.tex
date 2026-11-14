@@ -4345,7 +4345,7 @@ L(D)Y=f(x)+ig(x)\Rightarrow L(D)\Re Y+iL(D)\Im Y=f(x)+ig(x)\Rightarrow\\[1em]
     Уравнение Эйлера $a_nx^ny^{(n)}+\cdots+a_1xy'+a_0y=f(x)$ сначала свести к такому виду заменой $x=\e^t$ (см. \hyperref[box:euler]{коробочку под схемой}).};
 
   % --- шаг 1 ---
-  \node[odestep, anchor=north] (s1) at ($(s0.south)+(0,-0.55)$) {%
+  \node[odestep, anchor=north] (s1) at ($(s0.south)+(0,-0.3)$) {%
     \textbf{Шаг 1. ЛОУ $L(D)y=0$} (разделы~\ref{sec:roots-simple}--\ref{sec:roots-multiple}). Характеристический многочлен $L(\lambda)$ $\to$ корни и кратности $\to$ ФСР $\to$ $y_{\text{о.о.}}=c_1y_1+\cdots+c_ny_n$:
     \[e^{\lambda x}=e^{(\alpha+i\beta)x}=e^{\alpha x}\cdot e^{i\beta x}=e^{\alpha x}(\cos \beta x+i\sin\beta x)\]
     \begin{itemize}[nosep, leftmargin=1.6em, label=$\bullet$]
@@ -4354,7 +4354,7 @@ L(D)Y=f(x)+ig(x)\Rightarrow L(D)\Re Y+iL(D)\Im Y=f(x)+ig(x)\Rightarrow\\[1em]
     \end{itemize}};
 
   % --- шаг 2 ---
-  \node[odestep, anchor=north] (s2) at ($(s1.south)+(0,-0.55)$) {%
+  \node[odestep, anchor=north] (s2) at ($(s1.south)+(0,-0.3)$) {%
     \textbf{Шаг 2. Правая часть.} Преобразовать $f$ в сумму слагаемых и искать частное решение для каждого отдельно (принцип суперпозиции):
     \begin{itemize}[nosep, leftmargin=1.6em, label=$\bullet$]
     \item произведения $\sin\cdot\cos$, $\cos\cdot\cos$, $\sin\cdot\sin$ и степени $\sin^2$, $\cos^2$ --- в суммы по тригонометрическим формулам;
@@ -4363,32 +4363,29 @@ L(D)Y=f(x)+ig(x)\Rightarrow L(D)\Re Y+iL(D)\Im Y=f(x)+ig(x)\Rightarrow\\[1em]
     \end{itemize}};
 
   % --- вопрос ---
-  \node[odeask, anchor=north] (q) at ($(s2.south)+(0,-0.6)$)
+  \node[odeask, anchor=north] (q) at ($(s2.south)+(0,-0.35)$)
     {Каждое слагаемое имеет вид\\ $\e^{ax}\bigl(P_m(x)\cos bx+Q_n(x)\sin bx\bigr)$?};
 
   % --- листья ---
-  \node[odeleaf, text width=9.3cm] (A) at ($(-3.2,0 |- q.south)+(0,-0.9)$) {%
+  \node[odeleaf, text width=9.9cm] (A) at ($(-2.9,0 |- q.south)+(0,-0.55)$) {%
     \textbf{Квазимногочлен} (раздел~\ref{sec:quasi}). Для каждого слагаемого определяем:
     \begin{enumerate}[nosep, leftmargin=1.6em, label=\arabic*)]
-    \item \(\mu=a+ib\), $s$ = кратность $\mu$ как корня $L(\lambda)$;\\
-    Берём \(b\ge0\).
+    \item \(\mu=a+ib\); берём \(b\ge0\);
     \item $m=\deg P_m,\ n=\deg Q_n,\ N=\max(m, n)$;
-    \item $s$ = кратность $\mu$ как корня $L(\lambda)$;
+    \item $s$ = кратность $\mu$ как корня $L(\lambda)$; \ $s=0$, если $L(\mu)\neq0$;
     \item Вид частного решения:\\
       $y_j=x^s\e^{ax}\bigl(\tilde{P}_N(x)\cos bx+\tilde{Q}_N(x)\sin bx\bigr)$,\\
       при $b=0$ (\(\mu\) вещественна): \ $y_j=x^s\e^{ax}\tilde{P}_N(x)$,\\
-      где коэффициенты \(\tilde{P}\) и \(\tilde{Q}\) --- однозначно определяемые константы.\\[0.6em]
-      Если в слагаемом только $\cos bx$ (только $\sin bx$), можно решить комплексное $L(D)Y=\e^{\mu x}P_m(x)$ ($\e^{\mu x}Q_n(x)$), \(Y=x^s\e^{\mu x}\tilde{R}_N(x)\) и взять $y_j=\Re Y$ ($y_j=\Im Y$);
-    \item Два способа найти константы:
-    \begin{itemize}[leftmargin=1.1em]
-    \item \textit{Метод неопределённых коэффициентов}. Найти производные решения до порядка уравнения включительно, подставить и перенести всё в одну часть. Приравнять коэффициенты к нулю и найти постоянные. Они находятся однозначно, так как функции ФСР ЛНЗ.
-    \item Через формулу смещения и комплексное представление:
-    \(Y=x^s\e^{\mu x}\tilde{R}_N(x)\), \(u(x)=x^s\tilde{R}_N(x)\).\\
-    \(L(D)\bigl(\e^{\mu x}u\bigr)=\e^{\mu x}L(D+\mu)u\).
+      где \(\tilde{P}_N\), \(\tilde{Q}_N\) --- многочлены степени \(\le N\) с неизвестными коэффициентами (они определяются однозначно).\\
+      Или комплексно: решить $L(D)Y=\e^{\mu x}\bigl(P_m(x)-iQ_n(x)\bigr)$, \(Y=x^s\e^{\mu x}\tilde{R}_N(x)\), и взять $y_j=\Re Y$ (см. замечание под схемой);
+    \item Два способа найти коэффициенты:
+    \begin{itemize}[nosep, leftmargin=1.1em]
+    \item \textit{Метод неопределённых коэффициентов}: подставить \(y_j\) в уравнение и приравнять коэффициенты при \(x^k\e^{ax}\cos bx\), \(x^k\e^{ax}\sin bx\) (эти функции ЛНЗ, раздел~\ref{sec:roots-multiple}); решение системы единственно (раздел~\ref{sec:quasi}).
+    \item через формулу смещения: \(L(D)\bigl(\e^{\mu x}u\bigr)=\e^{\mu x}L(D+\mu)u\), где \(u=x^s\tilde{R}_N(x)\).
     \end{itemize}
     \end{enumerate}};
 
-  \node[odeleaf, text width=5.6cm] (B) at ($(5.1,0 |- q.south)+(0,-0.9)$) {%
+  \node[odeleaf, text width=5cm] (B) at ($(5.4,0 |- q.south)+(0,-0.55)$) {%
     \textbf{Другая $f$} (например, $\operatorname{tg}x$, $\frac1{\cos x}$, $\ln x$):
     \begin{enumerate}[nosep, leftmargin=1.6em, label=\arabic*)]
     \item Вариация постоянных (раздел~\ref{sec:variation});
@@ -4408,11 +4405,25 @@ L(D)Y=f(x)+ig(x)\Rightarrow L(D)\Re Y+iL(D)\Im Y=f(x)+ig(x)\Rightarrow\\[1em]
   % --- итог ---
   \path let \p1 = (A.south), \p2 = (B.south)
         in coordinate (low) at (0, {min(\y1,\y2)});
-  \node[odefin, anchor=north] (F) at ($(low)+(0,-0.8)$) {%
+  \node[odefin, anchor=north] (F) at ($(low)+(0,-0.4)$) {%
     \textbf{Итог.} 1) $y_{\text{о.н.}}=y_{\text{о.о.}}+y_1+\cdots+y_m$. 2) Для уравнения Эйлера --- обратная замена $t=\ln|x|$; ответ отдельно на $x>0$ и $x<0$, где правая часть определена. 3) Проверить частное решение подстановкой в уравнение (хотя бы старшие члены).};
   \foreach \n in {A,B} \draw[->, thick, HSEgray] (\n.south) -- (\n.south |- F.north);
 \end{tikzpicture}
 \end{center}
+
+\begin{remarkHSE}[Комплексный способ]
+Так как
+\[
+P_m(x)\cos bx+Q_n(x)\sin bx=\Re\Bigl[\bigl(P_m(x)-iQ_n(x)\bigr)\e^{ibx}\Bigr],
+\]
+частное решение для слагаемого \(\e^{ax}\bigl(P_m(x)\cos bx+Q_n(x)\sin bx\bigr)\) можно получить так: решить комплексное уравнение
+\[
+L(D)Y=\e^{\mu x}\bigl(P_m(x)-iQ_n(x)\bigr),\qquad Y=x^s\e^{\mu x}\tilde R_N(x),
+\]
+где \(\tilde R_N\) --- многочлен степени \(N\) с комплексными коэффициентами, и взять \(y_j=\Re Y\).
+
+В частности, если в слагаемом только \(\cos bx\) (только \(\sin bx\)), решаем \(L(D)Y=\e^{\mu x}P_m(x)\) (\(L(D)Y=\e^{\mu x}Q_n(x)\)), ищем \(Y=x^s\e^{\mu x}\tilde R_m(x)\) (\(Y=x^s\e^{\mu x}\tilde R_n(x)\)) и берём \(y_j=\Re Y\) (\(y_j=\Im Y\)).
+\end{remarkHSE}
 
 \phantomsection\label{box:euler}
 \begin{definitionHSE}[Уравнение Эйлера]
@@ -4442,7 +4453,7 @@ y''=\frac1x\frac{\dd}{\dd t}\Bigl(\frac1xDy\Bigr)=\frac1x\Bigl(\frac1xD^2y-\frac
 \begin{itemize}
 \item \(s\) считается для \(\mu=a+ib\) целиком: для \(\e^{x}\cos3x\) это \(\mu=1+3i\), а не \(1\) и не \(3i\).
 \item Если \(b\neq0\), в виде частного решения нужны и \(\cos bx\), и \(\sin bx\) с многочленами одной степени \(N\), даже если в правой части только косинус или только синус.
-\item Многочлены \(Q_N\), \(S_N\) --- полные: неизвестны все коэффициенты при \(x^N,\ldots,x^0\), даже если в \(P\) каких-то степеней нет.
+\item Многочлены \(\tilde P_N\), \(\tilde Q_N\) --- полные: неизвестны все коэффициенты при \(x^N,\ldots,x^0\), даже если в \(P\) каких-то степеней нет.
 \item При суперпозиции \(\mu\), \(N\) и \(s\) находятся для каждого слагаемого отдельно.
 \item Многочлен или константа в правой части --- это \(\mu=0\). Если в уравнении нет члена с самой \(y\), то \(L(0)=0\), и \(s\ge1\).
 \end{itemize}

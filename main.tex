@@ -2844,6 +2844,49 @@ y_{\text{ч.н.}}=-\frac x2\cos2x+\frac12\sin2x\,\ln\cos x+\frac14\sin2x.
 Слагаемое \(\frac14\sin2x\) --- решение ЛОУ, так что с точностью до него это то же частное решение, что и найденное методом вариации постоянных.
 \end{exampleHSE}
 
+\begin{theoremHSE}[Ядро Коши при постоянных коэффициентах]
+Пусть коэффициенты ЛНУ постоянны: \(L(D)=D^n+a_{n-1}D^{n-1}+\cdots+a_1D+a_0\), \(a_i=\mathrm{const}\). Тогда
+\[
+K(x,s)=k(x-s),
+\]
+где \(k(t)\) --- решение ЛОУ \(L(D)k=0\) с начальными условиями
+\[
+k(0)=k'(0)=\cdots=k^{(n-2)}(0)=0,\qquad k^{(n-1)}(0)=1,
+\]
+и частное решение ЛНУ имеет вид
+\[
+Y(x)=\int_\gamma^x k(x-s)f(s)\dd s.
+\]
+\end{theoremHSE}
+
+\begin{proof}
+Зафиксируем \(s\) и рассмотрим \(u(x)=k(x-s)\). Обозначим \(t=x-s\). Так как \(\frac{\dd t}{\dd x}=1\), то \(u^{(j)}(x)=k^{(j)}(t)\), и, поскольку коэффициенты постоянны,
+\[
+L(D)u(x)=k^{(n)}(t)+a_{n-1}k^{(n-1)}(t)+\cdots+a_1k'(t)+a_0k(t)=0,
+\]
+так как \(k\) --- решение ЛОУ при всех \(t\). Значит, \(u\) --- решение ЛОУ. При \(x=s\) получаем \(u^{(j)}(s)=k^{(j)}(0)\), то есть \(u\) удовлетворяет тем же условиям \eqref{eq:cauchy-kernel-cond}, что и \(K(x,s)\). По единственности решения задачи Коши \(K(x,s)=u(x)=k(x-s)\).
+\end{proof}
+
+\begin{remarkHSE}
+Вместо системы на \(c_i(s)\) с параметром \(s\) достаточно один раз решить задачу Коши в нуле с числовыми коэффициентами. При переменных коэффициентах так не получится: тогда \(L(D)u(x)=\sum a_j(x)\,k^{(j)}(x-s)\), а \(a_j(x)\neq a_j(x-s)\).
+\end{remarkHSE}
+
+\begin{exampleHSE}[\(y''-5y'+6y=\e^{\sin x}\)]
+Правая часть --- не квазимногочлен, поэтому применяем формулу Коши. Характеристический многочлен \(\lambda^2-5\lambda+6=(\lambda-2)(\lambda-3)\), ФСР \(=\{\e^{2x},\ \e^{3x}\}\).
+
+Ищем \(k(t)=A\e^{2t}+B\e^{3t}\) с условиями \(k(0)=0\), \(k'(0)=1\):
+\[
+A+B=0,\quad 2A+3B=1\quad\Longrightarrow\quad A=-1,\ B=1,\qquad k(t)=\e^{3t}-\e^{2t}.
+\]
+Функция \(\e^{\sin x}\) непрерывна на \(\R\), берём \(\gamma=0\):
+\[
+y=c_1\e^{2x}+c_2\e^{3x}+\int_0^x\bigl(\e^{3(x-s)}-\e^{2(x-s)}\bigr)\e^{\sin s}\dd s,\qquad c_1,c_2\in\R,\ x\in\R.
+\]
+Интеграл через элементарные функции не берётся, поэтому ответ остаётся в таком виде.
+
+Для №\,578 тот же приём даёт сразу: \(k''+4k=0\), \(k(0)=0\), \(k'(0)=1\) \(\Rightarrow\) \(k(t)=\frac{\sin2t}{2}\) и \(K(x,s)=\frac{\sin2(x-s)}{2}\), как и в примере выше.
+\end{exampleHSE}
+
 \section[ЛОС с постоянными коэффициентами]{ЛОС с постоянными коэффициентами}
 
 Рассмотрим систему
@@ -4299,31 +4342,48 @@ z=\frac{1}{(1-t)^2}\quad\Longrightarrow\quad
 
 \section{Алгоритмы решения ЛУ с пост. коэф-ами}
 \label{sec:lu-const-scheme}
-Решаем задачи где правая часть --- вещественная функция и коэффициенты уравнения тоже вещественные. Это позволит нам сделать небольшой трюк:
-\[\boxed{L(D)\Re Y=\Re(L(D)Y),}\qquad L(D)\Im Y=\Im(L(D)Y)\]
-По формуле Эйлера:
-\[e^{ibx}=\cos bx+i\sin bx\]
-Разрешим многочлену в \(\e^{\mu x}P_N(x)\) иметь комплексные коэффициенты и запишем его как \(P(x)-iR(x)\). Тогда квазиодночлен в правой части принимает следующий вид:
-\begin{gather*}
-\e^{\mu x}P_N(x)=\e^{(a+ib)x}P_N(x)=\e^{(a+ib)x}(P(x)-iR(x))\\
-\Re\bigl[\e^{(a+bi)x}(P(x)-iR(x)\bigr]=\e^{ax}(P(x)\cos bx+R(x)\sin bx)
-\end{gather*}
-Комплексное частное решение имеет вид:
-\begin{gather*}
-Y=x^s\e^{\mu x}Q_N(x)=x^se^{(a+ib)x}(Q_N(x)-iS_N(x))\\
-y=\Re Y=x^se^{ax}(Q_N(x)\cos bx+S_N(x)\sin bx)
-\end{gather*}
+Схема ниже покрывает ЛНУ с постоянными коэффициентами и правой частью --- квазимногочленом и уравнения Эйлера, которые сводятся к ним. Правая часть и коэффициенты уравнения вещественные, поэтому можно сделать небольшой трюк: перейти к комплексной правой части, а в конце взять вещественную (или мнимую) часть решения.
 
-Временно решаем вспомогательное уравнение
-\[L(D) Y=f(x)+ig(x)\]
-\(\Re Y\) и \(\Im Y\) --- действительные функции. Подставим в уравнение:
-\begin{gather*}
-L(D)Y=L(D)(\Re Y+i\Im Y)=L(D)\Re Y+iL(D)\Im Y\\[1em]
-L(D)Y=f(x)+ig(x)\Rightarrow L(D)\Re Y+iL(D)\Im Y=f(x)+ig(x)\Rightarrow\\[1em]
-\Rightarrow\begin{cases}\boxed{L(D)\Re Y=f(x)}\\ L(D)\Im Y=g(x)\end{cases}
-\end{gather*}
+\begin{lemmaHSE}[Вещественная и мнимая части решения]
+Пусть коэффициенты \(L(D)\) вещественны, \(f(x)\), \(g(x)\) --- вещественные функции и \(Y\) --- решение вспомогательного уравнения
+\[
+L(D)Y=f(x)+ig(x).
+\]
+Тогда \(L(D)\Re Y=f(x)\) и \(L(D)\Im Y=g(x)\).
+\end{lemmaHSE}
 
-Схема покрывает ЛНУ с постоянными коэффициентами и правой частью --- квазимногочленом и уравнения Эйлера, которые сводятся к ним.
+\begin{proof}
+\(\Re Y\) и \(\Im Y\) --- вещественные функции, а коэффициенты \(L(D)\) вещественны, поэтому \(L(D)\Re Y\) и \(L(D)\Im Y\) тоже вещественны. По линейности
+\[
+L(D)Y=L(D)(\Re Y+i\Im Y)=L(D)\Re Y+iL(D)\Im Y=f(x)+ig(x).
+\]
+Приравнивая вещественные и мнимые части, получаем \(L(D)\Re Y=f(x)\) и \(L(D)\Im Y=g(x)\). Иначе говоря, \(\boxed{L(D)\Re Y=\Re\bigl(L(D)Y\bigr)}\) и \(L(D)\Im Y=\Im\bigl(L(D)Y\bigr)\).
+\end{proof}
+
+\begin{remarkHSE}[Комплексный способ]
+По формуле Эйлера \(\e^{\mu x}=\e^{(a+ib)x}=\e^{ax}(\cos bx+i\sin bx)\), то есть \(\cos bx\) и \(\sin bx\) «зашиты» в комплексный показатель \(\mu=a+ib\). Разрешим многочлену в простейшем квазимногочлене иметь комплексные коэффициенты и запишем его как \(P_m(x)-iQ_n(x)\). Тогда при \(\mu=a+ib\)
+\[
+\Re\Bigl[\e^{\mu x}\bigl(P_m(x)-iQ_n(x)\bigr)\Bigr]=\e^{ax}\bigl(P_m(x)\cos bx+Q_n(x)\sin bx\bigr).
+\]
+Поэтому для слагаемого \(\e^{ax}\bigl(P_m(x)\cos bx+Q_n(x)\sin bx\bigr)\) по лемме можно решить комплексное уравнение \(L(D)Y=\e^{\mu x}\bigl(P_m(x)-iQ_n(x)\bigr)\) и взять \(y_j=\Re Y\). Комплексное частное решение имеет вид
+\begin{gather*}
+Y=x^s\e^{\mu x}\bigl(\tilde P_N(x)-i\tilde Q_N(x)\bigr),\\
+y_j=\Re Y=x^s\e^{ax}\bigl(\tilde P_N(x)\cos bx+\tilde Q_N(x)\sin bx\bigr),
+\end{gather*}
+то есть \(\tilde P_N\) и \(\tilde Q_N\) из схемы --- вещественная часть и мнимая часть со знаком минус комплексного многочлена \(\tilde R_N=\tilde P_N-i\tilde Q_N\).
+
+В частности, если в слагаемом только косинус или только синус:
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{llll}
+\textbf{В слагаемом} & \textbf{Решаем} & \textbf{Ищем} & \textbf{Берём}\\
+\(\e^{ax}P_m(x)\cos bx\) & \(L(D)Y=\e^{\mu x}P_m(x)\) & \(Y=x^s\e^{\mu x}\tilde R_m(x)\) & \(y_j=\Re Y\)\\
+\(\e^{ax}Q_n(x)\sin bx\) & \(L(D)Y=\e^{\mu x}Q_n(x)\) & \(Y=x^s\e^{\mu x}\tilde R_n(x)\) & \(y_j=\Im Y\)
+\end{tabular}
+\end{center}
+\end{remarkHSE}
+
+
 
 \begin{center}
 \begin{tikzpicture}[
@@ -4346,11 +4406,12 @@ L(D)Y=f(x)+ig(x)\Rightarrow L(D)\Re Y+iL(D)\Im Y=f(x)+ig(x)\Rightarrow\\[1em]
 
   % --- шаг 1 ---
   \node[odestep, anchor=north] (s1) at ($(s0.south)+(0,-0.3)$) {%
-    \textbf{Шаг 1. ЛОУ $L(D)y=0$} (разделы~\ref{sec:roots-simple}--\ref{sec:roots-multiple}). Характеристический многочлен $L(\lambda)$ $\to$ корни и кратности $\to$ ФСР $\to$ $y_{\text{о.о.}}=c_1y_1+\cdots+c_ny_n$:
-    \[e^{\lambda x}=e^{(\alpha+i\beta)x}=e^{\alpha x}\cdot e^{i\beta x}=e^{\alpha x}(\cos \beta x+i\sin\beta x)\]
+    \textbf{Шаг 1. ЛОУ $L(D)y=0$} (разделы~\ref{sec:roots-simple}--\ref{sec:roots-multiple}). Характеристический многочлен $L(\lambda)$ $\to$ корни и кратности $\to$ ФСР $\to$ $y_{\text{о.о.}}=c_1y_1+\cdots+c_ny_n$. Для комплексного корня \(\e^{\lambda x}=\e^{(\alpha+i\beta)x}=\e^{\alpha x}\cdot\e^{i\beta x}=\e^{\alpha x}(\cos\beta x+i\sin\beta x)\).
     \begin{itemize}[nosep, leftmargin=1.6em, label=$\bullet$]
-    \item вещественный корень $\lambda$ кратности $k$: \ $\e^{\lambda x},\ x\e^{\lambda x},\ \ldots,\ x^{k-1}\e^{\lambda x}$;
-    \item так как \(L(\lambda)\in\mathbb{R}[\lambda]\), комплексные корни идут сопряжёнными парами: для $\alpha\pm i\beta$ кратности $k$: \ $x^r\e^{\alpha x}\cos\beta x,\ x^r\e^{\alpha x}\sin\beta x$, \ $r=0,\ldots,k-1$.
+    \item вещественный корень $\lambda$ кратности $k$: \ $\e^{\lambda x},\ x\e^{\lambda x},\ \ldots,\ x^{k-1}\e^{\lambda x}$;\\
+    в \(y_{\text{о.о.}}\) идёт: \((c_1+c_2x+\ldots+c_{k}x^{k-1})\e^{\lambda x}\).
+    \item так как \(L(\lambda)\in\mathbb{R}[\lambda]\), комплексные корни идут сопряжёнными парами: для $\alpha\pm i\beta$ кратности $k$: \ $x^r\e^{\alpha x}\cos\beta x,\ x^r\e^{\alpha x}\sin\beta x$, \ $r=0,\ldots,k-1$;\\
+    в \(y_{\text{о.о.}}\) идёт: \(\e^{\alpha x}\bigl((c_1+c_2x+\ldots+c_kx^{k-1})\cos\beta x+(c_{k+1}+c_{k+2}x+\ldots+c_{2k}x^{k-1})\sin\beta x\bigr)\).
     \end{itemize}};
 
   % --- шаг 2 ---
@@ -4372,12 +4433,12 @@ L(D)Y=f(x)+ig(x)\Rightarrow L(D)\Re Y+iL(D)\Im Y=f(x)+ig(x)\Rightarrow\\[1em]
     \begin{enumerate}[nosep, leftmargin=1.6em, label=\arabic*)]
     \item \(\mu=a+ib\); берём \(b\ge0\);
     \item $m=\deg P_m,\ n=\deg Q_n,\ N=\max(m, n)$;
-    \item $s$ = кратность $\mu$ как корня $L(\lambda)$; \ $s=0$, если $L(\mu)\neq0$;
+    \item $s$ = кратность $\mu$ как корня $L(\lambda)$;
     \item Вид частного решения:\\
       $y_j=x^s\e^{ax}\bigl(\tilde{P}_N(x)\cos bx+\tilde{Q}_N(x)\sin bx\bigr)$,\\
       при $b=0$ (\(\mu\) вещественна): \ $y_j=x^s\e^{ax}\tilde{P}_N(x)$,\\
-      где \(\tilde{P}_N\), \(\tilde{Q}_N\) --- многочлены степени \(\le N\) с неизвестными коэффициентами (они определяются однозначно).\\
-      Или комплексно: решить $L(D)Y=\e^{\mu x}\bigl(P_m(x)-iQ_n(x)\bigr)$, \(Y=x^s\e^{\mu x}\tilde{R}_N(x)\), и взять $y_j=\Re Y$ (см. замечание под схемой);
+      где \(\tilde{P}_N\), \(\tilde{Q}_N\) --- многочлены степени \(N\) общего вида с неизвестными коэффициентами (они определяются однозначно).\\
+      При \(b\neq0\) удобнее комплексно: решить $L(D)Y=\e^{\mu x}\bigl(P_m(x)-iQ_n(x)\bigr)$, \(Y=x^s\e^{\mu x}\tilde{R}_N(x)\), и взять $y_j=\Re Y$ (см. перед схемой);
     \item Два способа найти коэффициенты:
     \begin{itemize}[nosep, leftmargin=1.1em]
     \item \textit{Метод неопределённых коэффициентов}: подставить \(y_j\) в уравнение и приравнять коэффициенты при \(x^k\e^{ax}\cos bx\), \(x^k\e^{ax}\sin bx\) (эти функции ЛНЗ, раздел~\ref{sec:roots-multiple}); решение системы единственно (раздел~\ref{sec:quasi}).
@@ -4390,7 +4451,11 @@ L(D)Y=f(x)+ig(x)\Rightarrow L(D)\Re Y+iL(D)\Im Y=f(x)+ig(x)\Rightarrow\\[1em]
     \begin{enumerate}[nosep, leftmargin=1.6em, label=\arabic*)]
     \item Вариация постоянных (раздел~\ref{sec:variation});
     \item Или интегральная формула Коши (раздел~\ref{sec:cauchy}):\\
-      $Y(x)=\int_\gamma^x K(x,s)f(s)\dd s$.
+      $Y(x)=\int_\gamma^x k(x-s)f(s)\dd s$,\\
+      где $k$ --- решение ЛОУ с\\
+      $k^{(j)}(0)=0$ при $j\le n-2$,\\
+      $k^{(n-1)}(0)=1$\\
+      (при $n=2$: $k(0)=0$, $k'(0)=1$).
     \end{enumerate}
     \vspace{3pt}
     Ответ --- на промежутках непрерывности $f$.};
@@ -4399,30 +4464,20 @@ L(D)Y=f(x)+ig(x)\Rightarrow L(D)\Re Y+iL(D)\Im Y=f(x)+ig(x)\Rightarrow\\[1em]
   \draw[->, thick, HSEgray] (s0) -- (s1);
   \draw[->, thick, HSEgray] (s1) -- (s2);
   \draw[->, thick, HSEgray] (s2) -- (q);
-  \draw[->, thick, HSEgray] (q.west) -| node[odelab, pos=0.75, left, fill=none] {да} (A.north);
+  \draw[->, thick, HSEgray] (q.west) -| node[odelab, pos=0.75, left, fill=none] {да} (-5.4,0 |- A.north);
   \draw[->, thick, HSEgray] (q.east) -| node[odelab, pos=0.75, right, fill=none] {нет} (B.north);
 
   % --- итог ---
   \path let \p1 = (A.south), \p2 = (B.south)
         in coordinate (low) at (0, {min(\y1,\y2)});
   \node[odefin, anchor=north] (F) at ($(low)+(0,-0.4)$) {%
-    \textbf{Итог.} 1) $y_{\text{о.н.}}=y_{\text{о.о.}}+y_1+\cdots+y_m$. 2) Для уравнения Эйлера --- обратная замена $t=\ln|x|$; ответ отдельно на $x>0$ и $x<0$, где правая часть определена. 3) Проверить частное решение подстановкой в уравнение (хотя бы старшие члены).};
+    \textbf{Итог.} 1) $y_{\text{о.н.}}=y_{\text{о.о.}}+y_1+\cdots+y_m$, где $c_1,\ldots,c_n$ из $y_{\text{о.о.}}$ --- произвольные постоянные (их ровно $n$ --- размерность пространства решений ЛОУ). 2) Для уравнения Эйлера --- обратная замена $t=\ln|x|$; ответ отдельно на $x>0$ и $x<0$, где правая часть определена.};
   \foreach \n in {A,B} \draw[->, thick, HSEgray] (\n.south) -- (\n.south |- F.north);
 \end{tikzpicture}
 \end{center}
 
-\begin{remarkHSE}[Комплексный способ]
-Так как
-\[
-P_m(x)\cos bx+Q_n(x)\sin bx=\Re\Bigl[\bigl(P_m(x)-iQ_n(x)\bigr)\e^{ibx}\Bigr],
-\]
-частное решение для слагаемого \(\e^{ax}\bigl(P_m(x)\cos bx+Q_n(x)\sin bx\bigr)\) можно получить так: решить комплексное уравнение
-\[
-L(D)Y=\e^{\mu x}\bigl(P_m(x)-iQ_n(x)\bigr),\qquad Y=x^s\e^{\mu x}\tilde R_N(x),
-\]
-где \(\tilde R_N\) --- многочлен степени \(N\) с комплексными коэффициентами, и взять \(y_j=\Re Y\).
-
-В частности, если в слагаемом только \(\cos bx\) (только \(\sin bx\)), решаем \(L(D)Y=\e^{\mu x}P_m(x)\) (\(L(D)Y=\e^{\mu x}Q_n(x)\)), ищем \(Y=x^s\e^{\mu x}\tilde R_m(x)\) (\(Y=x^s\e^{\mu x}\tilde R_n(x)\)) и берём \(y_j=\Re Y\) (\(y_j=\Im Y\)).
+\begin{remarkHSE}[Экспонента и тригонометрия сохраняются]
+Для каждого слагаемого правой части в подбираемом частном решении \textbf{сохраняется тот же показатель \(\mu=a+ib\)}. Поэтому множитель \(\e^{ax}\) и частота \(b\) у тригонометрии остаются теми же: если они были в правой части, то входят и в вид частного решения, и наоборот. Если экспоненты нет, то \(a=0\) и \(\e^{0x}=1\); если тригонометрии нет, то \(b=0\), и в подстановке она тоже не появляется. При \(b\neq0\) закладываем оба слагаемых: с \(\cos bx\) и с \(\sin bx\). Меняются многочленные коэффициенты и при резонансе добавляется множитель \(x^s\).
 \end{remarkHSE}
 
 \phantomsection\label{box:euler}
@@ -4451,34 +4506,36 @@ y''=\frac1x\frac{\dd}{\dd t}\Bigl(\frac1xDy\Bigr)=\frac1x\Bigl(\frac1xD^2y-\frac
 
 \begin{remarkHSE}[Частые ошибки]
 \begin{itemize}
-\item \(s\) считается для \(\mu=a+ib\) целиком: для \(\e^{x}\cos3x\) это \(\mu=1+3i\), а не \(1\) и не \(3i\).
 \item Если \(b\neq0\), в виде частного решения нужны и \(\cos bx\), и \(\sin bx\) с многочленами одной степени \(N\), даже если в правой части только косинус или только синус.
-\item Многочлены \(\tilde P_N\), \(\tilde Q_N\) --- полные: неизвестны все коэффициенты при \(x^N,\ldots,x^0\), даже если в \(P\) каких-то степеней нет.
-\item При суперпозиции \(\mu\), \(N\) и \(s\) находятся для каждого слагаемого отдельно.
-\item Многочлен или константа в правой части --- это \(\mu=0\). Если в уравнении нет члена с самой \(y\), то \(L(0)=0\), и \(s\ge1\).
+\item \textbf{Если многочленного множителя не видно, он равен константе, то есть имеет нулевую степень, а не отсутствует!} Например, \(\e^{2x}=1\cdot\e^{2x}\) и \(3\cos x=3\cdot\cos x\): здесь \(N=0\). Поэтому в частном решении берём неизвестную константу \(\tilde P_0=A\) (и \(\tilde Q_0=B\) при \(b\neq0\)), сохраняя положенный множитель \(x^s\): \(x^s A\e^{2x}\) или \(x^s(A\cos x+B\sin x)\).
 \end{itemize}
 \end{remarkHSE}
 
-\begin{exampleHSE}[Задачи Филиппова: что применить]
-\renewcommand{\arraystretch}{1.3}
-\begin{tabular}{@{}p{1.1cm}p{3.7cm}p{10.1cm}@{}}
-\textbf{№} & \textbf{Правая часть} & \textbf{Приёмы}\\
-540 & \(x\cos x\) & квазимногочлен с комплексным \(\mu\); \(\Re\)\\
-541 & \(\e^{-4x}+x\e^{-x}\) & суперпозиция двух слагаемых\\
-542 & \(x^2\e^{x}\) & простейший квазимногочлен\\
-543 & \(\e^{2x}+\sin2x\) & суперпозиция; для \(\sin2x\) --- \(\Im\)\\
-544 & \(\e^{3x}\cos x\) & комплексное \(\mu\); \(\Re\)\\
-545 & \(6x\e^{x}\) & простейший квазимногочлен\\
-546 & \(x\sin x\) & комплексное \(\mu\); \(\Im\)\\
-547 & \(x\e^{2x}\) & простейший квазимногочлен\\
-548 & \(3x^2+\sin5x\) & суперпозиция; многочлен --- это \(\mu=0\)\\
-569 & \(\sin x\cos2x\) & порядок 4; произведение \(\to\) сумма; суперпозиция\\
-573 & \(\operatorname{sh}x\sin2x\) & \(\operatorname{sh}x\) через экспоненты; суперпозиция\\
-596 & \(3x^2\) (Эйлер) & замена \(x=\e^t\), затем квазимногочлен\\
-598 & \(\sin\ln x\) (Эйлер) & замена \(x=\e^t\): \(\sin\ln x=\sin t\); \(x>0\)\\
-\end{tabular}
+\begin{remarkHSE}[Полезные формулы для метода неопределённых коэффициентов]
+\[D(e^{ax}f(x))=e^{ax}(D+a)f(x),\qquad
+\bigl(\e^{ax}f(x)\bigr)'=\e^{ax}\bigl(f'(x)+af(x)\bigr).\]
+При каждом дифференцировании экспонента выносится общим множителем, а в скобке остаётся многочлен (или многочлены при \(\cos bx\), \(\sin bx\)).
+\end{remarkHSE}
 
-Во всех задачах \(s\) проверяется для каждого слагаемого отдельно, сравнением \(\mu\) с корнями \(L(\lambda)\).
+\begin{remarkHSE}[Быстрый случай: \(N=0\), \(s=0\)]
+Пусть слагаемое правой части --- \(\kappa\,\e^{\mu x}\), \(\kappa=\mathrm{const}\) (многочлен нулевой степени), и \(\mu\) --- не корень \(L(\lambda)\). Тогда \(Y=A\e^{\mu x}\), и по свойству 4 из п.~\ref{subsec:poly-D}
+\[
+L(D)\bigl(A\e^{\mu x}\bigr)=\e^{\mu x}L(D+\mu)A=e^{\mu x}\,L(\mu)\,A\quad\Longrightarrow\quad A=\frac{\kappa}{L(\mu)}.
+\]
+Для \(\kappa\e^{ax}\cos bx\) или \(\kappa\e^{ax}\sin bx\) это одно деление на комплексное число \(L(\mu)\) и выделение \(\Re\) или \(\Im\) вместо системы \(2\times2\).
+\end{remarkHSE}
+
+\begin{exampleHSE}[\(y''+y'+y=2\cos2x\)]
+\begin{itemize}
+\item \(\mu=2i\), \(L(2i)=(2i)^2+2i+1=-3+2i\neq0\), то есть \(s=0\).
+\item \(2\cos2x=\Re\bigl(2\e^{2ix}\bigr)\).
+\item \(Y=x^s\e^{\mu x}\tilde{R}_N(x)=A\e^{\mu x},\quad y_{\text{ч.н.}}=\Re{Y}\).
+\item Решаем \(L(D)Y=2\e^{2ix}\) и берём \(\Re Y\):
+\end{itemize}
+\[
+y_{\text{ч.н.}}=\Re\frac{2\e^{2ix}}{-3+2i}=\Re\Bigl[\frac{2(-3-2i)}{13}\,(\cos2x+i\sin2x)\Bigr]=\frac{-6\cos2x+4\sin2x}{13}.
+\]
+Для сравнения: вещественная подстановка \(y=A\cos2x+B\sin2x\) даёт систему \(-3A+2B=2\), \(-2A-3B=0\) и тот же ответ \(A=-\frac{6}{13}\), \(B=\frac{4}{13}\), но через две производные и решение системы.
 \end{exampleHSE}
 
 

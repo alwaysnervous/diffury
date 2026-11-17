@@ -1,0 +1,259 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{amsmath,amssymb}
+\usepackage[margin=20mm,headheight=15pt]{geometry}
+\usepackage{xcolor,enumitem,needspace,fancyhdr,hyperref}
+\definecolor{accent}{HTML}{174C72}
+\definecolor{muted}{HTML}{59636C}
+\hypersetup{colorlinks=true,linkcolor=accent,urlcolor=accent,
+ pdftitle={Архив экзаменационных задач по дифференциальным уравнениям}}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\setlist[itemize]{nosep,leftmargin=1.5em}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{muted}Дифференциальные уравнения}
+\fancyhead[R]{\small\color{muted}Архив заданий}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.3pt}
+\newcommand{\sect}[1]{\Needspace{85mm}\section*{\color{accent}#1}}
+\newcommand{\task}[2]{\par\vspace{6pt}
+ {\bfseries\color{accent}#1. #2}\par}
+\newcommand{\note}[1]{\par{\small\color{muted}#1}\par}
+\newcommand{\R}{\mathbb R}
+\begin{document}
+
+{\huge\bfseries\color{accent}Архив экзаменационных задач}\par
+{\large По дифференциальным уравнениям}\par
+\vspace{4pt}
+
+\sect{1. Линейные уравнения: свойства и существование}
+
+\begin{minipage}[t]{\linewidth}
+\task{1}{Ограниченность всех решений}
+При каких значениях параметров $a,b$ все решения уравнения
+\[
+ y''+ay'+by=0
+\]
+ограничены?
+\end{minipage}\par\vspace{6pt}
+
+\begin{minipage}[t]{\linewidth}
+\task{2}{ЛОУ второго порядка с заданными решениями}
+Существует ли линейное однородное уравнение второго порядка с вещественными
+постоянными коэффициентами, имеющее частные решения $\cos x$ и $2$?
+Ответ обоснуйте.
+\end{minipage}\par\vspace{6pt}
+
+\begin{minipage}[t]{\linewidth}
+\task{3}{Минимальный порядок ЛОУ}
+Каков минимальный порядок линейного однородного уравнения с вещественными
+постоянными коэффициентами, имеющего частные решения $\cos x$ и $2$?
+Ответ обоснуйте.
+\end{minipage}\par\vspace{6pt}
+
+\begin{minipage}[t]{\linewidth}
+\task{4}{ЛНУ с заданными решениями}
+Существует ли линейное неоднородное уравнение с вещественными постоянными
+коэффициентами, имеющее частные решения $\cos x$ и $2$? Ответ обоснуйте.
+\end{minipage}\par\vspace{6pt}
+
+\sect{2. Уравнения и задачи Коши}
+
+\begin{minipage}[t]{\linewidth}
+\task{6}{ЛНУ с постоянными коэффициентами}
+Решить уравнение
+\[
+ y''+3y'+2y=\frac{1}{e^x+1}.
+\]
+\end{minipage}\par\vspace{6pt}
+
+\begin{minipage}[t]{\linewidth}
+\task{7}{Неоднородное уравнение с тригонометрией}
+Решить уравнение
+\[
+ y''+y=\frac{1}{\sin x}.
+\]
+\end{minipage}\par\vspace{6pt}
+
+\begin{minipage}[t]{\linewidth}
+\task{8}{Уравнение без независимой переменной}
+Решить уравнение
+\[
+ y''=\frac{1}{y^3}.
+\]
+\end{minipage}\par\vspace{6pt}
+
+\begin{minipage}[t]{\linewidth}
+\task{9}{Задача Коши с котангенсом}
+\[
+ \begin{cases}
+ y''+(y')^2\operatorname{ctg}y=0,\\
+ y(0)=\dfrac{\pi}{2},\qquad y'(0)=1.
+ \end{cases}
+\]
+\end{minipage}\par\vspace{6pt}
+
+\begin{minipage}[t]{\linewidth}
+\task{11}{Задача Коши из текстовой реплики}
+\[
+ \begin{cases}
+ y^2y''+(y'-1)^2=1,\\
+ y(0)=1,\qquad y'(0)=2.
+ \end{cases}
+\]
+\end{minipage}\par\vspace{6pt}
+
+\begin{minipage}[t]{\linewidth}
+\task{12}{Единственность по теореме Коши}
+\[
+ y^2y''+y'(y'-1)^2=0.
+\]
+По теореме Коши доказать единственность и найти решение.
+\note{Начальные условия не сохранились. Ответ: $y=x+1$.}
+\end{minipage}\par\vspace{6pt}
+
+\sect{3. Системы и положения равновесия}
+
+\begin{minipage}[t]{\linewidth}
+\task{13}{Линейная система из контрольной}
+\[
+ \begin{cases}
+ \dot x=-2x-y+z,\\
+ \dot y=5x-y+4z,\\
+ \dot z=5x+y+2z.
+ \end{cases}
+\]
+Решить систему. Исследовать нулевое решение на устойчивость.
+Есть ли неустойчивые решения системы? Указать хотя бы одно, если да.
+\end{minipage}\par\vspace{6pt}
+
+\begin{minipage}[t]{\linewidth}
+\task{14}{Равновесия экспоненциальной системы}
+Являются ли точки $(0,0)$ и $(0,1)$ положениями равновесия системы
+\[
+ \begin{cases}
+ \dot x=e^{x+2y}-\cos 3x,\\
+ \dot y=\sqrt{4+8x}-2e^y.
+ \end{cases}
+\]
+Для каждой точки, являющейся положением равновесия, определить тип и
+исследовать устойчивость.
+\end{minipage}\par\vspace{6pt}
+
+\begin{minipage}[t]{\linewidth}
+\task{15}{Равновесия системы с синусом}
+Являются ли точки $(0,0)$, $(\pi,0)$ и $(\pi,1)$ положениями равновесия системы
+\[
+ \begin{cases}
+ \dot x=y,\\
+ \dot y=\sin(x+y).
+ \end{cases}
+\]
+Для каждого положения равновесия определить тип и исследовать устойчивость.
+\end{minipage}\par\vspace{6pt}
+
+\begin{minipage}[t]{\linewidth}
+\task{16}{Система из рукописного списка}
+\[
+ \begin{cases}
+ \dot x=8\sin^2 y,\\
+ \dot y=(x-2)(x^2+x).
+ \end{cases}
+\]
+\note{На листе отмечены точки $(2,0)$ и $(0,0)$.
+Формулировка вопроса не сохранилась.}
+\end{minipage}\par\vspace{6pt}
+
+\sect{4. Устойчивость и качественное исследование}
+
+\begin{minipage}[t]{\linewidth}
+\task{17}{Устойчивость решения задачи Коши}
+Исследовать на устойчивость по Ляпунову решение задачи Коши
+\[
+ \begin{cases}
+ (t+1)x'+tx=0,\\
+ x(0)=0.
+ \end{cases}
+\]
+\end{minipage}\par\vspace{6pt}
+
+\begin{minipage}[t]{\linewidth}
+\task{18}{Равновесия и фазовый портрет (№ 888)}
+Найти положения равновесия системы
+\[
+ \begin{cases}
+ \dot x=-y\cos x,\\
+ \dot y=\sin x.
+ \end{cases}
+\]
+Пользуясь теоремой Пуанкаре--Перрона, установить, устойчивы ли они.
+Построить фазовый портрет.
+\end{minipage}\par\vspace{6pt}
+
+\begin{minipage}[t]{\linewidth}
+\task{19}{Число решений через прямую}
+Для уравнения
+\[
+ y'=\frac{e^{x+1}}{x-1}
+\]
+найти, сколько решений проходит через прямую $x=1$.
+\end{minipage}\par\vspace{6pt}
+
+\begin{minipage}[t]{\linewidth}
+\task{20}{Вертикальная асимптота}
+Для уравнения
+\[
+ y'=e^y(y-1)
+\]
+выяснить, имеет ли интегральная кривая вертикальную асимптоту $x=C$
+при $y\to+\infty$.
+\end{minipage}\par\vspace{6pt}
+
+\begin{minipage}[t]{\linewidth}
+\task{21}{Параметр и седло}
+При каких значениях параметра $a$ получается седло?
+\[
+ \begin{cases}
+ \dot x=ax+ay,\\
+ \dot y=a^2y^2.
+ \end{cases}
+\]
+\end{minipage}\par\vspace{6pt}
+
+\begin{minipage}[t]{\linewidth}
+\task{25}{Устойчивость по определению (№ 881)}
+Пользуясь определением устойчивости по Ляпунову, выяснить, устойчивы ли
+решения данных уравнений с указанными начальными условиями:
+\[
+\begin{aligned}
+ \text{а)}\quad &3(t-1)\dot x=x,       &&x(2)=0;\\[5pt]
+ \text{б)}\quad &\dot x=4x-t^2x,      &&x(0)=0;\\[5pt]
+ \text{в)}\quad &\dot x=t-x,          &&x(0)=1;\\[5pt]
+ \text{г)}\quad &2t\dot x=x-x^3,      &&x(1)=0.
+\end{aligned}
+\]
+\end{minipage}\par\vspace{6pt}
+
+\sect{5. Неполные условия и упоминания типов задач}
+
+\begin{minipage}[t]{\linewidth}
+\task{26}{Частное решение второго вида}
+Существует ли частное решение второго вида ЛНУ второго порядка?
+\end{minipage}\par\vspace{6pt}
+
+\vspace{5pt}
+\textbf{Ещё упомянуты следующие задания без полных условий:}
+\begin{itemize}
+ \item Уравнение Эйлера.
+ \item Первая задача из последней контрольной --- решить систему
+       (была почти у всех).
+ \item Уравнение с отношением $y/x$; по воспоминанию, интегрирование
+       требовало двух замен, одна из которых связана с тригонометрией.
+ \item Вторая задача на интегральную формулу Коши.
+ \item Линейное неоднородное уравнение с постоянными коэффициентами.
+\end{itemize}
+
+\end{document}

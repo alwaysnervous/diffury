@@ -3324,30 +3324,292 @@ $\widetilde k-1$. Общее решение есть сумма таких ве�
 
 \noindent\textbf{Домашнее задание.} Жорданова нормальная форма.
 
-\section[Векторный квазимногочлен]{Частное решение ЛНС с векторным квазимногочленом}
-
-\begin{theoremHSE}[Форма частного решения]
-Рассмотрим ЛНС с постоянной матрицей
-\[
-\dot{\vect{x}}=A\vect{x}+e^{\mu t}\vect{P}_N(t),
-\]
-где $\vect{P}_N(t)$ --- векторный многочлен степени $N$.
-
-Частное решение ищется в виде
-\[
-x_i(t)=G_i(t)e^{\mu t},
-\]
-где $G_i(t)$ --- многочлен степени не выше $N+S$. Здесь
-\begin{itemize}
-  \item $S=0$, если $\mu$ не является собственным значением $A$;
-  \item если $\mu$ --- собственное значение $A$, то $S$ берётся равным максимальному размеру жордановой клетки, соответствующей $\mu$.
-\end{itemize}
+% 16.11.2026, 11:15:59 — IMG_20261118_125149_747.jpg
+\begin{theoremHSE}[Действительная и мнимая части решения ЛОС]
+Пусть в системе \(\dot{\vect x}=A\vect x\) матрица
+\(A=(a_{ij})_{i,j=1}^n\) вещественна. Если
+\(\vect x(t)=\vect u(t)+i\vect v(t)\) --- решение и
+\(\vect u(t),\vect v(t)\in\R^n\) при всех \(t\in\R\), то
+\(\vect u\) и \(\vect v\) также являются решениями этой ЛОС.
 \end{theoremHSE}
 
-Если правая часть является суммой нескольких векторных квазимногочленов, частные решения для каждого слагаемого находят отдельно и складывают.
+\begin{proof}
+Подставим \(\vect x=\vect u+i\vect v\) в систему:
+\[
+ \frac{\dd}{\dd t}\bigl(\vect u(t)+i\vect v(t)\bigr)
+ =A\bigl(\vect u(t)+i\vect v(t)\bigr),\qquad
+ \dot{\vect u}+i\dot{\vect v}=A\vect u+iA\vect v.
+\]
+Векторы \(\dot{\vect u},\dot{\vect v},A\vect u,A\vect v\) вещественны.
+Сравнивая действительные и мнимые части, получаем
+\(\dot{\vect u}=A\vect u\) и \(\dot{\vect v}=A\vect v\).
+\end{proof}
+
+% 16.11.2026, 11:24:45 — IMG_20261118_125149_798.jpg. § 2 главы 5 на доске.
+\section[ЛНС с постоянными коэффициентами]{ЛНС с постоянными коэффициентами}
+Рассмотрим неоднородную систему
+\[
+ \dot{\vect x}=A\vect x+\vect F(t),
+\]
+где \(A\) --- постоянная матрица.
+
+\subsection{Метод вариации постоянных}
+Для произвольной непрерывной правой части применяется метод вариации
+постоянных \eqref{eq:variation-system}. Если \(X\) --- фундаментальная матрица
+ЛОС, то подстановка \(\vect x=X(t)\vect c(t)\) даёт
+\(\dot{\vect c}(t)=X^{-1}(t)\vect F(t)\).
+
+\subsection{Правая часть в виде векторного квазимногочлена}
+Векторным квазимногочленом называется конечная сумма вектор-функций вида
+\(\e^{\mu t}\vect P_N(t)\), где \(\vect P_N\) --- векторный многочлен:
+\[
+ \vect P_N(t)=\vect v_N t^N+\vect v_{N-1}t^{N-1}+\cdots+\vect v_0,
+ \qquad \vect v_0,\ldots,\vect v_N\in\mathbb C^n.
+\]
+Векторы \(\vect v_j\) постоянны. Каждая координата \(\vect P_N\) есть
+многочлен степени не выше \(N\).
+
+\Needspace{13\baselineskip}
+\begin{theoremHSE}[Форма частного решения]
+Рассмотрим систему
+\begin{equation}
+ \dot{\vect x}=A\vect x+\e^{\mu t}\vect P_N(t),
+ \label{eq:lns-vector-quasipolynomial}
+\end{equation}
+где \(A\) --- постоянная матрица размера \(n\times n\),
+\(\mu\in\mathbb C\) --- постоянная, а векторный многочлен
+\(\vect P_N\) имеет степень \(N\), то есть хотя бы одна из его координат
+имеет степень \(N\), а все остальные --- степень не выше \(N\).
+
+% 16.11.2026, 11:30:57 — IMG_20261118_125149_908.jpg
+Существует частное решение вида
+\[
+ \vect x_{\text{ч}}(t)=\e^{\mu t}\vect Q_{N+S}(t),
+\]
+где \(\vect Q_{N+S}\) --- векторный многочлен степени не выше \(N+S\).
+Если \(\mu\) --- собственное значение \(A\), то \(S\) равно наибольшему
+размеру жордановой клетки для \(\mu\). В остальных случаях \(S=0\).
+\end{theoremHSE}
+
+\begin{proof}
+Выберем невырожденную матрицу \(C\) размера \(n\times n\), для которой
+\(A=CJC^{-1}\), где \(J\) --- жорданова нормальная форма матрицы \(A\).
+Выполним замену \(\vect x=C\vect y\), то есть \(\vect y=C^{-1}\vect x\).
+Поскольку \(C\) постоянна, \(\dot{\vect x}=C\dot{\vect y}\).
+Подставим в \eqref{eq:lns-vector-quasipolynomial} и умножим слева на \(C^{-1}\):
+\[
+\begin{aligned}
+ C\dot{\vect y}(t)&=AC\vect y(t)+\e^{\mu t}\vect P_N(t),\\
+ \dot{\vect y}(t)&=C^{-1}AC\vect y(t)+C^{-1}\e^{\mu t}\vect P_N(t)\\
+ &=J\vect y(t)+\e^{\mu t}C^{-1}\vect P_N(t).
+\end{aligned}
+\]
+Обозначим \(\widetilde{\vect P}_N(t)=C^{-1}\vect P_N(t)\).
+Каждая его координата есть линейная комбинация координат \(\vect P_N\).
+Например, в размерности два
+\[
+ \begin{pmatrix}a&b\\c&d\end{pmatrix}
+ \begin{pmatrix}t^2+1\\t\end{pmatrix}
+ =\begin{pmatrix}a(t^2+1)+bt\\c(t^2+1)+dt\end{pmatrix}.
+\]
+Получаем систему в жордановом базисе
+\[
+ \dot{\vect y}(t)=J\vect y(t)+\e^{\mu t}\widetilde{\vect P}_N(t).
+\]
+
+% 16.11.2026, 11:38:41 — IMG_20261118_125149_607.jpg
+Рассмотрим, как жордановы клетки разбивают систему на подсистемы.
+Например, матрица
+\[
+ J=\begin{pmatrix}
+ \lambda_1&1&0&0\\
+ 0&\lambda_1&0&0\\
+ 0&0&\lambda_1&0\\
+ 0&0&0&\lambda_2
+ \end{pmatrix}
+\]
+при $\lambda_1\ne\lambda_2$ содержит две клетки для $\lambda_1$ и одну для $\lambda_2$.
+В следующем примере $2$ --- собственное значение кратности $3$,
+а $3$ --- собственное значение кратности $2$:
+\[
+ J=\begin{pmatrix}
+ 2&1&0&0&0\\
+ 0&2&0&0&0\\
+ 0&0&2&0&0\\
+ 0&0&0&3&1\\
+ 0&0&0&0&3
+ \end{pmatrix},\qquad
+ \vect y=\begin{pmatrix}y^1\\ y^2\\ y^3\\ y^4\\ y^5\end{pmatrix},\qquad
+ \widetilde{\vect P}_N(t)=
+ \begin{pmatrix}p^1(t)\\ p^2(t)\\ p^3(t)\\ p^4(t)\\ p^5(t)\end{pmatrix}.
+\]
+Верхние индексы у $y^k$ и $p^k$ обозначают номера координат. Получаются три независимые подсистемы:
+\[
+ \begin{cases}
+ \dot y^1=2y^1+y^2+\e^{\mu t}p^1(t),\\
+ \dot y^2=2y^2+\e^{\mu t}p^2(t),
+ \end{cases}
+ \qquad
+ \dot y^3=2y^3+\e^{\mu t}p^3(t),
+\]
+\[
+ \begin{cases}
+ \dot y^4=3y^4+y^5+\e^{\mu t}p^4(t),\\
+ \dot y^5=3y^5+\e^{\mu t}p^5(t).
+ \end{cases}
+\]
+Для одной клетки размера $s\times s$ с собственным значением $\lambda$
+перенумеруем её координаты от $1$ до $s$. Для жордановой клетки
+\[
+ J_s(\lambda)=
+ \begin{pmatrix}
+ \lambda&1&&0\\
+ &\ddots&\ddots&\\
+ &&\lambda&1\\
+ 0&&&\lambda
+ \end{pmatrix}
+\]
+получаем подсистему
+\[
+ \begin{cases}
+ \dot y^1=\lambda y^1+y^2+\e^{\mu t}p^1(t),\\
+ \hspace{2em}\vdots\\
+ \dot y^{s-1}=\lambda y^{s-1}+y^s+\e^{\mu t}p^{s-1}(t),\\
+ \dot y^s=\lambda y^s+\e^{\mu t}p^s(t).
+ \end{cases}
+\]
+
+% 16.11.2026, 11:46:24 — IMG_20261118_125150_129.jpg
+Выполним замену $\vect y=\e^{\lambda t}\vect z$ в этой подсистеме.
+Для $k=1,\ldots,s$ имеем
+\[
+ y^k=\e^{\lambda t}z^k,\qquad
+ \dot y^k=\e^{\lambda t}\dot z^k+\lambda\e^{\lambda t}z^k.
+\]
+Подставляя в первые $s-1$ уравнений и в последнее уравнение, получаем
+\[
+ \begin{aligned}
+ \e^{\lambda t}\dot z^k+\lambda\e^{\lambda t}z^k
+ &=\lambda\e^{\lambda t}z^k+\e^{\lambda t}z^{k+1}+\e^{\mu t}p^k(t),
+ &&1\le k<s,\\
+ \e^{\lambda t}\dot z^s+\lambda\e^{\lambda t}z^s
+ &=\lambda\e^{\lambda t}z^s+\e^{\mu t}p^s(t).
+ \end{aligned}
+\]
+После сокращения одинаковых слагаемых и деления на $\e^{\lambda t}$ остаётся
+\[
+ \begin{cases}
+ \dot z^k=z^{k+1}+\e^{(\mu-\lambda)t}p^k(t),& k=1,\ldots,s-1,\\
+ \dot z^s=\e^{(\mu-\lambda)t}p^s(t).
+ \end{cases}
+\]
+Проинтегрируем уравнения, начиная с последнего. Для построения частного
+решения достаточно выбрать по одной первообразной на каждом шаге.
+
+% 16.11.2026, 11:53:44 — IMG_20261118_125150_259.jpg
+\smallskip
+\noindent\textbf{1. Случай $\mu=\lambda$.}
+В последнем уравнении исчезает экспонента:
+\[
+ z^s(t)=\int p^s(t)\,\dd t=r^s(t),\qquad
+ \deg p^s\le N,\qquad \deg r^s\le N+1.
+\]
+В предпоследнем уравнении подынтегральный многочлен имеет степень не выше
+$N+1$, поэтому
+\[
+ z^{s-1}(t)=\int\bigl(z^s(t)+p^{s-1}(t)\bigr)\,\dd t=r^{s-1}(t),
+ \qquad\deg r^{s-1}\le N+2.
+\]
+Каждое следующее интегрирование увеличивает верхнюю границу степени
+на единицу. При $s\ge2$ к первому уравнению приходим с оценкой
+$\deg z^2\le N+s-1$ и получаем
+\[
+ z^1(t)=\int\bigl(z^2(t)+p^1(t)\bigr)\,\dd t=r^1(t),
+ \qquad \deg r^1\le N+s.
+\]
+При $s=1$ достаточно последнего уравнения.
+
+\smallskip
+\noindent\textbf{2. Случай $\mu\ne\lambda$.}
+Интегрируем по частям:
+\[
+ \begin{aligned}
+ z^s(t)
+ &=\int p^s(t)\e^{(\mu-\lambda)t}\,\dd t
+   =\frac{1}{\mu-\lambda}\int p^s(t)\,\dd\bigl(\e^{(\mu-\lambda)t}\bigr)\\
+ &=\frac{\e^{(\mu-\lambda)t}}{\mu-\lambda}\,p^s(t)
+   -\frac{1}{\mu-\lambda}\int (p^s)'(t)\e^{(\mu-\lambda)t}\,\dd t .
+ \end{aligned}
+\]
+Повторяя интегрирование по частям, выберем первообразную вида
+\[
+ z^s(t)=\e^{(\mu-\lambda)t}r^s(t).
+\]
+Если $p^s\ne0$, то $\deg r^s=\deg p^s\le N$. При $p^s=0$ берём $r^s=0$.
+Далее
+\[
+ \begin{aligned}
+ z^{s-1}(t)
+ &=\int \bigl(z^s(t)+\e^{(\mu-\lambda)t}p^{s-1}(t)\bigr)\,\dd t\\
+ &=\int \e^{(\mu-\lambda)t}\bigl(r^s(t)+p^{s-1}(t)\bigr)\,\dd t
+   =\e^{(\mu-\lambda)t}r^{s-1}(t).
+ \end{aligned}
+\]
+Сумма $r^s+p^{s-1}$ имеет степень не выше $N$, поэтому
+$\deg r^{s-1}\le N$. Продолжая до первого уравнения, получаем
+$z^1(t)=\e^{(\mu-\lambda)t}r^1(t)$ с $\deg r^1\le N$.
+
+% 16.11.2026, 12:01:20 — IMG_20261118_125149_963.jpg
+Итак, для одной клетки
+\[
+ \vect z(t)=
+ \begin{cases}
+ \vect R_{N+s}(t),&\mu=\lambda,\\
+ \e^{(\mu-\lambda)t}\vect R_N(t),&\mu\ne\lambda,
+ \end{cases}
+\]
+где нижний индекс обозначает верхнюю границу степени векторного
+многочлена. Вернёмся к исходным координатам $\vect x=C\vect y$.
+Пусть $C_B$ состоит из столбцов $C$, отвечающих рассматриваемой
+клетке $B$. Вклад этой клетки в $\vect x$ равен $\e^{\lambda t}C_B\vect z$. Поэтому
+\[
+ \begin{aligned}
+ \mu=\lambda:\quad
+ \e^{\lambda t}C_B\vect R_{N+s}(t)
+ &=\e^{\lambda t}\widetilde{\vect Q}_{N+s}(t)
+  =\e^{\mu t}\widetilde{\vect Q}_{N+s}(t),\\
+ \mu\ne\lambda:\quad
+ \e^{\lambda t}\e^{(\mu-\lambda)t}C_B\vect R_N(t)
+ &=\e^{\mu t}C_B\vect R_N(t)
+  =\e^{\mu t}\widetilde{\vect Q}_N(t).
+ \end{aligned}
+\]
+Проделаем это для каждой клетки и сложим полученные вклады.
+В нерезонансных клетках степень многочлена не превосходит $N$.
+В клетке для $\mu$ размера $s\times s$ она не превосходит $N+s$.
+Таким образом, для всей системы прибавка к оценке $N$ равна наибольшему
+размеру клетки для $\mu$, а при отсутствии таких клеток равна нулю.
+\end{proof}
+
+% Нижний правый угол IMG_20261118_125149_963.jpg: эскиз после заключения
+% доказательства. Видны клетки размеров 3 и 2, p^1(t), p^3(t) и e^{\lambda t}.
+% Средняя координата столбца стёрта или пропущена; её значение не задано.
+Для иллюстрации рассмотрим резонансную клетку
+\[
+ J_3(\lambda)=\begin{pmatrix}\lambda&1&0\\0&\lambda&1\\0&0&\lambda\end{pmatrix}.
+\]
+При правой части $\e^{\lambda t}\vect p(t)$ первое интегрирование
+начинается с $p^3(t)$, последнее использует $p^1(t)$.
+Для этой клетки верхняя граница степени равна $N+3$.
+Для клетки $J_2(\lambda)=\begin{pmatrix}\lambda&1\\0&\lambda\end{pmatrix}$
+получаем $N+2$.
+
+% Пример и замечание из прежней версии конспекта.
+
+Если правая часть есть сумма нескольких слагаемых вида \(\e^{\mu t}\vect P_N(t)\), частные решения для каждого слагаемого находят отдельно и складывают.
 
 \begin{exampleHSE}[Векторный квазимногочлен]
-Для $n=2$, $N=3$ в источнике приведён пример
+Для $n=2$, $N=3$ рассмотрим векторный квазимногочлен
 \[
 e^{2t}
 \begin{pmatrix}
@@ -3357,64 +3619,202 @@ e^{2t}
 \]
 \end{exampleHSE}
 
-\section[Автономные системы]{Автономная система и фазовый портрет}
+% 16.11.2026, 12:10:25 — IMG_20261118_125150_205.jpg. Глава 6. Автономные системы.
+\section[Автономные системы]{Автономные системы}
 
 \begin{definitionHSE}[Автономная система]
-Система ОДУ называется автономной, если независимая переменная $t$ не входит в неё явно:
+Нормальная система $n$-го порядка $\dot{\vect{x}}=\vect f(t,\vect{x})$
+называется \textit{автономной}, если время $t$ явно не входит в её правую часть:
+\begin{equation}
+ \dot{\vect{x}}=\vect f(\vect{x}).
+ \label{eq:lecture-autonomous}
+\end{equation}
+Точка означает производную по $t$. Для вектора
+$\vect{x}(t)=\bigl(x^1(t),\ldots,x^n(t)\bigr)^{\mathsf T}$ система имеет вид
 \[
-\dot{\vect{x}}=\vect{f}(\vect{x}).
+ \begin{cases}
+ \dot{x}^1(t)=f^1\bigl(x^1(t),\ldots,x^n(t)\bigr),\\
+ \hspace{2em}\vdots\\
+ \dot{x}^n(t)=f^n\bigl(x^1(t),\ldots,x^n(t)\bigr).
+ \end{cases}
 \]
-В координатах:
+\end{definitionHSE}
+
+Предполагаем, что $G\subset\R^n$ --- область, а функции $f^i$ и все
+частные производные $\partial f^i/\partial x^j$ непрерывны в $G$.
+
+% § 1 главы 6. Кинематическая интерпретация.
+\subsection{Кинематическая интерпретация}
+
+Пусть $\vect{x}=\vect\varphi(t)$ --- решение системы \eqref{eq:lecture-autonomous}.
+Вектор $\vect{x}(t)$ задаёт положение точки в $\R^n$ в момент времени $t$,
+а $\dot{\vect{x}}(t)$ --- её скорость. Область $G$ называется
+\textit{фазовым пространством} системы.
+
+\begin{center}
+\begin{tikzpicture}[>=Stealth,thick,font=\small]
+  \begin{scope}
+    \draw[->] (0,0)--(4.1,0) node[right] {$t$};
+    \draw[->] (0,0)--(-.65,-.68) node[below] {$x^1$};
+    \draw[->] (0,0)--(0,1.1) node[above] {$x^2$};
+    \draw[HSEblue,domain=0:360,samples=80,smooth,variable=\u]
+      plot ({.009*\u-.40*cos(\u)},{.72*sin(\u)-.40*cos(\u)});
+    \node at (1.65,-1.35) {График $(t,\vect{x}(t))$};
+  \end{scope}
+  \begin{scope}[xshift=8cm]
+    \draw[->] (-1.3,0)--(1.45,0) node[right] {$x^1$};
+    \draw[->] (0,-.95)--(0,1.1) node[above] {$x^2$};
+    \draw[HSEblue] (0,0) ellipse (1 and .72);
+    \draw[HSEblue,->] (1,0) arc[start angle=0,end angle=55,x radius=1,y radius=.72];
+    \node at (0,-1.35) {Проекция на фазовую плоскость};
+  \end{scope}
+\end{tikzpicture}
+\end{center}
+
+% 16.11.2026, 12:15:23 — IMG_20261118_125149_760.jpg.
+\begin{definitionHSE}[Фазовая траектория и особая точка]
+В фазовом пространстве решение определяет кривую или точку.
+Это множество положений $\vect\varphi(t)$ называется
+\textit{фазовой траекторией}.
+Траектория состоит из одной точки $\vect a$, если
+$\vect\varphi(t)\equiv\vect a$. Постоянное решение можно продолжить на всю $\R$:
+его скорость равна нулю, и условие на $\vect a\in G$ имеет вид
 \[
-\begin{cases}
-\dot x_1=f_1(x_1,\ldots,x_n),\\
-\qquad\vdots\\
-\dot x_n=f_n(x_1,\ldots,x_n).
-\end{cases}
+ \vect f(\vect a)=\vect 0.
 \]
+Точку $\vect a$, удовлетворяющую этому условию, называют
+\textit{особой точкой}, \textit{положением равновесия} или
+\textit{стационарной точкой} системы.
 \end{definitionHSE}
 
-Кинематически $t$ понимается как время, $\vect{x}(t)$ --- положение точки, а $\dot{\vect{x}}(t)$ --- её скорость. В автономной системе скорость зависит только от положения точки.
-
-\begin{definitionHSE}[Фазовое пространство]
-Фазовым пространством называется множество $\widetilde G\subset\R^n$, в котором определены координаты системы и её правая часть.
-\end{definitionHSE}
-
-\begin{definitionHSE}[Фазовая траектория]
-Решение $\vect{x}(t)=\vect{\varphi}(t)$ задаёт в фазовом пространстве линию. Эта линия называется фазовой траекторией.
-\end{definitionHSE}
-
-\begin{definitionHSE}[Положение равновесия]
-Точка $\vect{a}$ является стационарной точкой, положением равновесия или особой точкой, если
+\begin{exampleHSE}[Особые точки двух систем]
 \[
-\vect{f}(\vect{a})=\vect{0}.
+ \text{1)}\quad
+ \begin{cases}
+ \dot{x}^1=-x^2,\\ \dot{x}^2=x^1,
+ \end{cases}
+ \qquad\qquad
+ \text{2)}\quad
+ \begin{cases}
+ \dot{x}^1=-(x^2)^2\,\e^{x^1},\\ \dot{x}^2=0.
+ \end{cases}
 \]
-В таком случае $\vect{x}(t)\equiv\vect a$ --- решение.
-\end{definitionHSE}
+У первой системы особой точкой является только начало координат.
+Во второй системе стационарны все точки прямой $x^2=0$.
+\end{exampleHSE}
+
+% 16.11.2026, 12:23:19 — IMG_20261118_125149_405.jpg.
+Если $\vect{x}_0\in G$ не является стационарной точкой, то в ней
+задана ненулевая скорость $\vect f(\vect{x}_0)$.
+
+\begin{exampleHSE}[Движение по окружности]
+Вернёмся к системе $\dot{x}^1=-x^2$, $\dot{x}^2=x^1$.
+Из второго уравнения следует $\ddot{x}^2=\dot{x}^1=-x^2$, поэтому
+$\ddot{x}^2+x^2=0$ и
+\[
+ \begin{cases}
+ x^2=C_1\cos t+C_2\sin t,\\
+ x^1=-C_1\sin t+C_2\cos t.
+ \end{cases}
+\]
+При $C_1=0$, $C_2=R>0$ получаем $x^1=R\cos t$, $x^2=R\sin t$.
+Точка движется по окружности радиуса $R$ против часовой стрелки.
+В частности, в точке $(1,0)$ вектор скорости равен
+\[
+ \left.\begin{pmatrix}-x^2\\x^1\end{pmatrix}\right|_{(1,0)}
+ =\begin{pmatrix}0\\1\end{pmatrix}.
+\]
+\begin{center}
+\begin{tikzpicture}[>=Stealth,thick,scale=1.25,font=\small]
+  \draw[->] (-1.75,0)--(1.95,0) node[right] {$x^1$};
+  \draw[->] (0,-1.66)--(0,1.76) node[above] {$x^2$};
+  \foreach \r in {.55,1,1.45}{
+    \draw[HSEblue] (0,0) circle[radius=\r];
+    \draw[HSEblue,->] (\r,0) arc[start angle=0,end angle=56,radius=\r];
+  }
+  \fill (0,0) circle[radius=1.5pt];
+  \fill (1,0) circle[radius=1.5pt] node[below right] {$(1,0)$};
+  \draw[HSEgreen,very thick,->] (1,0)--(1,1);
+\end{tikzpicture}
+\end{center}
+\end{exampleHSE}
+
+Вектор скорости направлен по касательной к траектории. Стрелки на
+нестационарной траектории указывают направление движения при возрастании $t$.
 
 \begin{definitionHSE}[Фазовый портрет]
-Совокупность всех фазовых траекторий автономной системы называется её фазовым портретом.
+Совокупность всех фазовых траекторий в фазовом пространстве называется
+\textit{фазовым портретом} системы.
 \end{definitionHSE}
 
+% 16.11.2026, 12:29:23 — IMG_20261118_125149_564.jpg.
+В области $G$ задано векторное поле $\vect f$. В каждой неособой точке
+оно задаёт направление касательной к фазовой траектории.
+\begin{center}
+\begin{tikzpicture}[>=Stealth,thick,font=\small]
+  \draw[HSEgray] plot[smooth cycle,tension=.85] coordinates
+    {(-1.2,-.4) (-.9,.8) (-.25,1.05) (.45,1.65) (1.5,1.52)
+     (2,.82) (1.9,-.08) (1.1,-.58) (.4,-.8) (-.35,-.61)};
+  \node at (1.7,1.55) {$G$};
+  \draw[->] (-1.45,0)--(2.35,0) node[right] {$x^1$};
+  \draw[->] (-.55,-1)--(-.55,1.8) node[above] {$x^n$};
+  \draw[HSEblue] (.3,.52) ellipse (.66 and .32);
+  \draw[HSEblue,->] (-.36,.52) arc[start angle=180,end angle=85,x radius=.66,y radius=.32];
+  \draw[HSEblue,->] (-.84,-.24) .. controls (-1.20,.60) and (-.36,1.12) .. (.38,.99)
+    .. controls (.96,.90) and (1.21,.43) .. (1.12,.04);
+  \draw[HSEblue,->] (-.45,1.10)--(.08,1.22);
+  \draw[HSEblue,->] (.49,1.18)--(1.05,1.1);
+  \draw[HSEblue,->] (1.22,.82)--(1.5,.48);
+  \draw[HSEblue,->] (1.36,.26)--(1.3,-.1);
+\end{tikzpicture}
+\end{center}
+
+% § 2 главы 6. Свойства фазовых траекторий автономной системы.
+\subsection{Свойства фазовых траекторий автономной системы}
+
+\begin{center}
+\begin{tikzpicture}[>=Stealth,thick,font=\small]
+  \draw[HSEblue,->] (-2,-.6) .. controls (-1.25,.25) and (.15,1.05) .. (.6,.65)
+    .. controls (1.25,-.12) and (-.65,-.42) .. (-1.7,.6);
+  \node at (-.57,-.96) {Самопересечение (невозможно)};
+  \draw[HSEblue] (5,.12) ellipse (.73 and .62);
+  \draw[HSEblue,->] (5.73,.12) arc[start angle=0,end angle=130,x radius=.73,y radius=.62];
+  \node at (5,-.96) {Простая замкнутая кривая};
+\end{tikzpicture}
+\end{center}
+
 \begin{theoremHSE}[Сдвиг времени]
-Если $\vect{\varphi}(t)$ --- решение автономной системы, то для любого $c\in\R$
+Пусть $\vect{\varphi}$ --- решение автономной системы \eqref{eq:lecture-autonomous}
+на интервале $I$. Тогда для любого $c\in\R$ функция
 \[
-\vect{\psi}(t)=\vect{\varphi}(t+c)
+ \vect\psi(t)=\vect\varphi(t+c),\qquad t\in I-c=\{t:t+c\in I\},
 \]
-также является решением. Эти решения задают одну и ту же фазовую траекторию.
+также является решением. Фазовые траектории этих решений совпадают.
 \end{theoremHSE}
 
+% 16.11.2026, 12:31:31 — IMG_20261118_125149_536.jpg.
+\Needspace{8\baselineskip}
 \begin{proof}
+По условию $\dot{\vect\varphi}(u)=\vect f(\vect\varphi(u))$ при $u\in I$.
+Положим $u=t+c$. Тогда $\dd u/\dd t=1$, поэтому при $t\in I-c$ имеем
 \[
-\dot{\vect{\psi}}(t)
-=\dot{\vect{\varphi}}(t+c)
-=\vect{f}(\vect{\varphi}(t+c))
-=\vect{f}(\vect{\psi}(t)).
+ \begin{aligned}
+ \frac{\dd\vect\psi(t)}{\dd t}
+ &=\frac{\dd}{\dd t}\vect\varphi(t+c)
+ =\frac{\dd\vect\varphi(u)}{\dd u}\frac{\dd u}{\dd t}
+ =\dot{\vect\varphi}(u)\\
+ &=\vect f(\vect\varphi(u))=\vect f(\vect\varphi(t+c))
+ =\vect f(\vect\psi(t)).
+ \end{aligned}
 \]
+При $t\in I-c$ параметр $t+c$ пробегает весь интервал $I$.
+Следовательно, $\vect\psi(I-c)=\vect\varphi(I)$.
 \end{proof}
 
+% Продолжение прежнего конспекта после последнего снимка от 16.11.2026.
+
 \begin{theoremHSE}[Фазовые траектории не пересекаются]
-Две фазовые траектории автономной системы либо совпадают, либо не пересекаются.
+Фазовые траектории двух максимальных решений системы \eqref{eq:lecture-autonomous} либо совпадают, либо не пересекаются.
 \end{theoremHSE}
 
 \begin{proof}
@@ -3422,7 +3822,7 @@ e^{2t}
 \[
 \vect{\chi}(t)=\vect{\varphi}(t+c).
 \]
-Тогда $\vect{\chi}(t_2)=\vect{\psi}(t_2)$. По единственности решения одной задачи Коши $\vect{\chi}$ и $\vect{\psi}$ совпадают, а значит совпадают и их фазовые траектории.
+Тогда $\vect{\chi}(t_2)=\vect{\psi}(t_2)$. По теореме единственности $\vect{\chi}$ и $\vect{\psi}$ совпадают на общем интервале. Оба решения максимальны, поэтому их интервалы определения совпадают. Следовательно, они задают одну фазовую траекторию.
 \end{proof}
 
 \begin{corollaryHSE}[Следствия]

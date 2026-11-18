@@ -2507,134 +2507,8 @@ W_{\e^{\lambda_1x},\ldots,\e^{\lambda_nx}}(0)=
 \end{enumerate}
 \end{proof}
 
-\subsection{Комплексно-сопряжённые корни и вещественные решения}
-
-\begin{lemmaHSE}[Сопряжённость корней]
-Если характеристический многочлен $L(\lambda)$ имеет вещественные
-коэффициенты, то вместе с корнем $\lambda=a+bi$ он имеет корень
-$\overline\lambda=a-bi$ той же кратности.
-\end{lemmaHSE}
-
-\begin{proof}
-При вещественных коэффициентах
-$L(\overline z)=\overline{L(z)}$. Поэтому из $L(\lambda)=0$ следует
-$L(\overline\lambda)=0$. То же равенство верно для всех производных
-многочлена, а значит, сохраняется и кратность корня.
-\end{proof}
-
-\begin{remarkHSE}[Формула Эйлера]
-При $a,b,x\in\R$ имеем
-\[
- \e^{a+bi}=\e^a(\cos b+i\sin b),\qquad
- \e^{(a+bi)x}=\e^{ax}(\cos bx+i\sin bx).
-\]
-Следовательно,
-\[
-\begin{aligned}
- \e^{\overline\lambda x}
- &=\e^{ax}\bigl(\cos(-bx)+i\sin(-bx)\bigr)\\
- &=\e^{ax}(\cos bx-i\sin bx)
- =\overline{\e^{\lambda x}}.
-\end{aligned}
-\]
-\end{remarkHSE}
-
-\Needspace{13\baselineskip}
-\phantomsection\label{lem:real-linear-combination}
-\begin{lemmaHSE}[Вещественность линейной комбинации]
-Пусть дан набор векторов
-\[
- \vect u_1,\ldots,\vect u_m\in\mathbb C^n,
-\]
-каждый из которых либо вещественный, либо входит в набор вместе со своим
-комплексно-сопряжённым вектором. Для линейно независимого набора
-линейная комбинация
-\[
- C_1\vect u_1+\cdots+C_m\vect u_m,
- \qquad C_1,\ldots,C_m\in\mathbb C,
-\]
-вещественна тогда и только тогда, когда коэффициенты при вещественных
-векторах вещественны, а при комплексно-сопряжённых векторах
-комплексно-сопряжены.
-\end{lemmaHSE}
-
-\begin{exampleHSE}[Вещественная комбинация четырёх векторов в $\mathbb C^3$]
-Рассмотрим векторы
-\[
- \vect u_1=\begin{pmatrix}1\\2\\3\end{pmatrix},\quad
- \vect u_2=\begin{pmatrix}1\\1+i\\2\end{pmatrix},\quad
- \vect u_3=\begin{pmatrix}1\\1-i\\2\end{pmatrix},\quad
- \vect u_4=\begin{pmatrix}0\\0\\1\end{pmatrix}.
-\]
-Первые и последние векторы вещественны, а
-$\vect u_3=\overline{\vect u_2}$. Поэтому условия
-\[
- C_1,C_4\in\R,\qquad C_3=\overline{C_2}
-\]
-гарантируют, что $\sum_{j=1}^4 C_j\vect u_j\in\R^3$.
-Действительно, при $C_1=a$, $C_4=d$, $C_2=A+Bi$, $C_3=A-Bi$
-с вещественными $a,d,A,B$ получаем
-\[
- \sum_{j=1}^4 C_j\vect u_j
- =\begin{pmatrix}a+2A\\2a+2A-2B\\3a+4A+d\end{pmatrix}\in\R^3.
-\]
-\end{exampleHSE}
-
-\begin{remarkHSE}[Поправка к примеру с доски]
-Четыре вектора в $\mathbb C^3$ линейно зависимы, поэтому в этом примере
-условия $C_1,C_4\in\R$, $C_3=\overline{C_2}$ достаточны, но не необходимы.
-Обратное утверждение леммы требует линейной независимости набора.
-\end{remarkHSE}
-
-Пусть $b\neq0$ и $\lambda=a+bi$, $\overline\lambda=a-bi$ --- простые
-корни характеристического многочлена. Соответствующая часть комплексной
-ФСР состоит из функций $\e^{\lambda x}$ и $\e^{\overline\lambda x}$.
-Они линейно независимы, поскольку
-\[
- W_{\e^{\lambda x},\e^{\overline\lambda x}}(x)
- =\begin{vmatrix}
- \e^{\lambda x}&\e^{\overline\lambda x}\\
- \lambda\e^{\lambda x}&\overline\lambda\e^{\overline\lambda x}
- \end{vmatrix},\qquad
- W(0)=\overline\lambda-\lambda=-2bi\neq0.
-\]
-
-\begin{theoremHSE}[Вещественная часть общего решения для пары корней]
-Линейная комбинация
-\[
- y(x)=C_1\e^{\lambda x}+C_2\e^{\overline\lambda x}
-\]
-вещественна при всех $x\in\R$ тогда и только тогда, когда
-$C_2=\overline{C_1}$. Все такие решения имеют вид
-\[
- y(x)=\e^{ax}\bigl(\widetilde C_1\cos bx+
-                         \widetilde C_2\sin bx\bigr),
- \qquad \widetilde C_1,\widetilde C_2\in\R.
-\]
-\end{theoremHSE}
-
-\Needspace{4\baselineskip}
-\begin{proof}
-По \hyperref[lem:real-linear-combination]{лемме о вещественности линейной комбинации},
-применённой к сопряжённым функциям $\e^{\lambda x}$ и
-$\e^{\overline\lambda x}$, берём $C_2=\overline{C_1}$.
-Запишем $C_1=A+Bi$, $C_2=A-Bi$, где $A,B\in\R$. Тогда
-\[
-\begin{aligned}
- y(x)&=(A+Bi)\e^{ax}(\cos bx+i\sin bx)\\
-     &\quad +(A-Bi)\e^{ax}(\cos bx-i\sin bx)\\
-     &=\e^{ax}\cos bx\bigl((A+Bi)+(A-Bi)\bigr)\\
-     &\quad+i\e^{ax}\sin bx\bigl((A+Bi)-(A-Bi)\bigr)\\
-     &=2A\e^{ax}\cos bx-2B\e^{ax}\sin bx.
-\end{aligned}
-\]
-Переобозначив $\widetilde C_1=2A$ и $\widetilde C_2=-2B$, получаем
-заявленный вид. Обе новые постоянные произвольны и вещественны.
-\end{proof}
-
-\begin{remarkHSE}[Пример пары мнимых корней]
-В №\,578 корни $\pm2i$ дают вещественную ФСР
-$\{\cos2t,\sin2t\}$.
+\begin{remarkHSE}
+Корни \(\lambda_k\) могут быть комплексными, тогда \eqref{eq:gen-simple} --- общее комплексное решение (\(c_k\in\mathbb C\)). Так как коэффициенты вещественны, комплексные корни идут парами \(\lambda=\alpha\pm i\beta\), и пару \(\e^{(\alpha\pm i\beta)x}\) в ФСР можно заменить вещественной парой \(\e^{\alpha x}\cos\beta x,\ \e^{\alpha x}\sin\beta x\) --- это их линейные комбинации \(\frac12(\cdot+\cdot)\) и \(\frac1{2i}(\cdot-\cdot)\). Например, в №\,578 корни \(\pm2i\) дают ФСР \(\{\cos2t,\sin2t\}\).
 \end{remarkHSE}
 
 \section[Кратные корни]{Решение ЛОУ в случае кратных корней характеристического многочлена}
@@ -3016,454 +2890,439 @@ y=c_1\e^{2x}+c_2\e^{3x}+\int_0^x\bigl(\e^{3(x-s)}-\e^{2(x-s)}\bigr)\e^{\sin s}\d
 Для №\,578 тот же приём даёт сразу: \(k''+4k=0\), \(k(0)=0\), \(k'(0)=1\) \(\Rightarrow\) \(k(t)=\frac{\sin2t}{2}\) и \(K(x,s)=\frac{\sin2(x-s)}{2}\), как и в примере выше.
 \end{exampleHSE}
 
-\section[ЛОС с постоянными коэффициентами]{ЛОС с постоянными коэффициентами}
+% 09.11.2026, 11:19:30 — IMG_20261116_205543_993
+% § 5 на доске. Нумерация разделов конспекта сквозная.
+\section{Выявление вещественных решений}
+
+\phantomsection\label{lem:real-linear-combination}
+\begin{lemmaHSE}[Вещественность линейной комбинации]
+Рассмотрим набор векторов \(\vect u_1,\ldots,\vect u_m\in\mathbb C^n\),
+в котором каждый вектор либо веществен, либо входит в набор вместе со
+своим комплексно-сопряжённым вектором. Пусть векторы линейно независимы
+над \(\mathbb C\). Тогда линейная комбинация
+\[
+ C_1\vect u_1+\cdots+C_m\vect u_m,\qquad C_1,\ldots,C_m\in\mathbb C,
+\]
+принадлежит \(\R^n\) тогда и только тогда, когда коэффициенты при
+вещественных векторах вещественны, а коэффициенты при попарно сопряжённых
+векторах комплексно-сопряжены.
+\end{lemmaHSE}
+
+\begin{exampleHSE}[Четыре вектора в \(\mathbb C^3\)]
+Пусть
+\[
+ \vect u_1=\begin{pmatrix}1\\2\\3\end{pmatrix},\quad
+ \vect u_2=\begin{pmatrix}1\\1+i\\2\end{pmatrix},\quad
+ \vect u_3=\begin{pmatrix}1\\1-i\\2\end{pmatrix},\quad
+ \vect u_4=\begin{pmatrix}0\\0\\1\end{pmatrix}.
+\]
+При \(C_1,C_4\in\R\) и \(C_3=\overline{C_2}\) получаем
+\[
+ C_1\begin{pmatrix}1\\2\\3\end{pmatrix}
+ +C_2\begin{pmatrix}1\\1+i\\2\end{pmatrix}
+ +C_3\begin{pmatrix}1\\1-i\\2\end{pmatrix}
+ +C_4\begin{pmatrix}0\\0\\1\end{pmatrix}
+ =\begin{pmatrix}a\\b\\c\end{pmatrix}\in\R^3.
+\]
+\emph{Поправка к примеру.} Здесь четыре вектора в \(\mathbb C^3\)
+линейно зависимы. Поэтому указанные условия достаточны для вещественности
+комбинации, но не необходимы.
+\end{exampleHSE}
+
+Пусть \(\lambda=a+bi\), \(a,b\in\R\). Тогда при \(x\in\R\)
+\[
+ \e^{\lambda x}=\e^{(a+bi)x}=\e^{ax+bxi}.
+\]
+По формуле Эйлера \(\e^{a+bi}=\e^a(\cos b+i\sin b)\), откуда
+\[
+ \e^{\lambda x}=\e^{ax}(\cos bx+i\sin bx).
+\]
+У ЛОУ с постоянными вещественными коэффициентами характеристический
+многочлен \(a_n\lambda^n+\cdots+a_1\lambda+a_0\) также имеет
+вещественные коэффициенты. Вместе с корнем \(\lambda\) он имеет корень
+\(\overline\lambda\) той же кратности.
+
+% 11:22:47 — IMG_20261116_205543_044
+Рассмотрим простой корень \(\lambda=a+bi\), \(b\ne0\). Тогда
+\(\overline\lambda=a-bi\) тоже имеет кратность \(k=1\). Этой паре
+корней соответствует часть ФСР
+\[
+ \bigl\{\e^{\lambda x},\e^{\overline\lambda x}\bigr\}.
+\]
+Вычислим вронскиан:
+\[
+ W(x)=
+ \begin{vmatrix}
+  \e^{\lambda x}&\e^{\overline\lambda x}\\
+  \lambda\e^{\lambda x}&\overline\lambda\,\e^{\overline\lambda x}
+ \end{vmatrix},\qquad
+ W(0)=
+ \begin{vmatrix}1&1\\ \lambda&\overline\lambda\end{vmatrix}
+ =\overline\lambda-\lambda=(a-bi)-(a+bi)=-2bi\ne0.
+\]
+Следовательно, эти функции линейно независимы.
+
+% 11:31:35 — IMG_20261116_205543_107
+Часть общего решения, соответствующая паре корней, имеет вид
+\[
+ C_1\e^{\lambda x}+C_2\e^{\overline\lambda x}.
+\]
+Чтобы применить \hyperref[lem:real-linear-combination]{лемму о вещественности
+линейной комбинации}, запишем сопряжённые функции явно:
+\[
+\begin{aligned}
+ \e^{\lambda x}
+ &=\e^{ax}(\cos bx+i\sin bx),\\
+ \e^{\overline\lambda x}
+ &=\e^{ax}\bigl(\cos(-bx)+i\sin(-bx)\bigr)\\
+ &=\e^{ax}(\cos bx-i\sin bx)=\overline{\e^{\lambda x}}.
+\end{aligned}
+\]
+По лемме комбинация этих функций вещественна при всех \(x\) тогда и только тогда,
+когда \(C_2=\overline{C_1}\). Действительно, при сопряжении функции меняются
+местами, а их линейная независимость гарантирует единственность коэффициентов. Запишем \(C_1=A+Bi\), \(C_2=A-Bi\),
+где \(A,B\in\R\). Тогда
+\[
+\begin{aligned}
+ C_1\e^{\lambda x}+C_2\e^{\overline\lambda x}
+ &= (A+Bi)\e^{ax}(\cos bx+i\sin bx)\\
+ &\quad +(A-Bi)\e^{ax}(\cos bx-i\sin bx)\\
+ &= \e^{ax}\cos bx\,\bigl((A+Bi)+(A-Bi)\bigr)\\
+ &\quad +\e^{ax}\sin bx\,i\bigl((A+Bi)-(A-Bi)\bigr)\\
+ &=2A\e^{ax}\cos bx-2B\e^{ax}\sin bx.
+\end{aligned}
+\]
+Обозначив \(\widetilde C_1=2A\), \(\widetilde C_2=-2B\), получаем
+\[
+ \widetilde C_1\e^{ax}\cos bx+\widetilde C_2\e^{ax}\sin bx
+ =\e^{ax}(\widetilde C_1\cos bx+\widetilde C_2\sin bx),
+ \qquad \widetilde C_1,\widetilde C_2\in\R.
+\]
+Обе вещественные постоянные произвольны.
+
+% Приписки с множителем x на снимке 107; конец формулы виден также
+% на левом краю снимка IMG_20261116_205543_368, 11:37:57.
+Для кратного корня паре \(x\e^{\lambda x},\,x\e^{\overline\lambda x}\)
+соответствует такое же преобразование с общим множителем \(x\):
+\[
+ x\bigl(C_1\e^{\lambda x}+C_2\e^{\overline\lambda x}\bigr)
+ =x\e^{ax}(\widetilde C_1\cos bx+\widetilde C_2\sin bx).
+\]
+
+% 11:37:57 — IMG_20261116_205543_368 Глава 5 лекции.
+\section[Линейные системы с постоянными коэффициентами]{Линейные системы с постоянными коэффициентами}
 \label{sec:los-constant-full}
 
-% Черновик материала с доски: спектр, кратности, жорданова форма.
-% Вставляется внутрь раздела о системах с постоянными коэффициентами.
-
-\subsection{Постановка задачи и общее решение}
-
-Рассмотрим линейную систему порядка $n$ с постоянными коэффициентами
+Рассмотрим линейную систему $n$-го порядка с постоянными коэффициентами
 \begin{equation}
- \dot{\vect{x}}=A\vect{x}+\vect{F}(t),
- \qquad
- \vect{x}(t)=\begin{pmatrix}x^1(t)\\ \vdots\\ x^n(t)\end{pmatrix},
- \quad
- \vect{F}(t)=\begin{pmatrix}F^1(t)\\ \vdots\\ F^n(t)\end{pmatrix},
+ \dot{\vect{x}}=A\vect{x}+\vect{F}(t).
  \label{eq:board-lns-const}
 \end{equation}
-где $A=(a_{ij})$ --- постоянная матрица $n\times n$,
-$a_{ij}\in\R$, а $F^i\in C(M)$ на промежутке $M\subset\R$.
-Соответствующая однородная система имеет вид
+Здесь
+\[
+ \vect{x}=\vect{x}(t)=\begin{pmatrix}x^1(t)\\ \vdots\\ x^n(t)\end{pmatrix},
+ \qquad
+ \vect{F}(t)=\begin{pmatrix}F^1(t)\\ \vdots\\ F^n(t)\end{pmatrix},
+\]
+$A=(a_{ij})$ --- постоянная матрица размера $n\times n$,
+$a_{ij}\in\R$ при $i,j=1,\ldots,n$,
+а $F^i\in C(M)$ на промежутке $M\subset\R$.
+
+% § 1 главы 5 на доске.
+\subsection{ЛОС с постоянными коэффициентами}
+
 \begin{equation}
  \dot{\vect{x}}=A\vect{x}.
  \label{eq:board-los-const}
 \end{equation}
-Если найдена её ФСР $\vect{x}_1,\ldots,\vect{x}_n$, то по теореме
-об общем решении ЛОС
+Если найдена вещественная ФСР $\{\vect{x}_1,\ldots,\vect{x}_n\}$
+системы \eqref{eq:board-los-const}, то её общее вещественное решение имеет вид
 \[
- \vect{x}(t)=C_1\vect{x}_1(t)+\cdots+C_n\vect{x}_n(t),
- \qquad C_1,\ldots,C_n\in\R,
+ \vect{x}=C_1\vect{x}_1+\cdots+C_n\vect{x}_n,\qquad
+ C_1,\ldots,C_n\in\R.
 \]
-когда ФСР вещественная. Поэтому основная задача --- построить ФСР.
 
-\subsection{Собственные значения и собственные векторы}
-
-\begin{definitionHSE}[Собственный вектор и характеристическое уравнение]
-Ненулевой вектор $\vect{v}\in\mathbb C^n$ называется собственным
-вектором матрицы $A$, соответствующим собственному значению
-$\lambda\in\mathbb C$, если
+% 11:48:07 — IMG_20261116_205543_159
+\begin{definitionHSE}[Собственный вектор]
+Вектор $\vect v\in\mathbb C^n$ называется собственным вектором матрицы $A$
+с собственным значением $\lambda\in\mathbb C$, если
 \[
- A\vect{v}=\lambda\vect{v}.
+ \vect v\ne0,\qquad A\vect v=\lambda\vect v,
+ \qquad\text{то есть}\qquad
+ 0\ne\vect v\in\ker(A-\lambda E).
 \]
-Эквивалентно,
-\[
- \vect{v}\in\operatorname{Ker}(A-\lambda E),\qquad \vect{v}\neq0.
-\]
-Собственные значения находятся из характеристического уравнения
-\[
- \det(A-\lambda E)=0.
-\]
-Здесь $E$ --- единичная матрица. После нахождения $\lambda$ собственные
-векторы определяются как ненулевые решения системы
-$(A-\lambda E)\vect{v}=0$.
+Здесь $E$ --- единичная матрица.
 \end{definitionHSE}
 
 \begin{theoremHSE}[Решение, отвечающее собственному вектору]
-Если $A\vect{v}=\lambda\vect{v}$, $\vect{v}\neq0$, то
-\[
- \vect{x}(t)=\e^{\lambda t}\vect{v}
-\]
-является решением ЛОС \eqref{eq:board-los-const}.
+Пусть $\vect v$ --- собственный вектор матрицы $A$, отвечающий
+собственному значению $\lambda$. Тогда $\vect{x}(t)=\e^{\lambda t}\vect v$
+есть решение ЛОС \eqref{eq:board-los-const}.
 \end{theoremHSE}
 
 \begin{proof}
-Подставим функцию в обе части системы:
+Подставим $\vect{x}(t)$ в левую и правую части системы:
 \[
- \dot{\vect{x}}(t)
- =\frac{\dd}{\dd t}\bigl(\e^{\lambda t}\vect{v}\bigr)
- =\lambda\e^{\lambda t}\vect{v},
+ \dot{\vect{x}}=\frac{\dd}{\dd t}\bigl(\e^{\lambda t}\vect v\bigr)
+ =\lambda\e^{\lambda t}\vect v,\qquad
+ A\vect{x}=A\bigl(\e^{\lambda t}\vect v\bigr)
+ =\e^{\lambda t}A\vect v=\e^{\lambda t}\lambda\vect v.
 \]
-\[
- A\vect{x}(t)=A\bigl(\e^{\lambda t}\vect{v}\bigr)
- =\e^{\lambda t}A\vect{v}
- =\e^{\lambda t}\lambda\vect{v}.
-\]
-Левая и правая части совпадают.
 \end{proof}
 
+% 11:55:26 — IMG_20261116_205543_152
 \begin{theoremHSE}[ФСР при различных собственных значениях]
-Пусть $\lambda_1,\ldots,\lambda_n$ --- $n$ различных собственных значений
-матрицы $A$, а $\vect{v}_1,\ldots,\vect{v}_n$ --- соответствующие
-собственные векторы. Тогда
+Если $\lambda_1,\ldots,\lambda_n$ --- различные собственные значения
+матрицы $A$, а $\vect v_1,\ldots,\vect v_n$ --- соответствующие собственные
+векторы, то ФСР системы \eqref{eq:board-los-const} над $\mathbb C$ имеет вид
 \[
- \bigl\{\e^{\lambda_1t}\vect{v}_1,\ldots,
-              \e^{\lambda_nt}\vect{v}_n\bigr\}
+ \bigl\{\underbrace{\e^{\lambda_1t}\vect v_1}_{\vect{x}_1(t)},\ldots,
+        \underbrace{\e^{\lambda_nt}\vect v_n}_{\vect{x}_n(t)}\bigr\}.
 \]
---- ФСР системы \eqref{eq:board-los-const} над $\mathbb C$.
 \end{theoremHSE}
 
 \begin{proof}
-Каждая вектор-функция является решением по предыдущей теореме.
-Собственные векторы, соответствующие различным собственным значениям,
-линейно независимы. Поэтому
+Каждая $\vect{x}_k$ является решением по предыдущему утверждению.
+Для проверки линейной независимости рассмотрим вронскиан:
 \[
  \begin{aligned}
- W(t)&=\det\bigl(\e^{\lambda_1t}\vect{v}_1\ \cdots\
-                         \e^{\lambda_nt}\vect{v}_n\bigr),\\
- W(0)&=\det\bigl(\vect{v}_1\ \cdots\ \vect{v}_n\bigr)\neq0.
+ W_{\vect{x}_1,\ldots,\vect{x}_n}(t)
+   &=\det\bigl(\e^{\lambda_1t}\vect v_1\ \cdots\ \e^{\lambda_nt}\vect v_n\bigr),\\
+ W_{\vect{x}_1,\ldots,\vect{x}_n}(0)
+   &=\det\bigl(\vect v_1\ \cdots\ \vect v_n\bigr)\ne0 .
  \end{aligned}
 \]
-Значит, получено $n$ линейно независимых решений, то есть ФСР.
+Действительно, собственные векторы, отвечающие различным собственным
+значениям, линейно независимы и образуют базис в $\mathbb C^n$.
+Полученные $n$ линейно независимых решений образуют ФСР.
 \end{proof}
 
-\subsection{Алгебраическая и геометрическая кратности}
-
-\begin{definitionHSE}[Две кратности собственного значения]
-\textbf{Алгебраическая кратность} собственного значения $\lambda$ ---
-его кратность как корня характеристического многочлена
-$\det(A-\zeta E)$.
-
-\textbf{Геометрическая кратность} --- размерность собственного
-подпространства:
+Собственные значения матрицы $A$ находятся как корни характеристического
+уравнения
 \[
- g_\lambda=\dim_{\mathbb C}\operatorname{Ker}(A-\lambda E).
+ \det(A-\lambda E)=0.
 \]
-Это максимальное число линейно независимых собственных векторов,
-отвечающих $\lambda$.
+
+\begin{definitionHSE}[Кратности собственного значения]
+\textbf{Алгебраическая кратность} собственного значения $\lambda$ есть
+его кратность как корня характеристического многочлена.
+\textbf{Геометрическая кратность} равна $\dim\ker(A-\lambda E)$.
 \end{definitionHSE}
 
-\begin{remarkHSE}[Сравнение кратностей]
-Если $k_\lambda$ --- алгебраическая кратность, то
+\begin{exampleHSE}[Пример 1]
+Для $A=\begin{pmatrix}0&1\\0&0\end{pmatrix}$ корень $\lambda=0$
+имеет алгебраическую кратность $2$. Из условия
 \[
- 1\leq g_\lambda\leq k_\lambda.
-\]
-Таким образом, кратный корень характеристического уравнения может
-иметь меньше линейно независимых собственных векторов, чем его кратность.
-\end{remarkHSE}
-
-\begin{exampleHSE}[Алгебраическая кратность $2$, геометрическая $1$]
-Для матрицы
-\[
- A=\begin{pmatrix}0&1\\0&0\end{pmatrix}
-\]
-характеристическое уравнение имеет вид $\lambda^2=0$. Значение $\lambda=0$
-имеет алгебраическую кратность $2$. Однако
-\[
- \begin{pmatrix}0&1\\0&0\end{pmatrix}
- \begin{pmatrix}a\\b\end{pmatrix}
+ \begin{pmatrix}0&1\\0&0\end{pmatrix}\begin{pmatrix}a\\b\end{pmatrix}
  =\begin{pmatrix}0\\0\end{pmatrix}
- \quad\Longleftrightarrow\quad b=0.
 \]
-Поэтому собственное подпространство натянуто на вектор
-$\begin{pmatrix}1\\0\end{pmatrix}$ и имеет размерность $1$.
+следует $b=0$. Базис ядра состоит из одного вектора
+$\begin{pmatrix}1\\0\end{pmatrix}$, поэтому геометрическая кратность равна $1$.
 \end{exampleHSE}
 
-\begin{exampleHSE}[Обе кратности равны $2$]
-Для нулевой матрицы
+% 12:01:19 — IMG_20261116_205543_852
+\begin{exampleHSE}[Пример 2]
+Для $A=\begin{pmatrix}0&0\\0&0\end{pmatrix}$ собственное значение
+$\lambda=0$ также имеет алгебраическую кратность $2$. Равенство
 \[
- A=\begin{pmatrix}0&0\\0&0\end{pmatrix}
+ \begin{pmatrix}0&0\\0&0\end{pmatrix}\begin{pmatrix}a\\b\end{pmatrix}
+ =\begin{pmatrix}0\\0\end{pmatrix}
 \]
-снова $\lambda=0$ имеет алгебраическую кратность $2$, но теперь
-\[
- \operatorname{Ker}A=\mathbb C^2.
-\]
-Геометрическая кратность тоже равна $2$. Например, можно взять два
-линейно независимых собственных вектора
-\[
- \vect{v}_1=\begin{pmatrix}1\\0\end{pmatrix},
- \qquad
- \vect{v}_2=\begin{pmatrix}0\\1\end{pmatrix}.
-\]
+выполнено при любых $a,b\in\mathbb C$. Ядро матрицы $A$ совпадает с
+$\mathbb C^2$. Векторы
+$\begin{pmatrix}1\\0\end{pmatrix}$ и $\begin{pmatrix}0\\1\end{pmatrix}$
+образуют его базис, и геометрическая кратность равна $2$.
 \end{exampleHSE}
 
-\begin{corollaryHSE}[Когда достаточно собственных векторов]
-Если у каждого собственного значения геометрическая кратность равна
-алгебраической, можно выбрать базис $\mathbb C^n$ из собственных векторов.
-Собственному значению $\lambda$ кратности $k$ соответствуют $k$ линейно
-независимых собственных векторов $\vect{v}_1,\ldots,\vect{v}_k$,
-и в ФСР входят решения
 \[
- \e^{\lambda t}\vect{v}_1,\ldots,\e^{\lambda t}\vect{v}_k.
+ \boxed{\text{Геометрическая кратность}\ \leq\ \text{алгебраическая кратность}.}
 \]
-Если это условие выполнено не для всех собственных значений, для
-построения полной ФСР понадобятся присоединённые векторы.
-\end{corollaryHSE}
-
-\subsection{Серии присоединённых векторов}
-
-\begin{definitionHSE}[Серия векторов, соответствующая собственному значению]
-Пусть $\lambda\in\mathbb C$ --- собственное значение матрицы $A$.
-Набор $\vect h_1,\ldots,\vect h_m$ называется \textit{серией}
-(жордановой цепочкой) относительно $A$, соответствующей $\lambda$, если
+Если для каждого собственного значения $\lambda$ алгебраической
+кратности $k$ геометрическая кратность также равна $k$, то ему отвечают
+$k$ линейно независимых собственных векторов $\vect v_1,\ldots,\vect v_k$.
+Этому $\lambda$ соответствует часть ФСР
 \[
-\vect h_1\neq0,\qquad
-\begin{cases}
-A\vect h_1=\lambda\vect h_1,\\
-A\vect h_2=\lambda\vect h_2+\vect h_1,\\
-A\vect h_3=\lambda\vect h_3+\vect h_2,\\
-\vdots\\
-A\vect h_m=\lambda\vect h_m+\vect h_{m-1}.
-\end{cases}
+ \bigl\{\e^{\lambda t}\vect v_1,\ldots,\e^{\lambda t}\vect v_k\bigr\}.
 \]
-Иначе говоря, при $N=A-\lambda E$ имеем
-\[
-N\vect h_1=0,\qquad N\vect h_p=\vect h_{p-1},\quad p=2,\ldots,m.
-\]
-Первый вектор серии --- собственный, остальные --- присоединённые.
-Начиная с последнего вектора, последовательно получаем
-\[
-\vect h_m\xmapsto{\,A-\lambda E\,}\vect h_{m-1}
-\xmapsto{\,A-\lambda E\,}\cdots
-\xmapsto{\,A-\lambda E\,}\vect h_1
-\xmapsto{\,A-\lambda E\,}0.
-\]
-\end{definitionHSE}
 
-\begin{lemmaHSE}[Линейная независимость векторов серии]
-Векторы любой серии $\vect h_1,\ldots,\vect h_m$ линейно независимы.
-\end{lemmaHSE}
+\subsection{Жорданова нормальная форма. Серии векторов}
 
-\begin{proof}
-Пусть $\sum_{j=1}^m c_j\vect h_j=0$ и $r$ --- наибольший индекс,
-для которого $c_r\neq0$. Применим $(A-\lambda E)^{r-1}$.
-Из соотношений серии все слагаемые с $j<r$ обратятся в ноль, а
-последнее превратится в $c_r\vect h_1=0$. Это невозможно, так как
-$\vect h_1\neq0$. Следовательно, все $c_j=0$.
-\end{proof}
-
-\subsection{Жорданова нормальная форма}
-
-\begin{theoremHSE}[Жорданова нормальная форма]
-Для любой матрицы $A\in\mathbb C^{n\times n}$ существует невырожденная
-матрица $C\in\mathbb C^{n\times n}$ такая, что
+Для любой матрицы $A\in\mathbb C^{n\times n}$ существует
+невырожденная матрица $C$ размера $n\times n$, для которой
 \[
- A=CJC^{-1},
+ A=CJC^{-1}.
 \]
-где $J$ --- жорданова нормальная форма:
+Матрица $J$ имеет жорданову нормальную форму. На её диагонали стоят
+клетки $K_1,\ldots,K_\ell$:
 \[
- J=\operatorname{diag}(K_1,\ldots,K_\ell),
-\]
-а каждая жорданова клетка размера $m\times m$ имеет вид
-\[
- K_s=J_m(\lambda_s)=
- \begin{pmatrix}
- \lambda_s&1&0&\cdots&0\\
- 0&\lambda_s&1&\ddots&\vdots\\
- \vdots&\ddots&\ddots&\ddots&0\\
- 0&\cdots&0&\lambda_s&1\\
- 0&\cdots&\cdots&0&\lambda_s
+ J=\begin{pmatrix}
+    K_1 &        & 0\\
+        & \ddots &  \\
+    0   &        & K_\ell
+   \end{pmatrix},
+ \qquad K_j=(\lambda_s)
+ \quad\text{или}\quad
+ K_j=\begin{pmatrix}
+   \lambda_s&1&&0\\
+            &\ddots&\ddots&\\
+            &&\ddots&1\\
+   0&&&\lambda_s
  \end{pmatrix}.
 \]
-Клетка размера $1\times1$ --- это просто $(\lambda_s)$.
+При этом $\det(A-\lambda E)=\det(J-\lambda E)$.
+% 12:03:59 — IMG_20261116_205543_420
+На диагонали $J$ стоят собственные значения матрицы $A$.
+
+\begin{definitionHSE}[Серия векторов]
+Набор $\vect h_1,\ldots,\vect h_m$ называется \textit{серией}
+с собственным значением $\lambda$ относительно линейного преобразования $A$,
+если $\vect h_1\ne0$ и
+\[
+ \begin{cases}
+ A\vect h_1=\lambda\vect h_1,\\
+ A\vect h_2=\lambda\vect h_2+\vect h_1,\\
+ A\vect h_3=\lambda\vect h_3+\vect h_2,\\
+ \hspace{2em}\vdots\\
+ A\vect h_m=\lambda\vect h_m+\vect h_{m-1}.
+ \end{cases}
+\]
+Вектор $\vect h_1$ собственный, а $\vect h_2,\ldots,\vect h_m$ присоединённые.
+Под действием $A-\lambda E$ векторы переходят друг в друга в следующем порядке:
+\[
+ \vect h_m\longmapsto\vect h_{m-1}\longmapsto\cdots
+ \longmapsto\vect h_2\longmapsto\vect h_1\longmapsto0.
+\]
+\end{definitionHSE}
+
+% 12:07:07 — IMG_20261116_205543_457
+\begin{theoremHSE}[Базис из серий]
+В $\mathbb C^n$ существует базис, состоящий из одной или нескольких серий
+относительно преобразования $A$. Для вещественной матрицы $A$ его можно
+выбрать так, что векторы серий, отвечающих $\lambda\in\R$, вещественны,
+а серии, отвечающие паре комплексно-сопряжённых собственных значений,
+попарно комплексно сопряжены. В этом базисе матрица преобразования
+имеет жорданову нормальную форму $J$.
 \end{theoremHSE}
 
-\begin{proof}[Равенство характеристических многочленов]
-Из $A=CJC^{-1}$ следует
-\[
- A-\zeta E=C(J-\zeta E)C^{-1}.
-\]
-Поэтому
-\[
- \det(A-\zeta E)
- =\det C\cdot\det(J-\zeta E)\cdot\det C^{-1}
- =\det(J-\zeta E).
-\]
-В частности, собственные значения $A$ стоят на диагонали $J$ с учётом
-их алгебраических кратностей.
-\end{proof}
+% На левом краю кадра 692 виден конец вычисления. Здесь дано краткое обоснование.
+Векторы одной серии линейно независимы. В самом деле, если в соотношении
+\(c_1\vect h_1+\cdots+c_r\vect h_r=0\) последний коэффициент \(c_r\ne0\),
+то после применения \((A-\lambda E)^{r-1}\) останется \(c_r\vect h_1=0\),
+что противоречит условию \(\vect h_1\ne0\).
 
-\begin{remarkHSE}[Кратности и жордановы клетки]
-Число клеток, отвечающих данному $\lambda$, равно его геометрической
-кратности, а сумма размеров этих клеток --- алгебраической кратности.
-Размер клетки определяет длину соответствующей серии присоединённых
-векторов. В частности, геометрическая и алгебраическая кратности равны
-тогда и только тогда, когда все клетки для этого $\lambda$ имеют размер
-$1\times1$.
-\end{remarkHSE}
+% 12:11:41 — IMG_20261116_205543_692
+\subsection{Построение решений по серии векторов}
 
-\begin{theoremHSE}[Базис из серий присоединённых векторов]
-В $\mathbb C^n$ существует базис, состоящий из одной или нескольких
-серий присоединённых векторов преобразования $A$.
-Если $A$ вещественная, серии для вещественных собственных значений можно
-выбирать вещественными, а для комплексно-сопряжённых собственных значений
---- комплексно-сопряжёнными.
-\end{theoremHSE}
-
-Столбцы матрицы перехода $C$ образуют такой базис: каждой жордановой
-клетке отвечает одна серия. Это позволяет перейти от частного случая,
-когда достаточно собственных векторов, к произвольной постоянной матрице.
-
-\begin{remarkHSE}[Домашнее задание с доски]
-На доске отдельно отмечена жорданова нормальная форма.
-\end{remarkHSE}
-
-\subsection{Решения по сериям присоединённых векторов}
-\begin{theoremHSE}[Решения, построенные по одной серии]
-Пусть $\vect h_1,\ldots,\vect h_m$ --- серия для собственного значения
-$\lambda$. Тогда решениями системы $\dot{\vect x}=A\vect x$ являются
-вектор-функции
+\begin{theoremHSE}[Решения, отвечающие одной серии]
+Пусть $\lambda$ --- собственное значение матрицы $A$,
+а $\vect h_1,\ldots,\vect h_m$ --- соответствующая ему серия.
+Тогда вектор-функции
 \[
 \begin{aligned}
-\vect x_1(t)&=\e^{\lambda t}\vect h_1,\\
-\vect x_2(t)&=\e^{\lambda t}(t\vect h_1+\vect h_2),\\
-\vect x_3(t)&=\e^{\lambda t}
- \left(\frac{t^2}{2!}\vect h_1+t\vect h_2+\vect h_3\right),\\
-&\ \vdots\\
-\vect x_m(t)&=\e^{\lambda t}
- \left(\frac{t^{m-1}}{(m-1)!}\vect h_1
- +\frac{t^{m-2}}{(m-2)!}\vect h_2+\cdots+t\vect h_{m-1}+\vect h_m\right).
+ \vect x_1(t)&=\e^{\lambda t}\vect h_1,\\
+ \vect x_2(t)&=\e^{\lambda t}\bigl(t\vect h_1+\vect h_2\bigr),\\
+ \vect x_3(t)&=\e^{\lambda t}\left(\frac{t^2}{2!}\vect h_1+t\vect h_2+\vect h_3\right),\\
+ &\ \vdots\\
+ \vect x_m(t)&=\e^{\lambda t}\left(
+ \frac{t^{m-1}}{(m-1)!}\vect h_1+\frac{t^{m-2}}{(m-2)!}\vect h_2
+ +\cdots+\vect h_m\right)
 \end{aligned}
 \]
-Общая формула:
-\[
-\boxed{\displaystyle
-\vect x_p(t)=\e^{\lambda t}
-\sum_{j=1}^p\frac{t^{p-j}}{(p-j)!}\vect h_j,
-\qquad p=1,\ldots,m.}
-\]
-Эти $m$ решений линейно независимы.
+% 12:12:02 — IMG_20261116_205543_796
+являются линейно независимыми решениями системы $\dot{\vect x}=A\vect x$.
+
 \end{theoremHSE}
 
+% 12:18:59 — IMG_20261116_205543_187
 \begin{proof}
-Для $p=1$ утверждение уже доказано для собственного вектора.
-Пусть $p\ge2$. При дифференцировании получаем левую часть системы:
+Функция $\vect x_1=\e^{\lambda t}\vect h_1$ является решением,
+поскольку $\vect h_1$ --- собственный вектор матрицы $A$.
+Для $p=2,\ldots,m$ подставим $\vect x_p$ в обе части системы.
+Дифференцируя произведение в левой части, получаем
 \[
 \begin{aligned}
-\dot{\vect x}_p(t)
-&=\lambda\e^{\lambda t}
-  \sum_{j=1}^p\frac{t^{p-j}}{(p-j)!}\vect h_j
- +\e^{\lambda t}
-  \sum_{j=1}^{p-1}\frac{t^{p-1-j}}{(p-1-j)!}\vect h_j\\
-&=\lambda\vect x_p(t)+\vect x_{p-1}(t).
+ \dot{\vect x}_p
+ &=\frac{\dd}{\dd t}\left[\e^{\lambda t}
+ \left(\frac{t^{p-1}}{(p-1)!}\vect h_1+\cdots+t\vect h_{p-1}+\vect h_p\right)\right]\\
+ &=\lambda\e^{\lambda t}
+ \left(\frac{t^{p-1}}{(p-1)!}\vect h_1+\cdots+t\vect h_{p-1}+\vect h_p\right)\\
+ &\quad+\e^{\lambda t}
+ \left(\frac{t^{p-2}}{(p-2)!}\vect h_1+\cdots+\vect h_{p-1}\right)
+ =\lambda\vect x_p+\vect x_{p-1}.
 \end{aligned}
 \]
-В правую часть подставляем ту же функцию. Положим $\vect h_0=0$;
-тогда $A\vect h_j=\lambda\vect h_j+\vect h_{j-1}$ для всех $j=1,\ldots,p$:
+% 12:23:22 — IMG_20261116_205543_182
+В правой части вынесем экспоненту и применим $A$ к каждому вектору серии:
 \[
 \begin{aligned}
-A\vect x_p(t)
-&=\e^{\lambda t}
- \sum_{j=1}^p\frac{t^{p-j}}{(p-j)!}A\vect h_j\\
-&=\lambda\e^{\lambda t}
- \sum_{j=1}^p\frac{t^{p-j}}{(p-j)!}\vect h_j
- +\e^{\lambda t}
- \sum_{j=2}^p\frac{t^{p-j}}{(p-j)!}\vect h_{j-1}\\
-&=\lambda\vect x_p(t)+\vect x_{p-1}(t)
- =\dot{\vect x}_p(t).
+ A\vect x_p
+ &= A\left[\e^{\lambda t}
+ \left(\frac{t^{p-1}}{(p-1)!}\vect h_1+\cdots+t\vect h_{p-1}+\vect h_p\right)\right]\\
+ &=\e^{\lambda t}
+ \left(\frac{t^{p-1}}{(p-1)!}A\vect h_1+\cdots+tA\vect h_{p-1}+A\vect h_p\right).
 \end{aligned}
 \]
-Таким образом, каждая $\vect x_p$ --- решение.
-При $t=0$ имеем $\vect x_p(0)=\vect h_p$. Если линейная комбинация
-функций $\sum_{p=1}^m c_p\vect x_p(t)$ тождественно равна нулю, то при
-$t=0$ получаем $\sum_{p=1}^m c_p\vect h_p=0$. Векторы серии линейно
-независимы, поэтому все $c_p=0$.
+Подставим $A\vect h_1=\lambda\vect h_1$ и
+$A\vect h_j=\lambda\vect h_j+\vect h_{j-1}$ при $j\ge2$.
+Для $p\ge3$ группировка слагаемых даёт
+\[
+\begin{aligned}
+ A\vect x_p
+ &=\e^{\lambda t}\left(\frac{t^{p-1}}{(p-1)!}\lambda\vect h_1
+    +\cdots+t(\lambda\vect h_{p-1}+\vect h_{p-2})
+    +\lambda\vect h_p+\vect h_{p-1}\right)\\
+ &=\lambda\e^{\lambda t}\left(\frac{t^{p-1}}{(p-1)!}\vect h_1
+    +\cdots+t\vect h_{p-1}+\vect h_p\right)\\
+ &\quad+\e^{\lambda t}\left(\frac{t^{p-2}}{(p-2)!}\vect h_1
+    +\cdots+t\vect h_{p-2}+\vect h_{p-1}\right)\\
+% 12:26:16 — IMG_20261116_205543_020
+ &=\lambda\vect x_p+\vect x_{p-1}=\dot{\vect x}_p.
+\end{aligned}
+\]
+При $p=2$ это равенство принимает вид
+$A\vect x_2=\e^{\lambda t}(\lambda t\vect h_1+\lambda\vect h_2+\vect h_1)
+=\lambda\vect x_2+\vect x_1$.
+Линейная независимость решений следует из их значений в нуле:
+$\vect x_1(0),\ldots,\vect x_m(0)$ совпадают с линейно независимыми
+векторами $\vect h_1,\ldots,\vect h_m$.
 \end{proof}
 
-\subsection{Полная ФСР по жорданову базису}
+\subsection{Построение ФСР и общее решение}
 
-Для каждого собственного значения $\lambda$ выберем все серии,
-соответствующие его жордановым клеткам. По каждой серии построим
-вектор-функции из предыдущей теоремы. Если клетка имеет размер
-$m\times m$, она даёт $m$ решений; суммарно получаем $n$ решений.
-
-\begin{theoremHSE}[ФСР ЛОС с постоянными коэффициентами]
-Пусть все векторы выбранных серий образуют жорданов базис
-$\mathbb C^n$. Тогда построенные по ним $n$ вектор-функций образуют
-ФСР системы $\dot{\vect x}=A\vect x$ на всей $\R$.
-Общее комплексное решение --- их линейная комбинация с произвольными
-постоянными коэффициентами.
+\begin{theoremHSE}[Об общем решении ЛОС с постоянными коэффициентами]
+Рассмотрим систему $\dot{\vect x}=A\vect x$.
+Пусть $\lambda_1,\ldots,\lambda_s$ --- все различные собственные значения $A$.
+% 12:30:39 — IMG_20261116_205543_302
+Для каждого $\lambda$ из этого набора выпишем соответствующие ему серии
+жорданова базиса. Каждой клетке размера $m\times m$ отвечает серия
+$\vect h_1,\ldots,\vect h_m$ и $m$ вектор-функций
+\[
+ \begin{aligned}
+ \vect x_1(t)&=\e^{\lambda t}\vect h_1,\\
+ \vect x_p(t)&=\e^{\lambda t}
+  \left(\frac{t^{p-1}}{(p-1)!}\vect h_1+\cdots+t\vect h_{p-1}+\vect h_p\right),
+  \qquad p=2,\ldots,m.
+ \end{aligned}
+\]
+Всего получим $n$ вектор-функций. Их определитель Вронского при $t=0$
+равен определителю матрицы $C$, столбцы которой образуют жорданов базис:
+$W(0)=\det C\ne0$. Поэтому эти решения составляют ФСР.
+Общее комплексное решение есть линейная комбинация элементов этой ФСР
+с произвольными постоянными коэффициентами из $\mathbb C$.
 \end{theoremHSE}
 
-\begin{proof}
-Все построенные функции --- решения по предыдущей теореме.
-Запишем их столбцами фундаментальной матрицы $X(t)$ в том же порядке,
-в каком записаны векторы жорданова базиса. При $t=0$ каждый столбец
-равен соответствующему вектору серии. Поэтому
+Сумма слагаемых для одного собственного значения $\lambda$ имеет вид
 \[
-W(0)=\det X(0)
-=\det(\vect h_1,\ldots,\vect h_n)\neq0,
+ \e^{\lambda t}\vect P_{\widetilde k-1}(t).
 \]
-где здесь $\vect h_1,\ldots,\vect h_n$ обозначают все векторы всех серий.
-Следовательно, решения линейно независимы и образуют ФСР.
-Теорема об общем решении ЛОС даёт все решения как их линейные комбинации.
-\end{proof}
+% 12:31:23 — IMG_20261116_205542_795
+Здесь $\widetilde k$ --- наибольший размер жордановой клетки для $\lambda$,
+а $\vect P_{\widetilde k-1}(t)$ --- векторный многочлен степени не выше
+$\widetilde k-1$. Общее решение есть сумма таких вектор-функций по всем
+различным собственным значениям. Многочлены зависят от произвольных
+постоянных, которых в общем решении ровно $n$.
 
-\begin{corollaryHSE}[Формула общего решения]
-Пусть $\lambda_1,\ldots,\lambda_s$ --- различные собственные значения
-$A$, для $\lambda_j$ выбрано $r_j$ серий, а серия $q$ имеет длину $m_{j,q}$ и векторы
-$\vect h_{j,q,1},\ldots,\vect h_{j,q,m_{j,q}}$.
-Тогда
-\[
-\boxed{\displaystyle
-\vect x(t)=\sum_{j=1}^s\sum_{q=1}^{r_j}\sum_{p=1}^{m_{j,q}}
-C_{j,q,p}\,\e^{\lambda_jt}
-\sum_{r=1}^{p}\frac{t^{p-r}}{(p-r)!}\vect h_{j,q,r}.}
-\]
-Всего в этой формуле ровно $n$ произвольных постоянных
-$C_{j,q,p}\in\mathbb C$, так как $\sum_{j,q}m_{j,q}=n$.
-\end{corollaryHSE}
-
-\begin{remarkHSE}[Векторные многочлены в общем решении]
-Группируя слагаемые с одинаковым собственным значением, можно записать
-\[
-\vect x(t)=\sum_{j=1}^s\e^{\lambda_jt}\vect P_j(t),
-\qquad \deg\vect P_j\le\ell_j-1,
-\]
-где $\ell_j$ --- максимальный размер жордановой клетки для $\lambda_j$.
-Коэффициенты векторных многочленов $\vect P_j$ зависят от произвольных
-постоянных общего решения и удовлетворяют соотношениям соответствующих серий.
-Отдельные координаты этих многочленов не задаются независимо друг от друга.
-\end{remarkHSE}
-
-\subsection{Выявление вещественных решений системы}
-
-Используем \hyperref[lem:real-linear-combination]{лемму о вещественности линейной комбинации}.
-
-\begin{theoremHSE}[Переход от комплексной ФСР к вещественной]
-Пусть $A$ вещественная. Выберем жорданов базис так, чтобы серии для
-вещественных собственных значений состояли из вещественных векторов,
-а для невещественных значений шли комплексно-сопряжёнными парами.
-В комплексной ФСР оставим функции от вещественных серий, а каждую пару
-$\vect x_p,\overline{\vect x_p}$ заменим на
-\[
- \Re\vect x_p=\frac{\vect x_p+\overline{\vect x_p}}2,
- \qquad
- \Im\vect x_p=\frac{\vect x_p-\overline{\vect x_p}}{2i}.
-\]
-Получится вещественная ФСР системы $\dot{\vect x}=A\vect x$.
-Все вещественные решения --- её линейные комбинации с произвольными
-вещественными коэффициентами; их ровно $n$.
-\end{theoremHSE}
-
-\Needspace{4\baselineskip}
-\begin{proof}
-Для вещественной матрицы сопряжение сохраняет уравнение:
-из $\dot{\vect x}=A\vect x$ следует
-$\overline{\dot{\vect x}}=A\overline{\vect x}$.
-Поэтому $\Re\vect x$ и $\Im\vect x$ --- вещественные решения.
-Переход от пары $\vect x,\overline{\vect x}$ к её вещественной и мнимой
-частям обратим:
-\[
- \vect x=\Re\vect x+i\Im\vect x,\qquad
- \overline{\vect x}=\Re\vect x-i\Im\vect x.
-\]
-Следовательно, линейная независимость полной системы функций сохраняется.
-После замены по-прежнему имеется $n$ решений, значит, это ФСР.
-\end{proof}
-
-В частности, если $\lambda=a+bi$ и
-$\vect x_p(t)=\e^{(a+bi)t}\bigl(\vect U_p(t)+i\vect V_p(t)\bigr)$,
-где $\vect U_p,\vect V_p$ --- вещественные векторные многочлены, то
-\[
-\begin{aligned}
- \Re\vect x_p(t)&=\e^{at}\bigl(\vect U_p(t)\cos bt-\vect V_p(t)\sin bt\bigr),\\
- \Im\vect x_p(t)&=\e^{at}\bigl(\vect U_p(t)\sin bt+\vect V_p(t)\cos bt\bigr).
-\end{aligned}
-\]
-Так выделяются вещественные решения и для присоединённых векторов,
-когда помимо экспоненты присутствуют степени $t$.
+\noindent\textbf{Домашнее задание.} Жорданова нормальная форма.
 
 \section[Векторный квазимногочлен]{Частное решение ЛНС с векторным квазимногочленом}
 

@@ -1772,7 +1772,7 @@ x^i(t_0)=x_0^i,\qquad i=1,\ldots,n.
 
 \begin{proof}[Локальное существование и единственность]
 Запишем систему \eqref{eq:linear-system-components} в нормальной форме
-$\dot{\vect{x}}=\vect F(t,\vect{x})$. Компоненты правой части
+$\dot{\vect{x}}=\vect{F}(t,\vect{x})$, где $\vect{F}(t,\vect{x})=A(t)\vect{x}+\vect{f}(t)$. Компоненты правой части
 \[
  F^i(t,x^1,\ldots,x^n)
  =a_{i1}(t)x^1+\cdots+a_{in}(t)x^n+f^i(t)
@@ -2153,7 +2153,7 @@ x^1=y,\quad x^2=y',\quad\ldots,\quad x^n=y^{(n-1)}.
 \end{equation}
 --- линейную систему (ЛС) \(n\)-го порядка. Она имеет вид
 \[
-\dot{\vect{x}}=A(t)\vect{x}+\vect{F}(t),
+\dot{\vect{x}}=A(t)\vect{x}+\vect{f}(t),
 \]
 где
 \begin{equation}
@@ -2166,11 +2166,11 @@ A(t)=
 -a_0(t)&-a_1(t)&-a_2(t)&\cdots&-a_{n-1}(t)
 \end{pmatrix},
 \qquad
-\vect{F}(t)=
+\vect{f}(t)=
 \begin{pmatrix}0\\\vdots\\0\\f(t)\end{pmatrix}.
 \label{eq:linear-n-matrix}
 \end{equation}
-Все элементы \(A(t)\) и координаты \(\vect{F}(t)\) непрерывны на \(M\), то есть получилась ЛС с непрерывной матрицей \(A(t)\) и непрерывной правой частью \(\vect{F}(t)\), определёнными формулами \eqref{eq:linear-n-matrix}.
+Все элементы \(A(t)\) и координаты \(\vect{f}(t)\) непрерывны на \(M\), то есть получилась ЛС с непрерывной матрицей \(A(t)\) и непрерывным свободным членом \(\vect{f}(t)\), определёнными формулами \eqref{eq:linear-n-matrix}.
 
 \begin{exampleHSE}[\(y''-2ty=t\e^{t}\)]
 Замена \(x^1=y\), \(x^2=y'\):
@@ -2190,7 +2190,7 @@ A(t)=
 Итак,
 \[
 A(t)=\begin{pmatrix}0&1\\2t&0\end{pmatrix},\qquad
-\vect{F}(t)=\begin{pmatrix}0\\t\e^{t}\end{pmatrix}.
+\vect{f}(t)=\begin{pmatrix}0\\t\e^{t}\end{pmatrix}.
 \]
 \end{exampleHSE}
 
@@ -2489,10 +2489,10 @@ y_1^{(n-1)}&\cdots&y_n^{(n-1)}
 \vect{c}(t)=
 \begin{pmatrix}c_1(t)\\\vdots\\c_n(t)\end{pmatrix},
 \qquad
-\vect{F}(t)=
+\vect{f}(t)=
 \begin{pmatrix}0\\\vdots\\0\\f(t)\end{pmatrix}.
 \]
-Метод вариации постоянных для системы \(\dot{\vect{x}}=A(t)\vect{x}+\vect{F}(t)\) даёт \(X(t)\dot{\vect{c}}(t)=\vect{F}(t)\) (где \(X\)(t) --- ФМ ЛОС \(\dot{\vect{x}}=A(t)\vect{x}\)). Первая строка вектора \(\vect{x}=X\vect{c}\) --- это \(y\), поэтому получаем следующий алгоритм.
+Метод вариации постоянных для системы \(\dot{\vect{x}}=A(t)\vect{x}+\vect{f}(t)\) даёт \(X(t)\dot{\vect{c}}(t)=\vect{f}(t)\) (где \(X(t)\) --- ФМ ЛОС \(\dot{\vect{x}}=A(t)\vect{x}\)). Первая строка вектора \(\vect{x}=X\vect{c}\) --- это \(y\), поэтому получаем следующий алгоритм.
 
 \begin{theoremHSE}[Вариация постоянных для ЛНУ]
 Решение ЛНУ ищем в виде
@@ -3280,18 +3280,18 @@ y=c_1\e^{2x}+c_2\e^{3x}+\int_0^x\bigl(\e^{3(x-s)}-\e^{2(x-s)}\bigr)\e^{\sin s}\d
 
 Рассмотрим линейную систему $n$-го порядка с постоянными коэффициентами
 \begin{equation}
- \dot{\vect{x}}=A\vect{x}+\vect{F}(t).
+ \dot{\vect{x}}=A\vect{x}+\vect{f}(t).
  \label{eq:board-lns-const}
 \end{equation}
 Здесь
 \[
  \vect{x}=\vect{x}(t)=\begin{pmatrix}x^1(t)\\ \vdots\\ x^n(t)\end{pmatrix},
  \qquad
- \vect{F}(t)=\begin{pmatrix}F^1(t)\\ \vdots\\ F^n(t)\end{pmatrix},
+ \vect{f}(t)=\begin{pmatrix}f^1(t)\\ \vdots\\ f^n(t)\end{pmatrix},
 \]
 $A=(a_{ij})$ --- постоянная матрица размера $n\times n$,
 $a_{ij}\in\R$ при $i,j=1,\ldots,n$,
-а $F^i\in C(M)$ на промежутке $M\subset\R$.
+а $f^i\in C(M)$ на промежутке $M\subset\R$.
 
 % § 1 главы 5 на доске.
 \subsection{ЛОС с постоянными коэффициентами}
@@ -3614,7 +3614,7 @@ $\widetilde k-1$. Общее решение есть сумма таких ве�
 \section[ЛНС с постоянными коэффициентами]{ЛНС с постоянными коэффициентами}
 Рассмотрим неоднородную систему
 \[
- \dot{\vect x}=A\vect x+\vect F(t),
+ \dot{\vect x}=A\vect x+\vect{f}(t),
 \]
 где \(A\) --- постоянная матрица.
 
@@ -3622,7 +3622,7 @@ $\widetilde k-1$. Общее решение есть сумма таких ве�
 Для произвольной непрерывной правой части применяется метод вариации
 постоянных \eqref{eq:variation-system}. Если \(X\) --- фундаментальная матрица
 ЛОС, то подстановка \(\vect x=X(t)\vect c(t)\) даёт
-\(\dot{\vect c}(t)=X^{-1}(t)\vect F(t)\).
+\(\dot{\vect c}(t)=X^{-1}(t)\vect{f}(t)\).
 
 \subsection{Правая часть в виде векторного квазимногочлена}
 Векторным квазимногочленом называется конечная сумма вектор-функций вида
@@ -4417,13 +4417,13 @@ x\equiv-1,
 \end{equation}
 --- ЛОС, а
 \begin{equation}
-\dot{\vect{y}}=A(t)\vect{y}+\vect{F}(t)
+\dot{\vect{y}}=A(t)\vect{y}+\vect{f}(t)
 \label{eq:lns-stab}
 \end{equation}
 --- соответствующая ЛНС.
 
 \begin{theoremHSE}[Сведение устойчивости ЛНС к ЛОС]
-При непрерывных $A(t)$ и $\vect{F}(t)$ на $[t_0,+\infty)$:
+При непрерывных $A(t)$ и $\vect{f}(t)$ на $[t_0,+\infty)$:
 \begin{enumerate}
   \item все решения ЛНС устойчивы тогда и только тогда, когда нулевое решение ЛОС устойчиво;
   \item все решения ЛНС асимптотически устойчивы тогда и только тогда, когда нулевое решение ЛОС асимптотически устойчиво.

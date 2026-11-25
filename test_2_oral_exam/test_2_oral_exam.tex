@@ -38,9 +38,10 @@
   \par\addvspace{12pt}\Needspace{8\baselineskip}%
   \pdfbookmark[1]{#1. #2}{question.#1}%
   \noindent\begin{minipage}{\linewidth}
-    \tikz[baseline=(n.base)]\node[circle,fill=navy,text=white,inner sep=0pt,
-      minimum size=7.2mm,font=\bfseries] (n) {#1};\hspace{2mm}%
-    \parbox[t]{\dimexpr\linewidth-9.3mm\relax}{\raggedright\large\bfseries\color{navy}#2\strut}\par
+    \tikz[baseline=(n.base)]\node[circle,fill=navy,text=white,inner sep=0pt,outer sep=0pt,
+      minimum size=7.2mm,font=\large\bfseries] (n) {\vphantom{0}#1};\hspace{2mm}%
+    \parbox[t]{\dimexpr\linewidth-9.2mm\relax}{\raggedright\large\bfseries
+      \leavevmode\color{navy}#2\strut\par}\par
     \vspace{3pt}{\color{navy!28}\hrule height .6pt}\vspace{4pt}
     {\small\itshape\raggedright #3\par}
     {\small\color{muted}Источник ответа, с.~#4\qquad Основной конспект, #5\par}

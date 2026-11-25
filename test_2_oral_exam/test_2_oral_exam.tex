@@ -10,23 +10,28 @@
 \usepackage[left=21mm,right=21mm,top=14mm,bottom=14mm,includeheadfoot,
   headheight=15pt,headsep=6mm,footskip=9mm]{geometry}
 \usepackage{needspace,fancyhdr,tikz,tcolorbox,enumitem}
-\tcbuselibrary{skins,breakable}
+\tcbuselibrary{skins,breakable,hooks}
 \usepackage[unicode,hidelinks]{hyperref}
 \hypersetup{pdftitle={Зачёт по КР2},pdfsubject={Дифференциальные уравнения. Ответы на 17 теоретических вопросов}}
 
 \definecolor{navy}{HTML}{204F79}
-\definecolor{leaf}{HTML}{2D795A}
-\definecolor{slate}{HTML}{496DA4}
 \definecolor{muted}{HTML}{626E7D}
 \definecolor{gold}{HTML}{E3A735}
-\definecolor{ochre}{HTML}{B86619}
+% Цвета математических блоков из main/main.tex.
+\definecolor{HSEblue}{HTML}{004C97}
+\definecolor{HSEgreen}{HTML}{007F5F}
+\definecolor{HSEteal}{HTML}{008B8B}
+\definecolor{HSEpurple}{HTML}{6E56DB}
+\definecolor{HSEorange}{HTML}{F26D00}
+\definecolor{HSEred}{HTML}{B80C09}
+\definecolor{HSEgray}{HTML}{666666}
 
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{4pt plus 1pt}
 \setlength{\emergencystretch}{2em}
 \raggedbottom
 \setlist{leftmargin=*,topsep=3pt,itemsep=2pt,parsep=0pt}
-\setlist[itemize]{label=\textcolor{navy}{\(\blacktriangleright\)}}
+\setlist[itemize]{label=\(\blacktriangleright\)}
 \pagestyle{fancy}
 \fancyhf{}
 \fancyhead[L]{\small\color{muted}Дифференциальные уравнения}
@@ -60,21 +65,22 @@
   before upper={\setlength{\parskip}{3pt}\setlength{\abovedisplayskip}{5pt}%
     \setlength{\belowdisplayskip}{4pt}\setlength{\abovedisplayshortskip}{3pt}%
     \setlength{\belowdisplayshortskip}{3pt}}}}
-\newcommand{\declarecard}[2]{%
-  \newtcolorbox{#1}[1]{card,colback=#2!4!white,colframe=#2!80,
-    colbacktitle=#2,title={##1}}}
-\declarecard{definition}{leaf}
-\declarecard{result}{navy}
-\declarecard{lemma}{slate}
-\declarecard{method}{navy}
-\declarecard{note}{muted}
-\declarecard{example}{ochre}
+\newcommand{\declarecard}[4]{%
+  \newtcolorbox{#1}[1]{card,colback=HSEgray!10,colframe=#2,
+    colbacktitle=#3,title={##1},
+    before upper app={\setlist[enumerate]{font=\color{#4}}}}}
+\declarecard{definition}{HSEblue}{HSEblue!90!black}{HSEblue}
+\declarecard{result}{HSEgreen!70!black}{HSEgreen!80!black}{HSEgreen}
+\declarecard{lemma}{HSEteal!80!black}{HSEteal!85!black}{HSEteal}
+\declarecard{corollary}{HSEpurple!60!black}{HSEpurple!70!black}{HSEpurple}
+\declarecard{note}{HSEorange!70!black}{HSEorange!80!black}{HSEorange}
+\declarecard{example}{HSEred!80!black}{HSEred!90!black}{HSEred}
 
 \newtcolorbox{reasoning}[1]{enhanced,breakable,frame hidden,interior hidden,
-  sharp corners,borderline west={1.5pt}{0pt}{muted!45},boxsep=0pt,left=7pt,right=0pt,
+  sharp corners,borderline west={1.5pt}{0pt}{HSEgray!45},boxsep=0pt,left=7pt,right=0pt,
   top=1pt,bottom=1pt,before skip=5pt,after skip=5pt,
-  before upper={\setlength{\parskip}{3pt}{\bfseries\color{muted}#1}\enspace\ignorespaces},
-  after upper={\unskip\nobreak\hfill\textcolor{muted}{\(\square\)}}}
+  before upper={\setlength{\parskip}{3pt}{\bfseries #1}\enspace\ignorespaces},
+  after upper={\unskip\nobreak\hfill\(\square\)}}
 
 \begin{document}
 \thispagestyle{opening}
@@ -158,13 +164,13 @@ u'x+u=f(u)\ \Rightarrow\ \frac{\dd u}{\dd x}=\frac{f(u)-u}{x}.
 \]
 \end{reasoning}
 
-\begin{lemma}{Следствие}
+\begin{corollary}{Следствие}
 Интегральные кривые подобны с центром подобия в начале координат: при замене \(\widetilde x=kx\), \(\widetilde y=ky\) отношение \(y/x\) не меняется, а константа \(C\) сдвигается на \(\ln|k|\).
-\end{lemma}
+\end{corollary}
 
-\begin{note}{Уравнение возможных касательных}
+\begin{definition}{Уравнение возможных касательных}
 \(f(u)-u=0\). Если \(u_1\) — его корень, то \(y=u_1x\) — решение (инвариантный луч). На таких лучах условие теоремы нарушено, и единственность может теряться.
-\end{note}
+\end{definition}
 
 \question{3}{Теорема существования и единственности для уравнения \texorpdfstring{\(n\)}{n}-го порядка}{Сформулируйте теорему существования и единственности для
 уравнения n-го порядка, разрешенного относительно старшей
@@ -264,9 +270,9 @@ y(x_0)=y_0,\quad y'(x_0)=y_1,\quad\ldots,\quad y^{(n-1)}(x_0)=y_{n-1}.
 \(\dot x=x^2\): правая часть гладкая на всей плоскости, но решение \(x=\frac1{C-t}\) уходит в бесконечность за конечное время.
 \end{note}
 
-\begin{lemma}{Следствие}
+\begin{corollary}{Следствие}
 Решение ЛОС с нулевым начальным условием \(\vect{x}(t_0)=\vect{0}\) только одно: \(\vect{x}\equiv\vect{0}\).
-\end{lemma}
+\end{corollary}
 
 \question{6}{Линейная зависимость вектор-функций и их значений; вронскиан}{Дайте определение линейно зависимой системы функций, линейно
 независимой системы вектор-функций. Сформулируйте и поясните
@@ -306,9 +312,9 @@ y(x_0)=y_0,\quad y'(x_0)=y_1,\quad\ldots,\quad y^{(n-1)}(x_0)=y_{n-1}.
 ЛОС в некоторой точке и линейной зависимости данных функций.}
 {14}{\lectureref{12}{1834-L1879}}
 
-\begin{lemma}{Следствие из вопроса 6}
+\begin{corollary}{Следствие из вопроса 6}
 Если \(\vect{x}_1,\ldots,\vect{x}_n\) линейно зависимы на \(M\), то \(W(t)=0\) при всех \(t\in M\). Значит, если хотя бы в одной точке \(W(t_0)\ne0\), то функции линейно независимы.
-\end{lemma}
+\end{corollary}
 
 Обратное для произвольных вектор-функций неверно: в примере из вопроса 6 \(W=1\cdot t^2-t\cdot t\equiv0\), а функции независимы. Для решений ЛОС ситуация другая.
 
@@ -425,7 +431,7 @@ y(x_0)=y_0,\quad y'(x_0)=y_1,\quad\ldots,\quad y^{(n-1)}(x_0)=y_{n-1}.
 Если \(\vect{u}\) и \(\vect{x}_p\) --- два решения ЛНС, то разность \(\vect{v}=\vect{u}-\vect{x}_p\) удовлетворяет \(\dot{\vect{v}}=A(t)\vect{v}\), то есть \(\vect{v}=X(t)\vect{c}\).
 \end{reasoning}
 
-\begin{method}{Алгоритм~\(\cdot\)~вариация постоянных}
+\begin{result}{Алгоритм~\(\cdot\)~вариация постоянных}
 \begin{enumerate}
 \item Найти ФМ \(X(t)\) соответствующей ЛОС.
 \item Искать решение ЛНС в виде \(\vect{x}=X(t)\,\vect{c}(t)\). Подстановка даёт \(\dot X\,\vect{c}+X\dot{\vect{c}}=AX\vect{c}+\vect{f}\), а так как \(\dot X=AX\),
@@ -435,7 +441,7 @@ y(x_0)=y_0,\quad y'(x_0)=y_1,\quad\ldots,\quad y^{(n-1)}(x_0)=y_{n-1}.
 \item Решить эту систему (\(\det X\ne0\)), например по Крамеру: \(\dot{\vect{c}}=X^{-1}\vect{f}\).
 \item Проинтегрировать: \(\vect{c}(t)=\vect{c}_0+\int_{t_0}^t X^{-1}(\tau)\vect{f}(\tau)\dd\tau\).
 \end{enumerate}
-\end{method}
+\end{result}
 
 Итоговая формула:
 \[
@@ -602,7 +608,7 @@ y(x_0)=y_0,\quad y'(x_0)=y_1,\quad\ldots,\quad y^{(n-1)}(x_0)=y_{n-1}.
 Коэффициенты разрывны при \(t=0\) — ровно там, где \(W=t^2\) обращается в ноль. Теорема работает на \((0;+\infty)\) или на \((-\infty;0)\).
 \end{example}
 
-\begin{method}{Алгоритм~\(\cdot\)~вариация постоянных для ЛНУ}
+\begin{result}{Алгоритм~\(\cdot\)~вариация постоянных для ЛНУ}
 \begin{enumerate}
 \item Найти ФСР \(y_1,\ldots,y_n\) соответствующего ЛОУ.
 \item Искать решение в виде \(y=c_1(t)y_1+\cdots+c_n(t)y_n\).
@@ -620,7 +626,7 @@ y(x_0)=y_0,\quad y'(x_0)=y_1,\quad\ldots,\quad y^{(n-1)}(x_0)=y_{n-1}.
 \item Проинтегрировать: каждая \(c_k\) получается со своей произвольной постоянной \(\tilde c_k\).
 \end{enumerate}
 При \(n=2\): \(\displaystyle\dot c_1=-\frac{y_2 f}{W},\quad\dot c_2=\frac{y_1 f}{W}\).
-\end{method}
+\end{result}
 
 \begin{note}{Важно}
 Система написана для уравнения со старшим коэффициентом 1. Если при \(y^{(n)}\) стоит \(a_n\ne0\), в последней строке будет \(f(t)/a_n\), а не \(f(t)\).
@@ -646,11 +652,11 @@ y(x_0)=y_0,\quad y'(x_0)=y_1,\quad\ldots,\quad y^{(n-1)}(x_0)=y_{n-1}.
 уравнение \(L(\lambda)=0\) — характеристическое.
 \end{definition}
 
-\begin{lemma}{Свойство 4~\(\cdot\)~экспонента как решение}
+\begin{result}{Свойство 4~\(\cdot\)~экспонента как решение}
 \(L(D)\,\e^{\lambda x}=L(\lambda)\,\e^{\lambda x}\), поэтому \(\e^{\lambda x}\) — решение ЛОУ \(\iff L(\lambda)=0\).
 
 (Потому что \(D^k\e^{\lambda x}=\lambda^k \e^{\lambda x}\), а \(\e^{\lambda x}\ne0\).)
-\end{lemma}
+\end{result}
 
 \begin{result}{Теорема~\(\cdot\)~некратные корни}
 Если \(\lambda_1,\ldots,\lambda_n\in\mathbb{C}\) — корни \(L(\lambda)\) и все они кратности 1, то
@@ -785,9 +791,9 @@ y(x_0)=y_0,\quad y'(x_0)=y_1,\quad\ldots,\quad y^{(n-1)}(x_0)=y_{n-1}.
 \end{itemize}
 \end{note}
 
-\begin{lemma}{Принцип суперпозиции}
+\begin{result}{Принцип суперпозиции}
 Если \(L(D)y_1=f_1\) и \(L(D)y_2=f_2\), то \(L(D)(y_1+y_2)=f_1+f_2\). Для каждого слагаемого правой части свои \(\mu\), \(N\) и \(s\).
-\end{lemma}
+\end{result}
 
 \question{17}{Интегральная формула Коши для частного решения ЛНУ}{Сформулируйте и поясните интегральную формулу Коши нахождения
 частного решения ЛНУ.}

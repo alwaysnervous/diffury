@@ -57,10 +57,15 @@
     \vspace{8pt}
   \end{minipage}\par\nobreak}
 
+\newlength{\cardpadding}
+\setlength{\cardpadding}{7pt}
+\newlength{\cardtitleoverlap}
+\setlength{\cardtitleoverlap}{2mm}
 \tcbset{card/.style={enhanced,arc=2pt,boxrule=.5pt,
-  boxsep=0pt,left=8pt,right=8pt,top=12pt,bottom=5pt,before skip=8pt,after skip=4pt,
+  boxsep=0pt,left=8pt,right=8pt,bottom=\cardpadding,
+  top=\dimexpr\cardpadding+\cardtitleoverlap\relax,before skip=8pt,after skip=4pt,
   fonttitle=\small\bfseries,coltitle=white,
-  attach boxed title to top left={xshift=3mm,yshift=-2mm},
+  attach boxed title to top left={xshift=3mm,yshift=-\cardtitleoverlap},
   boxed title style={frame hidden,arc=1.5pt,boxrule=0pt,left=5pt,right=5pt,top=1pt,bottom=1pt},
   before upper={\setlength{\parskip}{3pt}\setlength{\abovedisplayskip}{5pt}%
     \setlength{\belowdisplayskip}{4pt}\setlength{\abovedisplayshortskip}{3pt}%
@@ -75,6 +80,9 @@
 \declarecard{corollary}{HSEpurple!60!black}{HSEpurple!70!black}{HSEpurple}
 \declarecard{note}{HSEorange!70!black}{HSEorange!80!black}{HSEorange}
 \declarecard{example}{HSEred!80!black}{HSEred!90!black}{HSEred}
+
+% У первой формулы верхний отступ уже задан самой коробочкой.
+\newenvironment{openingformula}{\centering\(\displaystyle}{\)\par}
 
 \newtcolorbox{reasoning}[1]{enhanced,breakable,frame hidden,interior hidden,
   sharp corners,borderline west={1.5pt}{0pt}{HSEgray!45},boxsep=0pt,left=7pt,right=0pt,
@@ -421,10 +429,10 @@ y(x_0)=y_0,\quad y'(x_0)=y_1,\quad\ldots,\quad y^{(n-1)}(x_0)=y_{n-1}.
 {16}{\lectureref{15}{2023-L2094}}
 
 \begin{result}{Теорема~\(\cdot\)~структура общего решения ЛНС}
-\[
+\begin{openingformula}
  \vect{x}_{\text{общ.\,неодн.}}=\vect{x}_{\text{част.\,неодн.}}+\vect{x}_{\text{общ.\,одн.}},
  \qquad\text{т.е.}\qquad \vect{x}(t)=\vect{x}_p(t)+X(t)\,\vect{c}.
-\]
+\end{openingformula}
 \end{result}
 
 \begin{reasoning}{Доказательство.}
@@ -460,9 +468,9 @@ y(x_0)=y_0,\quad y'(x_0)=y_1,\quad\ldots,\quad y^{(n-1)}(x_0)=y_{n-1}.
 {17}{\lectureref{16.1}{2130-L2250}, \lectureref{16.2}{2252-L2275}}
 
 \begin{definition}{Определение~\(\cdot\)~линейное уравнение}
-\[
+\begin{openingformula}
  y^{(n)}+a_{n-1}(t)\,y^{(n-1)}+\cdots+a_1(t)\,y'+a_0(t)\,y=f(t),
-\]
+\end{openingformula}
 коэффициенты и \(f\) непрерывны на промежутке \(M\). При \(f\not\equiv0\) --- ЛНУ, при \(f\equiv0\) --- ЛОУ.
 \end{definition}
 
@@ -551,9 +559,9 @@ y(x_0)=y_0,\quad y'(x_0)=y_1,\quad\ldots,\quad y^{(n-1)}(x_0)=y_{n-1}.
 \end{example}
 
 \begin{result}{Теорема~\(\cdot\)~Лиувилль–Остроградский для ЛОУ}
-\[
+\begin{openingformula}
  W(t)=W(t_0)\exp\!\left(-\int_{t_0}^t a_{n-1}(\tau)\dd\tau\right).
-\]
+\end{openingformula}
 \end{result}
 
 \begin{reasoning}{Почему.}
@@ -600,11 +608,11 @@ y(x_0)=y_0,\quad y'(x_0)=y_1,\quad\ldots,\quad y^{(n-1)}(x_0)=y_{n-1}.
 \end{reasoning}
 
 \begin{example}{Пример~\(\cdot\)~ФСР \(t,\ t^2\)}
-\[
+\begin{openingformula}
  \begin{vmatrix}t&t^2&y\\1&2t&y'\\0&2&y''\end{vmatrix}=0
  \ \Rightarrow\ t^2y''-2ty'+2y=0
  \ \Rightarrow\ y''-\frac{2}{t}\,y'+\frac{2}{t^2}\,y=0.
-\]
+\end{openingformula}
 Коэффициенты разрывны при \(t=0\) — ровно там, где \(W=t^2\) обращается в ноль. Теорема работает на \((0;+\infty)\) или на \((-\infty;0)\).
 \end{example}
 
@@ -646,9 +654,9 @@ y(x_0)=y_0,\quad y'(x_0)=y_1,\quad\ldots,\quad y^{(n-1)}(x_0)=y_{n-1}.
 В операторной записи \(L(D)y=0\), где \(L(D)=a_nD^n+\cdots+a_1D+a_0,\ D=\frac{\dd}{\dd x}\).
 
 \begin{definition}{Определение~\(\cdot\)~характеристический многочлен}
-\[
+\begin{openingformula}
  L(\lambda)=a_n\lambda^n+a_{n-1}\lambda^{n-1}+\cdots+a_1\lambda+a_0,
-\]
+\end{openingformula}
 уравнение \(L(\lambda)=0\) — характеристическое.
 \end{definition}
 

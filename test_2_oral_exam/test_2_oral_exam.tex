@@ -229,30 +229,30 @@ y(x_0)=y_0,\quad y'(x_0)=y_1,\quad\ldots,\quad y^{(n-1)}(x_0)=y_{n-1}.
 то через каждую точку \((t_0,\mathbf x_0)\in G\) проходит единственное \textbf{локальное} решение задачи Коши.
 \end{result}
 
-\question{5}{ЛОС и ЛНС; теорема для непрерывных \texorpdfstring{\(A(t)\) и \(\mathbf f(t)\)}{A(t) и f(t)}}{Дайте определение линейно однородной и линейно неоднородной
+\question{5}{ЛОС и ЛНС; теорема для непрерывных \texorpdfstring{\(A(t)\) и \(\vec{f}(t)\)}{A(t) и f(t)}}{Дайте определение линейно однородной и линейно неоднородной
 системы. Расскажите о применении теоремы существования и
 единственности к линейной системе с непрерывной матрицей и
 непрерывной вектор-функцией в правой части}
 {12--13}{\lectureref{11.1}{1741-L1799}}
 
 \begin{definition}{Определение}
-Линейная система: \(\dot{\mathbf x}=A(t)\mathbf x+\mathbf f(t)\), где \(A(t)\) — матрица \(n\times n\), \(\mathbf f(t)\) — вектор-функция.
+Линейная система: \(\dot{\mathbf x}=A(t)\mathbf x+\vec{f}(t)\), где \(A(t)\) — матрица \(n\times n\), \(\vec{f}(t)\) — вектор-функция.
 \begin{itemize}
-\item[\(\blacktriangleright\)] При \(\mathbf f\equiv0\) — \textbf{ЛОС}: \(\dot{\mathbf x}=A(t)\mathbf x\).
-\item[\(\blacktriangleright\)] При \(\mathbf f\not\equiv0\) — \textbf{ЛНС}.
+\item[\(\blacktriangleright\)] При \(\vec{f}\equiv0\) — \textbf{ЛОС}: \(\dot{\mathbf x}=A(t)\mathbf x\).
+\item[\(\blacktriangleright\)] При \(\vec{f}\not\equiv0\) — \textbf{ЛНС}.
 \end{itemize}
 \end{definition}
 
 \begin{result}{Теорема}
-Если все элементы \(A(t)\) и все координаты \(\mathbf f(t)\) непрерывны на \((a,b)\), то для любых \(t_0\in(a,b)\) и \(\mathbf x_0\in\mathbb R^n\) задача Коши
+Если все элементы \(A(t)\) и все координаты \(\vec{f}(t)\) непрерывны на \((a,b)\), то для любых \(t_0\in(a,b)\) и \(\mathbf x_0\in\mathbb R^n\) задача Коши
 \[
-\dot{\mathbf x}=A(t)\mathbf x+\mathbf f(t),\qquad\mathbf x(t_0)=\mathbf x_0
+\dot{\mathbf x}=A(t)\mathbf x+\vec{f}(t),\qquad\mathbf x(t_0)=\mathbf x_0
 \]
 имеет единственное решение, и оно \textbf{продолжается на весь интервал} \((a,b)\).
 \end{result}
 
 \begin{reasoning}{Пояснение.}
-Правая часть \(A(t)\mathbf x+\mathbf f(t)\) и её производные \(\partial/\partial x^j=a_{ij}(t)\) непрерывны в \((a,b)\times\mathbb R^n\), поэтому работает теорема из вопроса 4. Новое здесь — глобальность: правая часть растёт по \(\mathbf x\) не быстрее линейной функции, и решение не может уйти в бесконечность раньше конца интервала.
+Правая часть \(A(t)\mathbf x+\vec{f}(t)\) и её производные \(\partial/\partial x^j=a_{ij}(t)\) непрерывны в \((a,b)\times\mathbb R^n\), поэтому работает теорема из вопроса 4. Новое здесь — глобальность: правая часть растёт по \(\mathbf x\) не быстрее линейной функции, и решение не может уйти в бесконечность раньше конца интервала.
 \end{reasoning}
 
 \begin{note}{Контраст с нелинейными уравнениями}

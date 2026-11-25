@@ -4,6 +4,9 @@
 \usepackage[utf8]{inputenc}
 \usepackage[russian]{babel}
 \usepackage{amsmath,amssymb}
+\newcommand{\vect}[1]{\vec{#1}}
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\dd}{\mathop{}\!\mathrm{d}}
 \usepackage[left=21mm,right=21mm,top=14mm,bottom=14mm,includeheadfoot,
   headheight=15pt,headsep=6mm,footskip=9mm]{geometry}
 \usepackage{needspace,fancyhdr,tikz,tcolorbox,enumitem}
@@ -35,7 +38,7 @@
 \newcommand{\lectureref}[2]{%
   \href{https://github.com/alwaysnervous/diffury/blob/c23cbfa81e0849fda70a8fda2097cfeefa5db213/main/main.tex\#L#2}{\textcolor{navy}{\S\,#1}}}
 \newcommand{\question}[5]{%
-  \par\addvspace{12pt}\Needspace{8\baselineskip}%
+  \par\addvspace{12pt}\Needspace{9\baselineskip}%
   \pdfbookmark[1]{#1. #2}{question.#1}%
   \noindent\begin{minipage}{\linewidth}
     \tikz[baseline=(n.base)]\node[circle,fill=navy,text=white,inner sep=0pt,outer sep=0pt,
@@ -44,7 +47,9 @@
       \leavevmode\color{navy}#2\strut\par}\par
     \vspace{3pt}{\color{navy!28}\hrule height .6pt}\vspace{4pt}
     {\small\itshape\raggedright #3\par}
+    \vspace{4pt}
     {\small\color{muted}Источник ответа, с.~#4\qquad Основной конспект, #5\par}
+    \vspace{8pt}
   \end{minipage}\par\nobreak}
 
 \tcbset{card/.style={enhanced,arc=2pt,boxrule=.5pt,
@@ -81,7 +86,7 @@
   Ответы из части II «ДУ\_зачёт\_КР2\_конспект.pdf», с.~9--24
 \end{tcolorbox}
 \begin{note}{Обозначения как в конспекте курса}
-Решения нумеруются нижним индексом (\(\mathbf{x}_j,y_j\)), координаты --- верхним (\(x^i\)). Точка сверху --- производная по \(t\). \(\langle a;b\rangle\) --- промежуток с любыми концами. ЛОС/ЛНС --- линейная однородная/неоднородная система, ЛОУ/ЛНУ --- то же для уравнений.
+Решения нумеруются нижним индексом (\(\vect{x}_j,y_j\)), координаты --- верхним (\(x^i\)). Точка сверху --- производная по \(t\). \(\langle a;b\rangle\) --- промежуток с любыми концами. ЛОС/ЛНС --- линейная однородная/неоднородная система, ЛОУ/ЛНУ --- то же для уравнений.
 \end{note}
 
 \question{1}{Уравнение с разделяющимися переменными: теорема существования и единственности}{Сформулируйте и поясните теорему существования и единственности
@@ -97,15 +102,15 @@ y'=f(x)\,g(y),\qquad y(x_0)=y_0.
 \begin{result}{Теорема}
 Пусть \(f\in C(a,b)\), \(g\in C(c,d)\) и \(g(y)\ne0\) при всех \(y\in(c,d)\). Тогда через каждую точку прямоугольника
 \[
-\Pi=\{a<x<b,\ c<y<d\}
+\Pi=\{(x,y):a<x<b,\ c<y<d\}
 \]
 проходит единственное решение задачи Коши.
 \end{result}
 
 \begin{reasoning}{Доказательство.}
-Пусть \(y=\varphi(x)\) — решение. Делим на \(g(\varphi)\ne0\) и интегрируем от \(x_0\) до \(x\):
+Пусть \(y=\varphi(x)\) — решение. Делим на \(g(\varphi(x))\ne0\) и интегрируем от \(x_0\) до \(x\):
 \[
-\int_{y_0}^{\varphi(x)}\frac{du}{g(u)}=\int_{x_0}^{x}f(t)\,dt,
+\int_{y_0}^{\varphi(x)}\frac{\dd u}{g(u)}=\int_{x_0}^{x}f(t)\dd t,
 \qquad \text{т.е.}\qquad G(\varphi(x))=F(x)+G(y_0)-F(x_0),
 \]
 где \(G'=1/g\), \(F'=f\). Функция \(1/g\) непрерывна и не меняет знак, поэтому \(G\) строго монотонна и имеет обратную:
@@ -117,12 +122,12 @@ y'=f(x)\,g(y),\qquad y(x_0)=y_0.
 
 \textbf{Частные случаи}
 \begin{itemize}
-\item[\(\blacktriangleright\)] \(y'=f(x)\). Решение \(y=y_0+\int_{x_0}^{x}f(t)\,dt\), все решения отличаются вертикальным сдвигом. Если \(f\to\infty\) при \(x\to a_1\), всё решает интеграл \(J_1=\int_{x_0}^{a_1-0}f(t)\,dt\). Если он сходится, решения подходят к прямой \(x=a_1\) в конечных точках, и в расширенном поле единственность может нарушаться. Если расходится, \(x=a_1\) — вертикальная асимптота.
-\item[\(\blacktriangleright\)] \(y'=g(y)\). При \(g\ne0\): \(x(y)=x_0+\int_{y_0}^{y}\frac{du}{g(u)}\), решения отличаются горизонтальным сдвигом. Если \(g(c_1)=0\), то \(y=c_1\) — стационарное решение, и всё решает \(J_2=\int_{y_0}^{c_1-0}\frac{du}{g(u)}\). При сходимости решения касаются прямой \(y=c_1\) за конечное время, и единственность нарушается. При расходимости \(y=c_1\) — горизонтальная асимптота.
+\item[\(\blacktriangleright\)] \(y'=f(x)\). Решение \(y=y_0+\int_{x_0}^{x}f(t)\dd t\), все решения отличаются вертикальным сдвигом. Если \(f\to\infty\) при \(x\to a_1\), всё решает интеграл \(J_1=\int_{x_0}^{a_1-0}f(t)\dd t\). Если он сходится, решения подходят к прямой \(x=a_1\) в конечных точках, и в расширенном поле единственность может нарушаться. Если расходится, \(x=a_1\) — вертикальная асимптота.
+\item[\(\blacktriangleright\)] \(y'=g(y)\). При \(g\ne0\): \(x(y)=x_0+\int_{y_0}^{y}\frac{\dd u}{g(u)}\), решения отличаются горизонтальным сдвигом. Если \(g(c_1)=0\), то \(y=c_1\) — стационарное решение, и всё решает \(J_2=\int_{y_0}^{c_1-0}\frac{\dd u}{g(u)}\). При сходимости решения касаются прямой \(y=c_1\) за конечное время, и единственность нарушается. При расходимости \(y=c_1\) — горизонтальная асимптота.
 \end{itemize}
 
 \begin{example}{Пример~\(\cdot\)~нарушение единственности}
-\(y'=3y^{2/3}\): через точку \((0,0)\) проходят два решения, \(y\equiv0\) и \(y=x^3\). Здесь \(g(0)=0\) и интеграл \(\int_0\frac{du}{3u^{2/3}}\) сходится.
+\(y'=3y^{2/3}\): через точку \((0,0)\) проходят два решения, \(y\equiv0\) и \(y=x^3\). Здесь \(g(0)=0\) и интеграл \(\int_0^1\frac{\dd u}{3u^{2/3}}\) сходится.
 \end{example}
 
 \question{2}{Уравнение с однородной правой частью: теорема существования и единственности}{Сформулируйте и поясните теорему существования и единственности
@@ -137,7 +142,7 @@ y'=f\!\left(\frac yx\right),\qquad x\ne0,\qquad y(x_0)=y_0.
 \begin{result}{Теорема}
 Пусть \(f\) непрерывна на \((a,b)\) и \(f(u)-u\ne0\) при \(u\in(a,b)\). Тогда через каждую точку области
 \[
-G=\left\{a<\frac yx<b,\ x\ne0\right\}
+G=\left\{(x,y):a<\frac yx<b,\ x\ne0\right\}
 \]
 проходит единственное решение задачи Коши.
 \end{result}
@@ -145,7 +150,7 @@ G=\left\{a<\frac yx<b,\ x\ne0\right\}
 \begin{reasoning}{Доказательство.}
 Замена \(u=\frac yx\): \(y=ux\), \(y'=u'x+u\). Подставляем:
 \[
-u'x+u=f(u)\ \Rightarrow\ \frac{du}{dx}=\frac{f(u)-u}{x}.
+u'x+u=f(u)\ \Rightarrow\ \frac{\dd u}{\dd x}=\frac{f(u)-u}{x}.
 \]
 Это уравнение с разделяющимися переменными: множитель \(\frac1x\) непрерывен при \(x\ne0\), множитель \(f(u)-u\) непрерывен и не обращается в ноль. Применяем теорему из вопроса 1. Общий интеграл:
 \[
@@ -154,7 +159,7 @@ u'x+u=f(u)\ \Rightarrow\ \frac{du}{dx}=\frac{f(u)-u}{x}.
 \end{reasoning}
 
 \begin{lemma}{Следствие}
-Интегральные кривые подобны с центром подобия в начале координат: при замене \(\tilde x=kx\), \(\tilde y=ky\) отношение \(y/x\) не меняется, а константа \(C\) сдвигается на \(\ln|k|\).
+Интегральные кривые подобны с центром подобия в начале координат: при замене \(\widetilde x=kx\), \(\widetilde y=ky\) отношение \(y/x\) не меняется, а константа \(C\) сдвигается на \(\ln|k|\).
 \end{lemma}
 
 \begin{note}{Уравнение возможных касательных}
@@ -164,7 +169,7 @@ u'x+u=f(u)\ \Rightarrow\ \frac{du}{dx}=\frac{f(u)-u}{x}.
 \question{3}{Теорема существования и единственности для уравнения \texorpdfstring{\(n\)}{n}-го порядка}{Сформулируйте теорему существования и единственности для
 уравнения n-го порядка, разрешенного относительно старшей
 производной}
-{11}{\lectureref{4.2}{1220-L1245}}
+{11}{\lectureref{4.2}{1220-L1245}, \lectureref{33.2.2}{5185-L5202}}
 
 Уравнение, разрешённое относительно старшей производной, и задача Коши для него:
 \[
@@ -184,10 +189,10 @@ y(x_0)=y_0,\quad y'(x_0)=y_1,\quad\ldots,\quad y^{(n-1)}(x_0)=y_{n-1}.
 \begin{reasoning}{Пояснение.}
 Замена \(z^1=y,\ z^2=y',\ldots,\ z^n=y^{(n-1)}\) превращает уравнение в нормальную систему
 \[
-\dot z^1=z^2,\quad\ldots,\quad \dot z^{n-1}=z^n,\quad
-\dot z^n=F(x,z^1,\ldots,z^n).
+\frac{\dd z^1}{\dd x}=z^2,\quad\ldots,\quad \frac{\dd z^{n-1}}{\dd x}=z^n,\quad
+\frac{\dd z^n}{\dd x}=F(x,z^1,\ldots,z^n).
 \]
-Условие \textcircled{\small 1} — это ровно условие теоремы из вопроса 4 для этой системы, а \(n\) начальных условий задают точку \((x_0,\mathbf z_0)\).
+Условие \textcircled{\small 1} — это ровно условие теоремы из вопроса 4 для этой системы, а \(n\) начальных условий задают точку \((x_0,\vect{z}_0)\).
 \end{reasoning}
 
 \begin{note}{На практике}
@@ -205,7 +210,7 @@ y(x_0)=y_0,\quad y'(x_0)=y_1,\quad\ldots,\quad y^{(n-1)}(x_0)=y_{n-1}.
 \[
 \dot x^i=F^i(t,x^1,\ldots,x^n),\qquad i=1,\ldots,n,
 \]
-где \(F^i\) непрерывны в области \(G\subset\mathbb R^{n+1}\). В векторной форме \(\dot{\mathbf x}=\mathbf F(t,\mathbf x)\). «Нормальная» означает, что число уравнений равно числу неизвестных функций и система разрешена относительно производных.
+где \(F^i\) непрерывны в области \(G\subset\mathbb R^{n+1}\). В векторной форме \(\dot{\vect{x}}=\vect{F}(t,\vect{x})\). «Нормальная» означает, что число уравнений равно числу неизвестных функций и система разрешена относительно производных.
 \end{definition}
 
 \begin{definition}{Определение~\(\cdot\)~решение}
@@ -218,7 +223,7 @@ y(x_0)=y_0,\quad y'(x_0)=y_1,\quad\ldots,\quad y^{(n-1)}(x_0)=y_{n-1}.
 \end{definition}
 
 \begin{definition}{Определение~\(\cdot\)~задача Коши}
-К системе добавляется начальное условие \(\mathbf x(t_0)=\mathbf x_0\), то есть \(x^i(t_0)=x_0^i\), \(i=1,\ldots,n\), где \((t_0,\mathbf x_0)\in G\).
+К системе добавляется начальное условие \(\vect{x}(t_0)=\vect{x}_0\), то есть \(x^i(t_0)=x_0^i\), \(i=1,\ldots,n\), где \((t_0,\vect{x}_0)\in G\).
 \end{definition}
 
 \begin{result}{Теорема}
@@ -226,33 +231,33 @@ y(x_0)=y_0,\quad y'(x_0)=y_1,\quad\ldots,\quad y^{(n-1)}(x_0)=y_{n-1}.
 \[
 \frac{\partial F^i}{\partial x^j},\qquad i,j=1,\ldots,n,
 \]
-то через каждую точку \((t_0,\mathbf x_0)\in G\) проходит единственное \textbf{локальное} решение задачи Коши.
+то через каждую точку \((t_0,\vect{x}_0)\in G\) проходит единственное \textbf{локальное} решение задачи Коши.
 \end{result}
 
-\question{5}{ЛОС и ЛНС; теорема для непрерывных \texorpdfstring{\(A(t)\) и \(\vec{f}(t)\)}{A(t) и f(t)}}{Дайте определение линейно однородной и линейно неоднородной
+\question{5}{ЛОС и ЛНС; теорема для непрерывных \texorpdfstring{\(A(t)\) и \(\vect{f}(t)\)}{A(t) и f(t)}}{Дайте определение линейно однородной и линейно неоднородной
 системы. Расскажите о применении теоремы существования и
 единственности к линейной системе с непрерывной матрицей и
 непрерывной вектор-функцией в правой части}
 {12--13}{\lectureref{11.1}{1741-L1799}}
 
 \begin{definition}{Определение}
-Линейная система: \(\dot{\mathbf x}=A(t)\mathbf x+\vec{f}(t)\), где \(A(t)\) — матрица \(n\times n\), \(\vec{f}(t)\) — вектор-функция.
+Линейная система: \(\dot{\vect{x}}=A(t)\vect{x}+\vect{f}(t)\), где \(A(t)\) — матрица \(n\times n\), \(\vect{f}(t)\) — вектор-функция.
 \begin{itemize}
-\item[\(\blacktriangleright\)] При \(\vec{f}\equiv0\) — \textbf{ЛОС}: \(\dot{\mathbf x}=A(t)\mathbf x\).
-\item[\(\blacktriangleright\)] При \(\vec{f}\not\equiv0\) — \textbf{ЛНС}.
+\item[\(\blacktriangleright\)] При \(\vect{f}\equiv\vect{0}\) — \textbf{ЛОС}: \(\dot{\vect{x}}=A(t)\vect{x}\).
+\item[\(\blacktriangleright\)] При \(\vect{f}\not\equiv\vect{0}\) — \textbf{ЛНС}.
 \end{itemize}
 \end{definition}
 
 \begin{result}{Теорема}
-Если все элементы \(A(t)\) и все координаты \(\vec{f}(t)\) непрерывны на \((a,b)\), то для любых \(t_0\in(a,b)\) и \(\mathbf x_0\in\mathbb R^n\) задача Коши
+Если все элементы \(A(t)\) и все координаты \(\vect{f}(t)\) непрерывны на промежутке \(I=\langle a;b\rangle\), то для любых \(t_0\in I\) и \(\vect{x}_0\in\mathbb R^n\) задача Коши
 \[
-\dot{\mathbf x}=A(t)\mathbf x+\vec{f}(t),\qquad\mathbf x(t_0)=\mathbf x_0
+\dot{\vect{x}}=A(t)\vect{x}+\vect{f}(t),\qquad\vect{x}(t_0)=\vect{x}_0
 \]
-имеет единственное решение, и оно \textbf{продолжается на весь интервал} \((a,b)\).
+имеет единственное решение, и оно \textbf{продолжается на весь промежуток} \(I\).
 \end{result}
 
 \begin{reasoning}{Пояснение.}
-Правая часть \(A(t)\mathbf x+\vec{f}(t)\) и её производные \(\partial/\partial x^j=a_{ij}(t)\) непрерывны в \((a,b)\times\mathbb R^n\), поэтому работает теорема из вопроса 4. Новое здесь — глобальность: правая часть растёт по \(\mathbf x\) не быстрее линейной функции, и решение не может уйти в бесконечность раньше конца интервала.
+Правая часть \(\vect{F}(t,\vect{x})=A(t)\vect{x}+\vect{f}(t)\) и её производные \(\frac{\partial F^i}{\partial x^j}(t,\vect{x})=a_{ij}(t)\) непрерывны в \((a,b)\times\mathbb R^n\), поэтому работает теорема из вопроса 4. Новое здесь — глобальность: правая часть растёт по \(\vect{x}\) не быстрее линейной функции, и решение не может уйти в бесконечность раньше конца интервала.
 \end{reasoning}
 
 \begin{note}{Контраст с нелинейными уравнениями}
@@ -260,7 +265,7 @@ y(x_0)=y_0,\quad y'(x_0)=y_1,\quad\ldots,\quad y^{(n-1)}(x_0)=y_{n-1}.
 \end{note}
 
 \begin{lemma}{Следствие}
-Решение ЛОС с нулевым начальным условием \(\mathbf x(t_0)=0\) только одно: \(\mathbf x\equiv\mathbf0\).
+Решение ЛОС с нулевым начальным условием \(\vect{x}(t_0)=\vect{0}\) только одно: \(\vect{x}\equiv\vect{0}\).
 \end{lemma}
 
 \question{6}{Линейная зависимость вектор-функций и их значений; вронскиан}{Дайте определение линейно зависимой системы функций, линейно
@@ -270,27 +275,27 @@ y(x_0)=y_0,\quad y'(x_0)=y_1,\quad\ldots,\quad y^{(n-1)}(x_0)=y_{n-1}.
 {13}{\lectureref{12}{1804-L1832}}
 
 \begin{definition}{Определение~\(\cdot\)~линейная зависимость}
-Вектор-функции \(\mathbf{x}_1(t),\ldots,\mathbf{x}_n(t)\) \textbf{линейно зависимы} на множестве \(M\), если существуют константы \((c_1,\ldots,c_n)\ne(0,\ldots,0)\) такие, что
+Вектор-функции \(\vect{x}_1(t),\ldots,\vect{x}_n(t)\) \textbf{линейно зависимы} на множестве \(M\), если существуют константы \((c_1,\ldots,c_n)\ne(0,\ldots,0)\) такие, что
 \[
- c_1\mathbf{x}_1(t)+\cdots+c_n\mathbf{x}_n(t)=\mathbf{0}\qquad\forall t\in M.
+ c_1\vect{x}_1(t)+\cdots+c_n\vect{x}_n(t)=\vect{0}\qquad\forall t\in M.
 \]
 Если такого набора нет, они \textbf{линейно независимы} на \(M\). Для обычных (скалярных) функций определение такое же.
 \end{definition}
 
 \begin{lemma}{Лемма}
-Если вектор-функции линейно зависимы на \(M\), то при каждом фиксированном \(t_0\in M\) векторы \(\mathbf{x}_1(t_0),\ldots,\mathbf{x}_n(t_0)\) линейно зависимы (годятся те же \(c_k\)).
+Если вектор-функции линейно зависимы на \(M\), то при каждом фиксированном \(t_0\in M\) векторы \(\vect{x}_1(t_0),\ldots,\vect{x}_n(t_0)\) линейно зависимы (годятся те же \(c_k\)).
 \end{lemma}
 
 \begin{example}{Пример~\(\cdot\)~обратное неверно}
-\(\displaystyle \mathbf{x}_1=\begin{pmatrix}1\\t\end{pmatrix},\quad
-\mathbf{x}_2=\begin{pmatrix}t\\t^2\end{pmatrix}\).
-При каждом \(t\) \(\mathbf{x}_2(t)=t\cdot\mathbf{x}_1(t)\), значит значения зависимы. Но если \(c_1\mathbf{x}_1+c_2\mathbf{x}_2\equiv\mathbf{0}\), то из первой координаты \(c_1+c_2t\equiv0\), откуда \(c_1=c_2=0\). Функции независимы: множитель \(t\) не константа.
+\(\displaystyle \vect{x}_1=\begin{pmatrix}1\\t\end{pmatrix},\quad
+\vect{x}_2=\begin{pmatrix}t\\t^2\end{pmatrix}\).
+При каждом \(t\) \(\vect{x}_2(t)=t\cdot\vect{x}_1(t)\), значит значения зависимы. Но если \(c_1\vect{x}_1+c_2\vect{x}_2\equiv\vect{0}\), то из первой координаты \(c_1+c_2t\equiv0\), откуда \(c_1=c_2=0\). Функции независимы: множитель \(t\) не константа.
 \end{example}
 
 \begin{definition}{Определение~\(\cdot\)~вронскиан вектор-функций}
 Для \(n\) вектор-функций размерности \(n\):
 \[
- W(t)=\det X(t),\qquad X(t)=\bigl(\mathbf{x}_1(t)\;\;\mathbf{x}_2(t)\;\;\cdots\;\;\mathbf{x}_n(t)\bigr)
+ W(t)=\det X(t),\qquad X(t)=\bigl(\vect{x}_1(t)\;\;\vect{x}_2(t)\;\;\cdots\;\;\vect{x}_n(t)\bigr)
 \]
 (функции записаны по столбцам).
 \end{definition}
@@ -302,21 +307,21 @@ y(x_0)=y_0,\quad y'(x_0)=y_1,\quad\ldots,\quad y^{(n-1)}(x_0)=y_{n-1}.
 {14}{\lectureref{12}{1834-L1879}}
 
 \begin{lemma}{Следствие из вопроса 6}
-Если \(\mathbf{x}_1,\ldots,\mathbf{x}_n\) линейно зависимы на \(M\), то \(W(t)=0\) при всех \(t\in M\). Значит, если хотя бы в одной точке \(W(t_0)\ne0\), то функции линейно независимы.
+Если \(\vect{x}_1,\ldots,\vect{x}_n\) линейно зависимы на \(M\), то \(W(t)=0\) при всех \(t\in M\). Значит, если хотя бы в одной точке \(W(t_0)\ne0\), то функции линейно независимы.
 \end{lemma}
 
 Обратное для произвольных вектор-функций неверно: в примере из вопроса 6 \(W=1\cdot t^2-t\cdot t\equiv0\), а функции независимы. Для решений ЛОС ситуация другая.
 
 \begin{lemma}{Лемма~\(\cdot\)~о вронскиане решений ЛОС}
-Пусть \(\mathbf{x}_1,\ldots,\mathbf{x}_n\) --- решения ЛОС \(\dot{\mathbf{x}}=A(t)\mathbf{x}\), матрица \(A(t)\) непрерывна на \(M\). Если хотя бы в одной точке \(t_1\in M\) вронскиан \(W(t_1)=0\), то решения линейно зависимы на всём \(M\) и \(W(t)=0\) при всех \(t\in M\).
+Пусть \(\vect{x}_1,\ldots,\vect{x}_n\) --- решения ЛОС \(\dot{\vect{x}}=A(t)\vect{x}\), матрица \(A(t)\) непрерывна на \(M\). Если хотя бы в одной точке \(t_1\in M\) вронскиан \(W(t_1)=0\), то решения линейно зависимы на всём \(M\) и \(W(t)=0\) при всех \(t\in M\).
 \end{lemma}
 
 \begin{reasoning}{Доказательство.}
-Столбцы \(\mathbf{x}_j(t_1)\) линейно зависимы, т.е. \(\sum c_j\mathbf{x}_j(t_1)=\mathbf{0}\) при некотором \(c\ne0\). Рассмотрим
+Столбцы \(\vect{x}_j(t_1)\) линейно зависимы, т.е. \(\sum_{j=1}^n c_j\vect{x}_j(t_1)=\vect{0}\) для некоторого набора \((c_1,\ldots,c_n)\ne(0,\ldots,0)\). Рассмотрим
 \[
- \mathbf{z}(t)=c_1\mathbf{x}_1(t)+\cdots+c_n\mathbf{x}_n(t).
+ \vect{z}(t)=c_1\vect{x}_1(t)+\cdots+c_n\vect{x}_n(t).
 \]
-Это решение ЛОС (линейная комбинация решений) с \(\mathbf{z}(t_1)=\mathbf{0}\). Нулевая функция решает ту же задачу Коши, поэтому по единственности \(\mathbf{z}\equiv\mathbf{0}\) на \(M\), то есть решения линейно зависимы.
+Это решение ЛОС (линейная комбинация решений) с \(\vect{z}(t_1)=\vect{0}\). Нулевая функция решает ту же задачу Коши, поэтому по единственности \(\vect{z}\equiv\vect{0}\) на \(M\), то есть решения линейно зависимы.
 \end{reasoning}
 
 \begin{note}{Итог}
@@ -331,29 +336,29 @@ y(x_0)=y_0,\quad y'(x_0)=y_1,\quad\ldots,\quad y^{(n-1)}(x_0)=y_{n-1}.
 {14--15}{\lectureref{13}{1883-L1962}}
 
 \begin{definition}{Определение~\(\cdot\)~ФСР}
-\textbf{Фундаментальная система решений} ЛОС порядка \(n\) --- любые \(n\) линейно независимых решений \(\mathbf{x}_1(t),\ldots,\mathbf{x}_n(t)\).
+\textbf{Фундаментальная система решений} ЛОС порядка \(n\) --- любые \(n\) линейно независимых решений \(\vect{x}_1(t),\ldots,\vect{x}_n(t)\).
 \end{definition}
 
 \begin{result}{Теорема~\(\cdot\)~общее решение ЛОС}
-Пусть \(A(t)\) непрерывна на \(M\) и \(\mathbf{x}_1,\ldots,\mathbf{x}_n\) --- ФСР. Тогда общее решение ЛОС
+Пусть \(A(t)\) непрерывна на \(M\) и \(\vect{x}_1,\ldots,\vect{x}_n\) --- ФСР. Тогда общее решение ЛОС
 \[
- \mathbf{x}(t)=c_1\mathbf{x}_1(t)+\cdots+c_n\mathbf{x}_n(t),\qquad c_i\in\mathbb{R}.
+ \vect{x}(t)=c_1\vect{x}_1(t)+\cdots+c_n\vect{x}_n(t),\qquad c_i\in\mathbb{R}.
 \]
-Иначе говоря, решения ЛОС образуют линейное пространство \(\operatorname{Ker}L\), где \(L=\frac{d}{dt}-A(t)\), размерности \(n\), и любая ФСР --- базис в нём.
+Иначе говоря, решения ЛОС образуют линейное пространство \(\operatorname{Ker}L\), где \(L=\frac{\dd}{\dd t}-A(t)\), размерности \(n\), и любая ФСР --- базис в нём.
 \end{result}
 
 \begin{reasoning}{Доказательство.}
-\textit{Существование ФСР:} решения задач Коши \(\mathbf{x}_j(t_0)=\mathbf{e}_j\) (\(j=1,\ldots,n\)) независимы, так как \(W(t_0)=\det E=1\).
+\textit{Существование ФСР:} решения задач Коши \(\vect{x}_j(t_0)=\vect{e}_j\) (\(j=1,\ldots,n\)) независимы, так как \(W(t_0)=\det E=1\).
 
-\textit{Любое решение раскладывается:} пусть \(\mathbf{x}(t)\) --- решение. Так как \(W(t_0)\ne0\), векторы \(\mathbf{x}_j(t_0)\) --- базис в \(\mathbb{R}^n\), и \(\mathbf{x}(t_0)=\sum c_j\mathbf{x}_j(t_0)\) при единственном наборе \(c_j\). Функции \(\mathbf{x}\) и \(\sum c_j\mathbf{x}_j\) решают одну задачу Коши, значит совпадают.
+\textit{Любое решение раскладывается:} пусть \(\vect{x}(t)\) --- решение. Так как \(W(t_0)\ne0\), векторы \(\vect{x}_j(t_0)\) --- базис в \(\mathbb{R}^n\), и \(\vect{x}(t_0)=\sum_{j=1}^n c_j\vect{x}_j(t_0)\) при единственном наборе \(c_j\). Функции \(\vect{x}\) и \(\sum_{j=1}^n c_j\vect{x}_j\) решают одну задачу Коши, значит совпадают.
 \end{reasoning}
 
 \begin{definition}{Определение~\(\cdot\)~фундаментальная матрица}
-\(X(t)=\bigl(\mathbf{x}_1(t)\;\cdots\;\mathbf{x}_n(t)\bigr)\) --- матрица, столбцы которой образуют ФСР. Её свойства:
+\(X(t)=\bigl(\vect{x}_1(t)\;\cdots\;\vect{x}_n(t)\bigr)\) --- матрица, столбцы которой образуют ФСР. Её свойства:
 \[
- \dot X=A(t)X,\qquad \det X(t)\ne0\quad\forall t\in M.
+ \dot X(t)=A(t)X(t),\qquad \det X(t)\ne0\quad\forall t\in M.
 \]
-Общее решение ЛОС в матричной записи: \(\mathbf{x}=X(t)\,\mathbf{c}\).
+Общее решение ЛОС в матричной записи: \(\vect{x}=X(t)\,\vect{c}\).
 \end{definition}
 
 \begin{result}{Теорема~\(\cdot\)~о переходе к другой ФМ}
@@ -370,7 +375,7 @@ y(x_0)=y_0,\quad y'(x_0)=y_1,\quad\ldots,\quad y^{(n-1)}(x_0)=y_{n-1}.
 \question{9}{Дифференцирование определителя; формула Лиувилля–Остроградского}{Выпишите формулу дифференцирования определителя матрицы,
 докажите её при n =2. Запишите формулу Лиувилля-Остроградского
 для вронскиана решений ЛОС.}
-{15--16}{\lectureref{14}{1966-L1991}}
+{15--16}{\lectureref{14}{1966-L1995}}
 
 \begin{lemma}{Лемма~\(\cdot\)~производная определителя}
 Пусть все элементы \(x_{ij}(t)\) дифференцируемы и \(D(t)=\det X(t)\). Тогда
@@ -390,14 +395,14 @@ y(x_0)=y_0,\quad y'(x_0)=y_1,\quad\ldots,\quad y^{(n-1)}(x_0)=y_{n-1}.
  D'=\begin{vmatrix}x'_{11}&x'_{12}\\x_{21}&x_{22}\end{vmatrix}
  +\begin{vmatrix}x_{11}&x_{12}\\x'_{21}&x'_{22}\end{vmatrix}=D_1+D_2.
 \]
-В общем случае то же делается через формулу \(D=\sum_\sigma\operatorname{sgn}\sigma\prod_i x_{i\sigma(i)}\).
+В общем случае то же делается через формулу \(D=\sum_{\sigma\in S_n}\operatorname{sgn}(\sigma)\prod_{i=1}^n x_{i,\sigma(i)}\).
 \end{reasoning}
 
 \begin{result}{Теорема~\(\cdot\)~формула Лиувилля--Остроградского}
-Для вронскиана \(n\) решений ЛОС \(\dot{\mathbf{x}}=A(t)\mathbf{x}\)
+Для вронскиана \(n\) решений ЛОС \(\dot{\vect{x}}=A(t)\vect{x}\)
 \[
- W(t)=W(t_0)\exp\!\left(\int_{t_0}^t\operatorname{tr}A(\tau)\,d\tau\right),
- \qquad\operatorname{tr}A=\sum_{i=1}^n a_{ii}(t).
+ W(t)=W(t_0)\exp\!\left(\int_{t_0}^t\operatorname{tr}A(\tau)\dd\tau\right),
+ \qquad\operatorname{tr}A(t)=\sum_{i=1}^n a_{ii}(t).
 \]
 \end{result}
 
@@ -411,34 +416,34 @@ y(x_0)=y_0,\quad y'(x_0)=y_1,\quad\ldots,\quad y^{(n-1)}(x_0)=y_{n-1}.
 
 \begin{result}{Теорема~\(\cdot\)~структура общего решения ЛНС}
 \[
- \mathbf{x}_{\text{о.н.}}=\mathbf{x}_{\text{ч.н.}}+\mathbf{x}_{\text{о.о.}},
- \qquad\text{т.е.}\qquad \mathbf{x}(t)=\mathbf{x}_p(t)+X(t)\,\mathbf{c}.
+ \vect{x}_{\text{общ.\,неодн.}}=\vect{x}_{\text{част.\,неодн.}}+\vect{x}_{\text{общ.\,одн.}},
+ \qquad\text{т.е.}\qquad \vect{x}(t)=\vect{x}_p(t)+X(t)\,\vect{c}.
 \]
 \end{result}
 
 \begin{reasoning}{Доказательство.}
-Если \(\mathbf{u}\) и \(\mathbf{x}_p\) --- два решения ЛНС, то разность \(\mathbf{v}=\mathbf{u}-\mathbf{x}_p\) удовлетворяет \(\dot{\mathbf{v}}=A(t)\mathbf{v}\), то есть \(\mathbf{v}=X(t)\mathbf{c}\).
+Если \(\vect{u}\) и \(\vect{x}_p\) --- два решения ЛНС, то разность \(\vect{v}=\vect{u}-\vect{x}_p\) удовлетворяет \(\dot{\vect{v}}=A(t)\vect{v}\), то есть \(\vect{v}=X(t)\vect{c}\).
 \end{reasoning}
 
 \begin{method}{Алгоритм~\(\cdot\)~вариация постоянных}
 \begin{enumerate}
 \item Найти ФМ \(X(t)\) соответствующей ЛОС.
-\item Искать решение ЛНС в виде \(\mathbf{x}=X(t)\,\mathbf{c}(t)\). Подстановка даёт \(\dot X\,\mathbf{c}+X\dot{\mathbf{c}}=AX\mathbf{c}+\mathbf{f}\), а так как \(\dot X=AX\),
+\item Искать решение ЛНС в виде \(\vect{x}=X(t)\,\vect{c}(t)\). Подстановка даёт \(\dot X\,\vect{c}+X\dot{\vect{c}}=AX\vect{c}+\vect{f}\), а так как \(\dot X=AX\),
 \[
- X(t)\,\dot{\mathbf{c}}(t)=\mathbf{f}(t).
+ X(t)\,\dot{\vect{c}}(t)=\vect{f}(t).
 \]
-\item Решить эту систему (\(\det X\ne0\)), например по Крамеру: \(\dot{\mathbf{c}}=X^{-1}\mathbf{f}\).
-\item Проинтегрировать: \(\mathbf{c}(t)=\mathbf{c}_0+\int_{t_0}^t X^{-1}(\tau)\mathbf{f}(\tau)\,d\tau\).
+\item Решить эту систему (\(\det X\ne0\)), например по Крамеру: \(\dot{\vect{c}}=X^{-1}\vect{f}\).
+\item Проинтегрировать: \(\vect{c}(t)=\vect{c}_0+\int_{t_0}^t X^{-1}(\tau)\vect{f}(\tau)\dd\tau\).
 \end{enumerate}
 \end{method}
 
 Итоговая формула:
 \[
- \boxed{\mathbf{x}(t)=X(t)\,\mathbf{c}_0+X(t)\int_{t_0}^t X^{-1}(\tau)\mathbf{f}(\tau)\,d\tau}
+ \boxed{\vect{x}(t)=X(t)\,\vect{c}_0+X(t)\int_{t_0}^t X^{-1}(\tau)\vect{f}(\tau)\dd\tau}
 \]
 
 \begin{note}{На практике}
-Обратную матрицу \(X^{-1}\) обычно не считают, а решают систему \(X\dot{\mathbf{c}}=\mathbf{f}\) по Крамеру или Гауссом.
+Обратную матрицу \(X^{-1}\) обычно не считают, а решают систему \(X\dot{\vect{c}}=\vect{f}\) по Крамеру или Гауссом.
 \end{note}
 
 \question{11}{Переход от ЛУ \texorpdfstring{\(n\)}{n}-го порядка к системе; сохранение линейной зависимости; общее решение ЛОУ}{Расскажите о переходе от линейного уравнения n-го порядка к
@@ -455,40 +460,40 @@ y(x_0)=y_0,\quad y'(x_0)=y_1,\quad\ldots,\quad y^{(n-1)}(x_0)=y_{n-1}.
 коэффициенты и \(f\) непрерывны на промежутке \(M\). При \(f\not\equiv0\) --- ЛНУ, при \(f\equiv0\) --- ЛОУ.
 \end{definition}
 
-\textbf{Замена}
+\Needspace{4\baselineskip}\textbf{Замена}\par\nobreak
 
-\(x^1=y,\ x^2=y',\ \ldots,\ x^n=y^{(n-1)}\) (верхний индекс --- номер координаты). Получаем линейную систему \(\dot{\mathbf{x}}=A(t)\mathbf{x}+\mathbf{F}(t)\):
+\(x^1=y,\ x^2=y',\ \ldots,\ x^n=y^{(n-1)}\) (верхний индекс --- номер координаты). Получаем линейную систему \(\dot{\vect{x}}=A(t)\vect{x}+\vect{F}(t)\):
 \[
  \begin{cases}
  \dot x^1=x^2,\\
  \quad\vdots\\
  \dot x^{n-1}=x^n,\\
- \dot x^n=-a_0x^1-a_1x^2-\cdots-a_{n-1}x^n+f,
+ \dot x^n=-a_0(t)x^1-a_1(t)x^2-\cdots-a_{n-1}(t)x^n+f(t),
  \end{cases}
 \]
 \[
- A=\begin{pmatrix}
+ A(t)=\begin{pmatrix}
  0&1&0&\cdots&0\\
  0&0&1&\cdots&0\\
  \vdots&&&\ddots&\vdots\\
  0&0&0&\cdots&1\\
- -a_0&-a_1&-a_2&\cdots&-a_{n-1}
+ -a_0(t)&-a_1(t)&-a_2(t)&\cdots&-a_{n-1}(t)
  \end{pmatrix},\qquad
- \mathbf{F}=\begin{pmatrix}0\\ \vdots\\ 0\\ f\end{pmatrix}.
+ \vect{F}(t)=\begin{pmatrix}0\\ \vdots\\ 0\\ f(t)\end{pmatrix}.
 \]
-Каждой функции \(y_j\) соответствует вектор-функция \(\mathbf{x}_j=\bigl(y_j,\,y'_j,\,\ldots,\,y_j^{(n-1)}\bigr)^T\).
+Каждой функции \(y_j\) соответствует вектор-функция \(\vect{x}_j=\bigl(y_j,\,y'_j,\,\ldots,\,y_j^{(n-1)}\bigr)^{\mathsf T}\).
 
 \begin{lemma}{Лемма~\(\cdot\)~о замене}
 \begin{enumerate}
 \item Решения ЛУ переходят в решения ЛС, и наоборот.
-\item Линейно зависимые на \(M\) функции \(y_1,\ldots,y_k\) переходят в линейно зависимые вектор-функции \(\mathbf{x}_1,\ldots,\mathbf{x}_k\), и наоборот.
+\item Линейно зависимые на \(M\) функции \(y_1,\ldots,y_k\) переходят в линейно зависимые вектор-функции \(\vect{x}_1,\ldots,\vect{x}_k\), и наоборот.
 \end{enumerate}
 \end{lemma}
 
 \begin{reasoning}{Доказательство.}
 \textbf{1.} Если \(y\) --- решение ЛУ, то последнее уравнение системы --- это само ЛУ, а остальные выполняются по построению: \(\dot x^k=y^{(k)}=x^{k+1}\). Наоборот, из первых \(n-1\) уравнений \(x^k=(x^1)^{(k-1)}\), и последнее даёт ЛУ для \(y=x^1\).
 
-\textbf{2.} \((\Rightarrow)\) Тождество \(\sum c_j y_j\equiv0\) дифференцируем \(n-1\) раз и записываем \(n\) полученных равенств в столбец: это \(\sum c_j\mathbf{x}_j\equiv\mathbf{0}\). \((\Leftarrow)\) Берём первую строку векторного тождества.
+\textbf{2.} \((\Rightarrow)\) Тождество \(\sum_{j=1}^k c_j y_j\equiv0\) дифференцируем \(n-1\) раз и записываем \(n\) полученных равенств в столбец: это \(\sum_{j=1}^k c_j\vect{x}_j\equiv\vect{0}\). \((\Leftarrow)\) Берём первую строку векторного тождества.
 \end{reasoning}
 
 \begin{result}{Теорема~\(\cdot\)~об общем решении ЛОУ}
@@ -506,7 +511,7 @@ y(x_0)=y_0,\quad y'(x_0)=y_1,\quad\ldots,\quad y^{(n-1)}(x_0)=y_{n-1}.
 линейной зависимости функций и равенства определителя Вронского
 этих функций нулю. Запишите формулу Лиувилля-Остроградского для
 линейных уравнений.}
-{18--19}{\lectureref{16.3}{2277-L2342}}
+{18--19}{\lectureref{16.3}{2277-L2349}}
 
 \begin{definition}{Определение~\(\cdot\)~вронскиан функций}
 Для \(y_1,\ldots,y_n\in D^{n-1}(M)\):
@@ -519,7 +524,7 @@ y(x_0)=y_0,\quad y'(x_0)=y_1,\quad\ldots,\quad y^{(n-1)}(x_0)=y_{n-1}.
  y_1^{(n-1)} & y_2^{(n-1)} & \cdots & y_n^{(n-1)}
  \end{vmatrix}.
 \]
-Его столбцы — это вектор-функции \(\boldsymbol{x}_j\) из вопроса 11, поэтому он совпадает с вронскианом вектор-функций.
+Его столбцы — это вектор-функции \(\vect{x}_j\) из вопроса 11, поэтому он совпадает с вронскианом вектор-функций.
 \end{definition}
 
 \begin{result}{Теорема~\(\cdot\)~свойства вронскиана}
@@ -541,18 +546,18 @@ y(x_0)=y_0,\quad y'(x_0)=y_1,\quad\ldots,\quad y^{(n-1)}(x_0)=y_{n-1}.
 
 \begin{result}{Теорема~\(\cdot\)~Лиувилль–Остроградский для ЛОУ}
 \[
- W(t)=W(t_0)\exp\!\left(-\int_{t_0}^t a_{n-1}(\tau)\,d\tau\right).
+ W(t)=W(t_0)\exp\!\left(-\int_{t_0}^t a_{n-1}(\tau)\dd\tau\right).
 \]
 \end{result}
 
 \begin{reasoning}{Почему.}
-У матрицы \(A\) из вопроса 11 на диагонали стоят нули и \(-a_{n-1}\), поэтому \(\operatorname{tr} A=-a_{n-1}\). Подставляем в формулу для систем (вопрос 9).
+У матрицы \(A(t)\) из вопроса 11 на диагонали стоят нули и \(-a_{n-1}(t)\), поэтому \(\operatorname{tr} A(t)=-a_{n-1}(t)\). Подставляем в формулу для систем (вопрос 9).
 \end{reasoning}
 
 \begin{note}{Случай \(n=2\)}
 Для \(y''+a_1(t)y'+a_0(t)y=0\):
 \[
- y_1y'_2-y'_1y_2=C e^{-\int a_1\,dt}.
+ y_1y'_2-y'_1y_2=C \e^{-\int a_1(t)\dd t}.
 \]
 Если одно решение \(y_1\) известно, это линейное уравнение первого порядка на второе решение \(y_2\).
 \end{note}
@@ -632,7 +637,7 @@ y(x_0)=y_0,\quad y'(x_0)=y_1,\quad\ldots,\quad y^{(n-1)}(x_0)=y_{n-1}.
  a_ny^{(n)}+a_{n-1}y^{(n-1)}+\cdots+a_1y'+a_0y=0,
  \qquad a_n\ne0,\quad a_i=\mathrm{const}\in\mathbb{R}.
 \]
-В операторной записи \(L(D)y=0\), где \(L(D)=a_nD^n+\cdots+a_1D+a_0,\ D=\frac{d}{dx}\).
+В операторной записи \(L(D)y=0\), где \(L(D)=a_nD^n+\cdots+a_1D+a_0,\ D=\frac{\dd}{\dd x}\).
 
 \begin{definition}{Определение~\(\cdot\)~характеристический многочлен}
 \[
@@ -642,16 +647,16 @@ y(x_0)=y_0,\quad y'(x_0)=y_1,\quad\ldots,\quad y^{(n-1)}(x_0)=y_{n-1}.
 \end{definition}
 
 \begin{lemma}{Свойство 4~\(\cdot\)~экспонента как решение}
-\(L(D)\,e^{\lambda x}=L(\lambda)\,e^{\lambda x}\), поэтому \(e^{\lambda x}\) — решение ЛОУ \(\iff L(\lambda)=0\).
+\(L(D)\,\e^{\lambda x}=L(\lambda)\,\e^{\lambda x}\), поэтому \(\e^{\lambda x}\) — решение ЛОУ \(\iff L(\lambda)=0\).
 
-(Потому что \(D^ke^{\lambda x}=\lambda^k e^{\lambda x}\), а \(e^{\lambda x}\ne0\).)
+(Потому что \(D^k\e^{\lambda x}=\lambda^k \e^{\lambda x}\), а \(\e^{\lambda x}\ne0\).)
 \end{lemma}
 
 \begin{result}{Теорема~\(\cdot\)~некратные корни}
 Если \(\lambda_1,\ldots,\lambda_n\in\mathbb{C}\) — корни \(L(\lambda)\) и все они кратности 1, то
 \[
- \text{ФСР}=\bigl\{e^{\lambda_1x},\ldots,e^{\lambda_nx}\bigr\},
- \qquad y=C_1e^{\lambda_1x}+\cdots+C_ne^{\lambda_nx},\quad x\in\mathbb{R}.
+ \text{ФСР}=\bigl\{\e^{\lambda_1x},\ldots,\e^{\lambda_nx}\bigr\},
+ \qquad y=c_1\e^{\lambda_1x}+\cdots+c_n\e^{\lambda_nx},\quad x\in\mathbb{R}.
 \]
 \end{result}
 
@@ -671,9 +676,9 @@ y(x_0)=y_0,\quad y'(x_0)=y_1,\quad\ldots,\quad y^{(n-1)}(x_0)=y_{n-1}.
 \end{reasoning}
 
 \begin{note}{Комплексные корни}
-Коэффициенты вещественные, поэтому комплексные корни идут парами \(\alpha\pm i\beta\). Пару \(e^{(\alpha\pm i\beta)x}\) в ФСР заменяем на вещественную пару
+Коэффициенты вещественные, поэтому комплексные корни идут парами \(\alpha\pm i\beta\). Пару \(\e^{(\alpha\pm i\beta)x}\) в ФСР заменяем на вещественную пару
 \[
- e^{\alpha x}\cos\beta x,\qquad e^{\alpha x}\sin\beta x
+ \e^{\alpha x}\cos\beta x,\qquad \e^{\alpha x}\sin\beta x
 \]
 (это их комбинации \(\frac{1}{2}(\cdot+\cdot)\) и \(\frac{1}{2i}(\cdot-\cdot)\)).
 \end{note}
@@ -687,19 +692,19 @@ y(x_0)=y_0,\quad y'(x_0)=y_1,\quad\ldots,\quad y^{(n-1)}(x_0)=y_{n-1}.
 \begin{result}{Теорема~\(\cdot\)~Свойство 5~\(\cdot\)~формула смещения}
 Для многочлена \(L(D)\) с постоянными коэффициентами и \(\lambda\in\mathbb{C}\)
 \[
- \boxed{L(D)\bigl(e^{\lambda x}f(x)\bigr)=e^{\lambda x}L(D+\lambda)\,f(x)}
+ \boxed{L(D)\bigl(\e^{\lambda x}f(x)\bigr)=\e^{\lambda x}L(D+\lambda)\,f(x)}
 \]
 \end{result}
 
 \begin{reasoning}{Доказательство.}
 Индукция по степени \(L\).
 
-\textit{База:} \(L=aD+b\). \((aD+b)(e^{\lambda x}f)=a\lambda\, e^{\lambda x} f+ae^{\lambda x}f'+be^{\lambda x}f=e^{\lambda x}\bigl(a(D+\lambda)+b\bigr)f\).
+\textit{База:} \(L=aD+b\). \((aD+b)(\e^{\lambda x}f)=a\lambda\, \e^{\lambda x} f+a\e^{\lambda x}f'+b\e^{\lambda x}f=\e^{\lambda x}\bigl(a(D+\lambda)+b\bigr)f\).
 
 \textit{Шаг:} над \(\mathbb{C}\) многочлен раскладывается, \(L=L_1L_2\), \(\deg L_1=1\). Применяем формулу сначала к \(L_2\), потом к \(L_1\):
 \[
- L(D)(e^{\lambda x}f)=L_1(D)\bigl(e^{\lambda x}L_2(D+\lambda)f\bigr)
- =e^{\lambda x}L_1(D+\lambda)L_2(D+\lambda)f=e^{\lambda x}L(D+\lambda)f.
+ L(D)(\e^{\lambda x}f)=L_1(D)\bigl(\e^{\lambda x}L_2(D+\lambda)f\bigr)
+ =\e^{\lambda x}L_1(D+\lambda)L_2(D+\lambda)f=\e^{\lambda x}L(D+\lambda)f.
 \]
 
 \end{reasoning}
@@ -707,11 +712,11 @@ y(x_0)=y_0,\quad y'(x_0)=y_1,\quad\ldots,\quad y^{(n-1)}(x_0)=y_{n-1}.
 \begin{result}{Теорема~\(\cdot\)~кратные корни}
 Пусть \(\lambda_1,\ldots,\lambda_m\) — различные корни \(L(\lambda)\) кратностей \(k_1,\ldots,k_m\), \(k_1+\cdots+k_m=n\). Тогда \(n\) функций
 \[
- x^re^{\lambda_jx},\qquad r=0,1,\ldots,k_j-1,\quad j=1,\ldots,m,
+ x^r\e^{\lambda_jx},\qquad r=0,1,\ldots,k_j-1,\quad j=1,\ldots,m,
 \]
 образуют ФСР, а общее решение
 \[
- y=P_{k_1-1}(x)\,e^{\lambda_1x}+\cdots+P_{k_m-1}(x)\,e^{\lambda_mx},
+ y=P_{k_1-1}(x)\,\e^{\lambda_1x}+\cdots+P_{k_m-1}(x)\,\e^{\lambda_mx},
  \qquad \deg P_{k_j-1}\le k_j-1.
 \]
 \end{result}
@@ -719,39 +724,39 @@ y(x_0)=y_0,\quad y'(x_0)=y_1,\quad\ldots,\quad y^{(n-1)}(x_0)=y_{n-1}.
 \begin{reasoning}{Доказательство.}
 \textit{Это решения.} Если \(\lambda\) — корень кратности \(k\), то \(L(D)=(D-\lambda)^k M(D)\), \(M(\lambda)\ne0\). По формуле смещения
 \[
- L(D)\bigl(x^re^{\lambda x}\bigr)=e^{\lambda x}D^k M(D+\lambda)\,x^r
- =e^{\lambda x}M(D+\lambda)\bigl(D^k x^r\bigr)=0\quad\text{при }r<k.
+ L(D)\bigl(x^r\e^{\lambda x}\bigr)=\e^{\lambda x}D^k M(D+\lambda)\,x^r
+ =\e^{\lambda x}M(D+\lambda)\bigl(D^k x^r\bigr)=0\quad\text{при }r<k.
 \]
-\textit{Они независимы.}\quad Пусть \(\sum_j e^{\lambda_jx}P_j(x)\equiv0\) и \(P_1\not\equiv0\). Делим на \(e^{\lambda_mx}\) и дифференцируем \(k_m\) раз: \(P_m\) исчезает, а у остальных слагаемых степень многочлена сохраняется (так как \(\lambda_j-\lambda_m\ne0\)). Повторяем, пока не останется \(e^{(\lambda_1-\lambda_2)x}\check P_1(x)\equiv0\) с \(\deg\check P_1=\deg P_1\). Это противоречие.
+\textit{Они независимы.}\quad Пусть \(\sum_j \e^{\lambda_jx}P_j(x)\equiv0\) и \(P_1\not\equiv0\). Делим на \(\e^{\lambda_mx}\) и дифференцируем \(k_m\) раз: \(P_m\) исчезает, а у остальных слагаемых степень многочлена сохраняется (так как \(\lambda_j-\lambda_m\ne0\)). Повторяем, пока не останется \(\e^{(\lambda_1-\lambda_2)x}\check P_1(x)\equiv0\) с \(\deg\check P_1=\deg P_1\). Это противоречие.
 \end{reasoning}
 
 \begin{note}{Комплексные корни}
-Паре \(\alpha\pm i\beta\) кратности \(k\) отвечают \(2k\) вещественных функций: \(x^re^{\alpha x}\cos\beta x,\quad x^re^{\alpha x}\sin\beta x,\quad r=0,\ldots,k-1\).
+Паре \(\alpha\pm i\beta\) кратности \(k\) отвечают \(2k\) вещественных функций: \(x^r\e^{\alpha x}\cos\beta x,\quad x^r\e^{\alpha x}\sin\beta x,\quad r=0,\ldots,k-1\).
 \end{note}
 
 \begin{example}{Пример}
-\(y'''-3y''+3y'-y=0\): \(L(\lambda)=(\lambda-1)^3\), корень 1 кратности 3, поэтому \(y=(C_1+C_2x+C_3x^2)\,e^x\).
+\(y'''-3y''+3y'-y=0\): \(L(\lambda)=(\lambda-1)^3\), корень 1 кратности 3, поэтому \(y=(c_1+c_2x+c_3x^2)\,\e^x\).
 \end{example}
 
 \question{16}{Квазимногочлен; частное решение ЛНУ с правой частью — квазимногочленом}{Дайте определение квазимногочлена. Как связаны общее решение
 ЛНУ и общее решение ЛОУ? Сформулируйте теорему о частном
 решении ЛНУ с постоянными коэффициентами с правой частью в виде
 квазимногочлена}
-{22--23}{\lectureref{21}{2894-L2984}}
+{22--23}{\lectureref{21}{2894-L2984}, \lectureref{34}{5407-L5415}}
 
 \begin{definition}{Определение~\(\cdot\)~квазимногочлен}
-Конечная сумма функций вида \(e^{\lambda x}P(x)\), где \(P\) — многочлен, \(\lambda\in\mathbb{C}\). Одно такое слагаемое — простейший квазимногочлен (квазиодночлен). В вещественной записи — комбинации
+Конечная сумма функций вида \(\e^{\lambda x}P(x)\), где \(P\) — многочлен, \(\lambda\in\mathbb{C}\). Одно такое слагаемое — простейший квазимногочлен (квазиодночлен). В вещественной записи — комбинации
 \[
- P(x)\,e^{ax},\qquad P(x)\,e^{ax}\cos bx,\qquad P(x)\,e^{ax}\sin bx.
+ P(x)\,\e^{ax},\qquad P(x)\,\e^{ax}\cos bx,\qquad P(x)\,\e^{ax}\sin bx.
 \]
 \end{definition}
 
 Общее решение ЛНУ \(=\) частное решение ЛНУ \(+\) общее решение ЛОУ: \(y_{\text{о.н.}}=y_{\text{ч.н.}}+y_{\text{о.о.}}\). Общее решение ЛОУ уже умеем находить (вопросы 14–15), осталось частное.
 
 \begin{result}{Теорема~\(\cdot\)~о частном решении для квазиодночлена}
-Пусть \(L(D)y=e^{\mu x}P_N(x)\), где \(\deg P_N=N\), \(\mu\in\mathbb{C}\). Тогда есть частное решение вида
+Пусть \(L(D)y=\e^{\mu x}P_N(x)\), где \(\deg P_N=N\), \(\mu\in\mathbb{C}\). Тогда есть частное решение вида
 \[
- y=x^s\,e^{\mu x}\,Q_N(x),\qquad \deg Q_N=N,
+ y=x^s\,\e^{\mu x}\,Q_N(x),\qquad \deg Q_N=N,
 \]
 где \(s\) — кратность \(\mu\) как корня \(L(\lambda)\) (\(s=0\), если \(\mu\) не корень).
 \end{result}
@@ -765,17 +770,17 @@ y(x_0)=y_0,\quad y'(x_0)=y_1,\quad\ldots,\quad y^{(n-1)}(x_0)=y_{n-1}.
 \end{reasoning}
 
 \begin{note}{Вещественный случай}
-\(f=e^{ax}\bigl(P(x)\cos bx+R(x)\sin bx\bigr),\quad \mu=a+ib,\quad N=\max(\deg P,\deg R)\):
+\(f(x)=\e^{ax}\bigl(P_m(x)\cos bx+Q_n(x)\sin bx\bigr),\quad \mu=a+ib\). Если степени заданных многочленов равны \(m\) и \(n\), берём \(N=\max(m,n)\) и ищем
 \[
- y=x^s e^{ax}\bigl(Q_N(x)\cos bx+S_N(x)\sin bx\bigr).
+ y=x^s \e^{ax}\bigl(\tilde P_N(x)\cos bx+\tilde Q_N(x)\sin bx\bigr).
 \]
 \end{note}
 
 \begin{note}{Частые ошибки}
 \begin{itemize}
-\item \(s\) считается для \(\mu=a+ib\) целиком: для \(e^x\cos 3x\) это \(\mu=1+3i\), а не 1 и не \(3i\).
-\item При \(b\ne0\) нужны и \(\cos bx\), и \(\sin bx\) с многочленами степени \(N\), даже если в правой части только одна из функций.
-\item \(Q_N,\ S_N\) — полные многочлены: неизвестны все коэффициенты, даже если в \(P\) каких-то степеней нет.
+\item \(s\) считается для \(\mu=a+ib\) целиком: для \(\e^x\cos 3x\) это \(\mu=1+3i\), а не 1 и не \(3i\).
+\item При \(b\ne0\) нужны и \(\cos bx\), и \(\sin bx\) с многочленами степени не выше \(N\), даже если в правой части только одна из функций.
+\item \(\tilde P_N,\ \tilde Q_N\) — полные многочлены: неизвестны все коэффициенты, даже если в правой части каких-то степеней нет.
 \item Многочлен или константа справа — это \(\mu=0\).
 \end{itemize}
 \end{note}
@@ -816,25 +821,25 @@ y(x_0)=y_0,\quad y'(x_0)=y_1,\quad\ldots,\quad y^{(n-1)}(x_0)=y_{n-1}.
 \begin{result}{Теорема \(\cdot\) интегральная формула Коши}
 Частное решение ЛНУ:
 \[
- \boxed{\displaystyle Y(x)=\int_\gamma^x K(x,s)\,f(s)\,ds,\qquad \gamma\in(\alpha;\beta).}
+ \boxed{\displaystyle Y(x)=\int_\gamma^x K(x,s)\,f(s)\dd s,\qquad \gamma\in(\alpha;\beta).}
 \]
 \end{result}
 
 \begin{reasoning}{Доказательство.}
 Интеграл с переменным верхним пределом дифференцируется так:
 \[
- \frac{d}{dx}\int_\gamma^x g(x,s)\,ds=\int_\gamma^x g'_x(x,s)\,ds+g(x,x).
+ \frac{\dd}{\dd x}\int_\gamma^x g(x,s)\dd s=\int_\gamma^x g'_x(x,s)\dd s+g(x,x).
 \]
 Внеинтегральные слагаемые обнуляются условиями на ядро:
 \[
  \begin{aligned}
- Y'&=\int_\gamma^x K'_x f\,ds+\underbrace{K(x,x)}_{0}f,\qquad\ldots,\\
- Y^{(n)}&=\int_\gamma^x K_x^{(n)}f\,ds+\underbrace{K_x^{(n-1)}(x,x)}_{1}f(x).
+ Y'&=\int_\gamma^x K'_x(x,s)f(s)\dd s+\underbrace{K(x,x)}_{0}f(x),\qquad\ldots,\\
+ Y^{(n)}&=\int_\gamma^x K_x^{(n)}(x,s)f(s)\dd s+\underbrace{K_x^{(n-1)}(x,x)}_{1}f(x).
  \end{aligned}
 \]
 Подставляем в уравнение, коэффициенты вносим под интеграл:
 \[
- L(D)Y=\int_\gamma^x\underbrace{\bigl(L(D)K(x,s)\bigr)}_{=0}f(s)\,ds+f(x)=f(x).
+ L(D)Y=\int_\gamma^x\underbrace{\bigl(L(D)K(x,s)\bigr)}_{=0}f(s)\dd s+f(x)=f(x).
 \]
 \end{reasoning}
 
@@ -852,7 +857,7 @@ y(x_0)=y_0,\quad y'(x_0)=y_1,\quad\ldots,\quad y^{(n-1)}(x_0)=y_{n-1}.
 \]
 Правая часть непрерывна на \(\bigl(-\frac{\pi}{2};\frac{\pi}{2}\bigr)\), берём \(\gamma=0\):
 \[
- y_{\text{ч.н.}}=\int_0^x\frac{\sin2(x-s)}{2}\operatorname{tg}s\,ds
+ y_{\text{ч.н.}}=\int_0^x\frac{\sin2(x-s)}{2}\operatorname{tg}s\dd s
  =-\frac{x}{2}\cos2x+\frac12\sin2x\ln\cos x+\frac14\sin2x.
 \]
 При постоянных коэффициентах ядро всегда зависит только от \(x-s\), как здесь.

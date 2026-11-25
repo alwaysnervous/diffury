@@ -41,7 +41,7 @@
 \fancypagestyle{opening}{\fancyhf{}\fancyfoot[C]{\small\bfseries\color{navy}\thepage}}
 
 \newcommand{\lectureref}[2]{%
-  \href{https://github.com/alwaysnervous/diffury/blob/c23cbfa81e0849fda70a8fda2097cfeefa5db213/main/main.tex\#L#2}{\textcolor{navy}{\S\,#1}}}
+  \href{https://github.com/alwaysnervous/diffury/blob/dc0ac9b05517818a0a6289394157afbb477e6f23/main/main.tex\#L#2}{\textcolor{navy}{\S\,#1}}}
 \newcommand{\question}[5]{%
   \par\addvspace{12pt}\Needspace{9\baselineskip}%
   \pdfbookmark[1]{#1. #2}{question.#1}%
@@ -255,7 +255,7 @@ y(x_0)=y_0,\quad y'(x_0)=y_1,\quad\ldots,\quad y^{(n-1)}(x_0)=y_{n-1}.
 {12--13}{\lectureref{11.1}{1741-L1799}}
 
 \begin{definition}{Определение}
-Линейная система: \(\dot{\vect{x}}=A(t)\vect{x}+\vect{f}(t)\), где \(A(t)\) — матрица \(n\times n\), \(\vect{f}(t)\) — вектор-функция.
+Линейная система: \(\dot{\vect{x}}=A(t)\vect{x}+\vect{f}(t)\), где \(A(t)\) — матрица \(n\times n\), \(\vect{f}(t)\) — свободный член системы.
 \begin{itemize}
 \item[\(\blacktriangleright\)] При \(\vect{f}\equiv\vect{0}\) — \textbf{ЛОС}: \(\dot{\vect{x}}=A(t)\vect{x}\).
 \item[\(\blacktriangleright\)] При \(\vect{f}\not\equiv\vect{0}\) — \textbf{ЛНС}.
@@ -476,7 +476,7 @@ y(x_0)=y_0,\quad y'(x_0)=y_1,\quad\ldots,\quad y^{(n-1)}(x_0)=y_{n-1}.
 
 \Needspace{4\baselineskip}\textbf{Замена}\par\nobreak
 
-\(x^1=y,\ x^2=y',\ \ldots,\ x^n=y^{(n-1)}\) (верхний индекс --- номер координаты). Получаем линейную систему \(\dot{\vect{x}}=A(t)\vect{x}+\vect{F}(t)\):
+\(x^1=y,\ x^2=y',\ \ldots,\ x^n=y^{(n-1)}\) (верхний индекс --- номер координаты). Получаем линейную систему \(\dot{\vect{x}}=A(t)\vect{x}+\vect{f}(t)\):
 \[
  \begin{cases}
  \dot x^1=x^2,\\
@@ -493,7 +493,7 @@ y(x_0)=y_0,\quad y'(x_0)=y_1,\quad\ldots,\quad y^{(n-1)}(x_0)=y_{n-1}.
  0&0&0&\cdots&1\\
  -a_0(t)&-a_1(t)&-a_2(t)&\cdots&-a_{n-1}(t)
  \end{pmatrix},\qquad
- \vect{F}(t)=\begin{pmatrix}0\\ \vdots\\ 0\\ f(t)\end{pmatrix}.
+ \vect{f}(t)=\begin{pmatrix}0\\ \vdots\\ 0\\ f(t)\end{pmatrix}.
 \]
 Каждой функции \(y_j\) соответствует вектор-функция \(\vect{x}_j=\bigl(y_j,\,y'_j,\,\ldots,\,y_j^{(n-1)}\bigr)^{\mathsf T}\).
 
